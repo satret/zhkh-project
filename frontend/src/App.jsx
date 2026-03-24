@@ -1,0 +1,47 @@
+import React, { useState, useEffect } from 'react';
+import './styles/global.css';
+import './styles/variables.css';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
+import ChatAssistant from './components/ChatAssistant';
+
+// Импортируем компоненты разделов
+import FAQ from './pages/FAQ';
+import News from './pages/News';
+import Calculator from './pages/Calculator';
+import DocumentBuilder from './pages/DocumentBuilder';
+import SelfCheck from './pages/SelfCheck';
+import RegulationDocs from './pages/RegulationDocs';
+
+export default function App() {
+  const [currentPage, setCurrentPage] = useState('faq');
+  const [chatOpen, setChatOpen] = useState(false);
+
+  useEffect(() => {
+    // Скроллим в начало при смене страницы
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  const pages = {
+    faq: <FAQ />,
+    news: <News />,
+    calculator: <Calculator />,
+    documents: <DocumentBuilder />,
+    selfcheck: <SelfCheck />,
+    regulations: <RegulationDocs />
+  };
+
+  return (
+    <div className="app">
+      <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
+      
+      <main className="main-content">
+        {pages[currentPage]}
+      </main>
+
+      <ChatAssistant open={chatOpen} onToggle={setChatOpen} />
+
+      <Footer />
+    </div>
+  );
+}
