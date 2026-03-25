@@ -3,6 +3,7 @@ import '../styles/navigation.css';
 
 export default function Navigation({ currentPage, onPageChange }) {
   const navItems = [
+    { id: 'mainpage', label: 'Главная страница'},
     { id: 'faq', label: 'FAQ' },
     { id: 'news', label: 'Новости' },
     { id: 'calculator', label: 'Проверка начислений' },
@@ -15,7 +16,7 @@ export default function Navigation({ currentPage, onPageChange }) {
   return (
     <nav className="navigation">
       <div className="nav-inner">
-        <a href="#" className="nav-logo" onClick={() => onPageChange('faq')}>
+        <a href="#" className="nav-logo" onClick={() => onPageChange('mainpage')}>
           ЖКХ<span>Помощник</span>
         </a>
         

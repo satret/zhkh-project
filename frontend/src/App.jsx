@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import ChatAssistant from './components/ChatAssistant';
 
 // Импортируем компоненты разделов
+import MainPage from './pages/MainPage'
 import FAQ from './pages/FAQ';
 import News from './pages/News';
 import Calculator from './pages/Calculator';
@@ -14,7 +15,7 @@ import SelfCheck from './pages/SelfCheck';
 import RegulationDocs from './pages/RegulationDocs';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('faq');
+  const [currentPage, setCurrentPage] = useState('mainpage');
   const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function App() {
   }, [currentPage]);
 
   const pages = {
+    mainpage: <MainPage />,
     faq: <FAQ />,
     news: <News />,
     calculator: <Calculator />,

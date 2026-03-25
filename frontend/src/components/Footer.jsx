@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-grid">
           <div className="footer-main">
-            <div className="footer-logo">ЖКХ<span>Помощник</span></div>
+            <div className="footer-logo">ЖКХ <span>Помощник</span></div>
           </div>
 
           <div className="footer-col">
