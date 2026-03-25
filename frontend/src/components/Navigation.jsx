@@ -4,11 +4,12 @@ import '../styles/navigation.css';
 export default function Navigation({ currentPage, onPageChange }) {
   const navItems = [
     { id: 'faq', label: 'FAQ' },
-    { id: 'news', label: 'Новости ЖКХ' },
-    { id: 'calculator', label: 'Калькулятор' },
-    { id: 'documents', label: 'Документы' },
+    { id: 'news', label: 'Новости' },
+    { id: 'calculator', label: 'Проверка начислений' },
+    { id: 'documents', label: 'Формирование документов' },
     { id: 'selfcheck', label: 'Самопроверка' },
-    { id: 'regulations', label: 'Нормативы' }
+    { id: 'regulations', label: 'Нормативные документы' },
+    { id: 'contacts', label: 'Контакты' }
   ];
 
   return (
@@ -30,7 +31,7 @@ export default function Navigation({ currentPage, onPageChange }) {
           ))}
         </div>
 
-        <button className="nav-cta">Авторизация</button>
+        {/* <button className="nav-cta">Авторизация</button> */}
       </div>
     </nav>
   );
