@@ -1,0 +1,708 @@
+/* Contacts Page Styles */
+
+/* Вкладки */
+.contacts-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: var(--radius-sm);
+}
+
+.tab-btn:hover {
+  color: var(--teal);
+  background: var(--teal-pale);
+}
+
+.tab-btn.active {
+  color: var(--teal);
+  background: var(--teal-pale);
+  position: relative;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -17px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--teal);
+}
+
+/* Контент */
+.contacts-content {
+  margin-bottom: 48px;
+}
+
+/* Сетка контактов */
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.contacts-grid.small {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+/* Карточка контакта */
+.contact-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: var(--transition);
+}
+
+.contact-card:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--teal);
+  transform: translateY(-2px);
+}
+
+.contact-card.large {
+  margin-bottom: 32px;
+}
+
+.contact-card.highlight {
+  background: linear-gradient(135deg, var(--teal-pale) 0%, var(--white) 100%);
+  border-color: var(--teal);
+}
+
+.contact-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--teal-pale);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.contact-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.contact-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--ink);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-details p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.contact-details p strong {
+  min-width: 120px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.contact-details a {
+  color: var(--teal);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+  color: var(--teal-light);
+}
+
+.contacts-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 32px 0 20px;
+  color: var(--ink);
+  position: relative;
+  padding-left: 16px;
+}
+
+.contacts-subtitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background: var(--teal);
+  border-radius: 2px;
+}
+
+/* Аварийные службы */
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.emergency-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.emergency-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--coral);
+}
+
+.emergency-card:hover {
+  border-color: var(--coral);
+  box-shadow: var(--shadow);
+  transform: translateX(4px);
+}
+
+.emergency-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--ink);
+}
+
+.emergency-type {
+  font-size: 12px;
+  color: var(--ink-light);
+  margin: 0 0 12px 0;
+  padding: 4px 8px;
+  background: var(--surface);
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.emergency-phone {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--coral);
+  text-decoration: none;
+  display: inline-block;
+  transition: var(--transition);
+}
+
+.emergency-phone:hover {
+  color: var(--coral);
+  text-decoration: underline;
+  transform: scale(1.02);
+}
+
+/* Секция карты */
+.map-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 48px 0;
+  box-shadow: var(--shadow);
+}
+
+.map-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Выбор города */
+.city-selector {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.city-btn {
+  padding: 8px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--ink-mid);
+}
+
+.city-btn:hover {
+  background: var(--teal-pale);
+  border-color: var(--teal);
+  color: var(--teal);
+  transform: translateY(-1px);
+}
+
+.city-btn.active {
+  background: var(--teal);
+  color: var(--white);
+  border-color: var(--teal);
+}
+
+/* Контейнер карты */
+.map-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+  display: block;
+  border-radius: var(--radius);
+}
+
+/* Список адресов */
+.map-addresses {
+  margin-top: 24px;
+}
+
+.map-addresses h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--ink);
+  padding-left: 12px;
+  border-left: 3px solid var(--teal);
+}
+
+.addresses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.address-item:hover {
+  background: var(--white);
+  border-color: var(--teal);
+  transform: translateX(6px);
+  box-shadow: var(--shadow);
+}
+
+.address-info {
+  flex: 1;
+}
+
+.address-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.address-info p {
+  font-size: 13px;
+  color: var(--ink-light);
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.address-phone {
+  font-size: 13px;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.address-phone:hover {
+  text-decoration: underline;
+  color: var(--teal-light);
+}
+
+/* Блок помощи */
+.contacts-help {
+  background: linear-gradient(135deg, var(--teal-pale) 0%, var(--blue-pale) 100%);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  text-align: center;
+  margin-top: 48px;
+}
+
+.contacts-help h4 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.contacts-help p {
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contacts-help .btn-primary {
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.contacts-help .btn-primary:hover {
+  background: var(--teal-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Стили для кастомных балунов (всплывающих окон) */
+.custom-balloon {
+  font-family: 'Geologica', sans-serif;
+  min-width: 240px;
+  max-width: 280px;
+}
+
+.balloon-header {
+  padding: 12px 12px 8px 12px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  border-left: 3px solid;
+  margin-bottom: 8px;
+  background: var(--white);
+}
+
+.balloon-content {
+  padding: 0 12px 12px 12px;
+}
+
+.balloon-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-mid);
+}
+
+.balloon-icon {
+  font-size: 14px;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+.balloon-row a {
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.balloon-row a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* Стили для контейнера карты */
+.map-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 450px;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .contacts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contacts-tabs {
+    gap: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .contacts-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    padding: 8px 18px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  
+  .tab-btn.active::after {
+    bottom: -13px;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .contacts-grid.small {
+    grid-template-columns: 1fr;
+  }
+
+  .emergency-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    padding: 20px;
+  }
+  
+  .contact-card.large {
+    margin-bottom: 24px;
+  }
+  
+  .contact-header {
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+  
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .contact-header h3 {
+    font-size: 16px;
+  }
+  
+  .contact-details p {
+    font-size: 13px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .contact-details p strong {
+    min-width: auto;
+  }
+  
+  .contacts-subtitle {
+    font-size: 18px;
+    margin: 24px 0 16px;
+  }
+  
+  .map-section {
+    padding: 20px;
+    margin: 32px 0;
+  }
+  
+  .map-section h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .city-selector {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .city-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  
+  .map-container iframe {
+    height: 350px;
+  }
+  
+  .address-item {
+    padding: 12px;
+  }
+  
+  .address-info strong {
+    font-size: 13px;
+  }
+  
+  .address-info p {
+    font-size: 12px;
+  }
+  
+  .contacts-help {
+    padding: 28px 20px;
+    margin-top: 32px;
+  }
+  
+  .contacts-help h4 {
+    font-size: 18px;
+  }
+  
+  .contacts-help p {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .contacts-help .btn-primary {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .custom-balloon {
+    min-width: 200px;
+    max-width: 260px;
+  }
+  
+  .balloon-header {
+    font-size: 13px;
+    padding: 10px 10px 6px 10px;
+  }
+  
+  .balloon-content {
+    padding: 0 10px 10px 10px;
+  }
+  
+  .balloon-row {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  
+  .balloon-icon {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card {
+    padding: 16px;
+  }
+  
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .contact-header h3 {
+    font-size: 15px;
+  }
+  
+  .emergency-phone {
+    font-size: 16px;
+  }
+  
+  .map-section {
+    padding: 16px;
+  }
+  
+  .map-container iframe {
+    height: 280px;
+  }
+  
+  .city-btn {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+  
+  .address-item {
+    padding: 10px;
+  }
+  
+  .contacts-help {
+    padding: 24px 16px;
+  }
+  
+  .contacts-help h4 {
+    font-size: 16px;
+  }
+}
+
+/* Темная тема (опционально) */
+@media (prefers-color-scheme: dark) {
+  .contact-card,
+  .emergency-card,
+  .map-section {
+    background: var(--navy-mid);
+  }
+  
+  .address-item {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .address-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
