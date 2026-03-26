@@ -2,51 +2,11 @@ import React, { useState } from 'react';
 import '../styles/pages.css';
 
 export default function Calculator() {
-  const [region, setRegion] = useState('kirov');
   const [squareMeters, setSquareMeters] = useState('50');
   const [hasCounters, setHasCounters] = useState(false);
   const [waterUsage, setWaterUsage] = useState('100');
   const [electricityUsage, setElectricityUsage] = useState('200');
   const [result, setResult] = useState(null);
-
-  const regions = {
-    kirov: {
-      name: 'Кировская область',
-      tariffs: {
-        heating: 1850,
-        water: 32.80,
-        hotWater: 142.50,
-        electricity: 6.45,
-        sewage: 32.80,
-        gas: 13.50,
-        maintenance: 380
-      }
-    },
-    moscow: {
-      name: 'Москва',
-      tariffs: {
-        heating: 2700,
-        water: 42.50,
-        hotWater: 175.00,
-        electricity: 7.50,
-        sewage: 42.50,
-        gas: 18.00,
-        maintenance: 450
-      }
-    },
-    spb: {
-      name: 'Санкт-Петербург',
-      tariffs: {
-        heating: 2400,
-        water: 38.00,
-        hotWater: 165.00,
-        electricity: 7.00,
-        sewage: 38.00,
-        gas: 15.00,
-        maintenance: 420
-      }
-    }
-  };
 
   const calculatePayment = (e) => {
     e.preventDefault();
@@ -80,24 +40,12 @@ export default function Calculator() {
     <section className="page-section">
       <div className="section-inner">
         <div className="page-header">
-          <h1>Калькулятор проверки начислений</h1>
-          <p className="page-subtitle">Проверьте правильность начислений ЖКХ, сравнив с актуальными тарифами вашего региона</p>
+          <h1>Калькулятор для проверки корректности начислений</h1>
+          <p className="page-subtitle">Проверьте корректность начислений ЖКХ, сравнив с актуальными тарифами Республики Дагестан</p>
         </div>
 
         <div className="calculator-container">
           <form className="calculator-form" onSubmit={calculatePayment}>
-            <div className="form-group">
-              <label className="form-label">Регион</label>
-              <select 
-                className="form-input"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-              >
-                <option value="kirov">Кировская область</option>
-                <option value="moscow">Москва</option>
-                <option value="spb">Санкт-Петербург</option>
-              </select>
-            </div>
 
             <div className="form-group">
               <label className="form-label">Площадь квартиры (кв.м)</label>
@@ -224,27 +172,26 @@ export default function Calculator() {
             <h4>Понимание расчётов</h4>
             <p>Все расчеты выполняются в соответствии с:</p>
             <ul>
-              <li><a href="#" className="link-btn">Постановлением Правительства РФ №354 о правилах содержания имущества →</a></li>
+              <li><a href="https://www.consultant.ru/document/cons_doc_LAW_114247/" className="link-btn">Постановлением Правительства РФ №354 о правилах содержания имущества →</a></li>
               <li><a href="#" className="link-btn">Методикой расчета платы за ЖКУ →</a></li>
-              <li><a href="#" className="link-btn">Жилищным кодексом РФ →</a></li>
+              <li><a href="https://www.consultant.ru/document/cons_doc_LAW_51057/" className="link-btn">Жилищным кодексом РФ →</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>🔗 Ознакомиться с формулой и тарифами</h4>
+            <h4>Ознакомиться с формулой и тарифами</h4>
             <p>Для более подробного разбора ваших конкретных начислений:</p>
             <div className="cta-links">
-              <a href="https://rstkirov.ru/tarify/tarify/" target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                Тарифы Кировской области →
+              <a href="https://info-gkh.ru/regiontariff/dagestan-respublika" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+                Тарифы Республики Дагестан на коммунальные услуги →
               </a>
               <a href="#" className="btn-secondary">
                 Посмотреть формулу расчёта →
               </a>
-              <a href="#" className="btn-secondary">
+              {/* <a href="#" className="btn-secondary">
                 Скачать справку об актуальных тарифах →
-              </a>
+              </a> */}
             </div>
-            <p className="small-text">Со своей подписью вы сможете предъявить эти документы в суде, если потребуется доказать избыточные начисления.</p>
           </div>
         </div>
       </div>

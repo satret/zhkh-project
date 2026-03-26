@@ -16,7 +16,6 @@ export default function SelfCheck() {
     {
       id: 'general',
       name: 'Общие требования к документам',
-      icon: '📋',
       items: [
         {
           id: 'g1',
@@ -59,7 +58,6 @@ export default function SelfCheck() {
     {
       id: 'claims',
       name: 'Исковое заявление',
-      icon: '⚖️',
       items: [
         {
           id: 'c1',
@@ -102,7 +100,6 @@ export default function SelfCheck() {
     {
       id: 'evidence',
       name: 'Доказательства',
-      icon: '🔍',
       items: [
         {
           id: 'e1',
@@ -151,7 +148,6 @@ export default function SelfCheck() {
     {
       id: 'pretension',
       name: 'Претензия (досудебное урегулирование)',
-      icon: '⚠️',
       items: [
         {
           id: 'p1',
@@ -188,7 +184,6 @@ export default function SelfCheck() {
     {
       id: 'procedure',
       name: 'Процедурные требования',
-      icon: '📑',
       items: [
         {
           id: 'pr1',
@@ -225,7 +220,6 @@ export default function SelfCheck() {
     {
       id: 'special',
       name: 'Специальные требования',
-      icon: '⭐',
       items: [
         {
           id: 's1',
@@ -310,8 +304,8 @@ export default function SelfCheck() {
                     <span className="check-box"></span>
                     <span className="check-text">
                       <strong>{item.title}</strong>
-                      {item.importance === 'high' && <span className="importance-badge">⚠️ Критично</span>}
-                      {item.importance === 'medium' && <span className="importance-badge">ℹ️ Важно</span>}
+                      {item.importance === 'high' && <span className="importance-badge">Критично</span>}
+                      {item.importance === 'medium' && <span className="importance-badge">Важно</span>}
                       <div className="check-tip">{item.tip}</div>
                     </span>
                   </label>
@@ -324,18 +318,18 @@ export default function SelfCheck() {
         <div className="selfcheck-footer">
           {completionPercent === 100 ? (
             <div className="success-message">
-              <h3>✅ Отлично! Документы готовы к подаче в суд</h3>
+              <h3>Отлично! Документы готовы к подаче в суд</h3>
               <p>Все пункты проверки пройдены. Ваш иск имеет хорошие шансы на успех.</p>
               <p className="small-text">Помните: судья оценивает не только документы, но и их содержание. Будьте готовы ответить на уточняющие вопросы.</p>
             </div>
           ) : completionPercent >= 70 ? (
             <div className="warning-message">
-              <h3>⚠️ Почти готово</h3>
+              <h3>Почти готово</h3>
               <p>Заполните оставшиеся пункты для полноты документов.</p>
             </div>
           ) : (
             <div className="alert-message">
-              <h3>📋 Требуется внимание</h3>
+              <h3>Требуется внимание</h3>
               <p>Заполните все пункты перед подачей в суд. Неполные документы могут привести к отказу.</p>
             </div>
           )}
