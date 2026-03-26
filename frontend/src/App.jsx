@@ -12,6 +12,7 @@ import Calculator from './pages/Calculator';
 import DocumentBuilder from './pages/DocumentBuilder';
 import SelfCheck from './pages/SelfCheck';
 import RegulationDocs from './pages/RegulationDocs';
+import Contacts from './pages/Contacts';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('faq');
@@ -28,7 +29,8 @@ export default function App() {
     calculator: <Calculator />,
     documents: <DocumentBuilder />,
     selfcheck: <SelfCheck />,
-    regulations: <RegulationDocs />
+    regulations: <RegulationDocs />,
+    contacts: <Contacts />
   };
 
   return (
