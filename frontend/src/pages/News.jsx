@@ -118,7 +118,7 @@ export default function News() {
                 <div className="news-meta">
                   <span className="news-date">{news.date}</span>
                   <span className={`news-badge badge-${news.importance}`}>
-                    {news.importance === 'high' ? '★ Важно' : news.importance === 'medium' ? '● Актуально' : '○ Интересно'}
+                    {news.importance === 'high' ? 'Важно' : news.importance === 'medium' ? 'Актуально' : 'Интересно'}
                   </span>
                 </div>
 
