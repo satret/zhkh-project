@@ -262,6 +262,83 @@
   color: #718096;
 }
 
+/* КНОПКА ЭКСТРЕННОЙ ПОМОЩИ В ПРАВОМ ВЕРХНЕМ УГЛУ */
+.emergency-corner-button {
+  position: fixed;
+  top: 90px;
+  left:70px;
+  z-index: 1000;
+}
+
+.emergency-button-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+  animation: pulse-corner 2s infinite;
+}
+
+.emergency-button-top:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(204, 0, 0, 0.6);
+  background: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
+}
+
+.emergency-icon-top {
+  font-size: 1.5rem;
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+.emergency-text-top {
+  font-size: 1rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@keyframes pulse-corner {
+  0% {
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(204, 0, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 28px rgba(204, 0, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
+  }
+}
+
 /* Адаптивность */
 @media (max-width: 1024px) {
   .hero-container {
@@ -322,6 +399,39 @@
   
   .stat-number {
     font-size: 36px;
+  }
+   .emergency-button {
+    padding: 16px 20px;
+    gap: 12px;
+  }
+  
+  .emergency-title {
+    font-size: 1rem;
+  }
+  
+  .emergency-subtitle {
+    font-size: 0.75rem;
+  }
+  
+  .emergency-action {
+    font-size: 0.7rem;
+  }
+  .emergency-corner-button {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .emergency-button-top {
+    padding: 8px 14px;
+    gap: 6px;
+  }
+  
+  .emergency-icon-top {
+    font-size: 1.2rem;
+  }
+  
+  .emergency-text-top {
+    font-size: 0.8rem;
   }
 }
 
