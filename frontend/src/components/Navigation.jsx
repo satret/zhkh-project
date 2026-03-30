@@ -4,12 +4,12 @@ import '../styles/navigation.css';
 export default function Navigation({ currentPage, onPageChange }) {
   const navItems = [
     { id: 'mainpage', label: 'Главная страница'},
-    { id: 'faq', label: 'FAQ' },
-    { id: 'news', label: 'Новости' },
     { id: 'calculator', label: 'Проверка начислений' },
     { id: 'documents', label: 'Формирование документов' },
     { id: 'selfcheck', label: 'Самопроверка' },
     { id: 'regulations', label: 'Нормативные документы' },
+    { id: 'faq', label: 'FAQ' },
+    { id: 'news', label: 'Новости' },
     { id: 'contacts', label: 'Контакты' }
   ];
 

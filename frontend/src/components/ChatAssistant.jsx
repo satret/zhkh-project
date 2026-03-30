@@ -63,7 +63,7 @@ export default function ChatAssistant({ open, onToggle }) {
       {open && (
         <div className="chat-window">
           <div className="chat-window-header">
-            <h3>ИИ Консультант</h3>
+            <h3>ЖКХ Помощник · онлайн</h3>
             <button 
               className="chat-close-btn"
               onClick={() => onToggle(false)}

@@ -15,7 +15,7 @@ export default function Footer() {
             <ul className="footer-links">
               <li><a href="#">Проверка начислений</a></li>
               <li><a href="#">Формирование документов</a></li>
-              <li><a href="#">Чат с ИИ</a></li>
+              <li><a href="#">ЖКХ Помощник · онлайн</a></li>
               <li><a href="#">Самопроверка</a></li>
             </ul>
           </div>
@@ -23,9 +23,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Информация</h4>
             <ul className="footer-links">
+              <li><a href="#">Нормативные документы</a></li>
               <li><a href="#">FAQ</a></li>
               <li><a href="#">Новости</a></li>
-              <li><a href="#">Нормативные документы</a></li>
               <li><a href="#">Контакты</a></li>
             </ul>
           </div>

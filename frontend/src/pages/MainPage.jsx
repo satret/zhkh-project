@@ -26,8 +26,7 @@ export default function HomePage({ onPageChange }) {
             </h1>
             
             <p className="hero-description">
-              Проверяйте начисления, формируйте жалобы, получайте юридические 
-              консультации и узнавайте права — всё в одном месте.
+              Проверяйте начисления, формируйте жалобы, узнавайте права — всё в одном месте.
             </p>
             
             <div className="hero-buttons">
@@ -101,5 +100,5 @@ export default function HomePage({ onPageChange }) {
         </div>
       </section>
     </div>
-  );
+  );ы
 }
