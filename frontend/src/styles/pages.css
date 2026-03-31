@@ -281,7 +281,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
-  animation: pulse-corner 2s infinite;
+  animation: pulse-red 2s infinite;
 }
 
 .emergency-button-top:hover {
@@ -303,15 +303,21 @@
   text-transform: uppercase;
 }
 
-@keyframes pulse-corner {
+@keyframes pulse-red {
   0% {
     box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+    transform: scale(1);
+    background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
   }
   50% {
-    box-shadow: 0 4px 25px rgba(204, 0, 0, 0.8);
+    box-shadow: 0 4px 30px rgba(204, 0, 0, 1);
+    transform: scale(1.08);
+    background: linear-gradient(135deg, #ff6666 0%, #ff0000 100%);
   }
   100% {
     box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+    transform: scale(1);
+    background: linear-gradient(135deg, #ff4d4d 0%, #cc0000 100%);
   }
 }
 
@@ -324,18 +330,6 @@
   }
   75% {
     transform: rotate(-5deg);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
-  }
-  50% {
-    box-shadow: 0 8px 28px rgba(204, 0, 0, 0.6);
-  }
-  100% {
-    box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
   }
 }
 

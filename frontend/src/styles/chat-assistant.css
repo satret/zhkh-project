@@ -16,7 +16,7 @@
   border: none;
   box-shadow: var(--shadow-lg);
   transition: var(--transition);
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse-green 2s ease-in-out infinite;
 }
 
 .chat-float-btn:hover {
@@ -24,12 +24,14 @@
   transform: scale(1.1);
 }
 
-@keyframes pulse {
+@keyframes pulse-green {
   0%, 100% {
     box-shadow: 0 0 0 0 rgba(29, 158, 117, 0.7);
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 10px rgba(29, 158, 117, 0);
+    box-shadow: 0 0 0 15px rgba(29, 158, 117, 0);
+    transform: scale(1.05);
   }
 }
 

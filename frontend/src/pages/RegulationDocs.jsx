@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/pages.css';
 
 export default function RegulationDocs() {
-  const [expandedGroups, setExpandedGroups] = useState({ federal: true });
+  const [expandedGroups, setExpandedGroups] = useState({ federal: false });
 
   const toggleGroup = (id) => {
     setExpandedGroups(prev => ({

@@ -22,7 +22,7 @@ export default function HomePage({ onPageChange }) {
             <div className="hero-badge">Бесплатный сервис для граждан</div>
             
             <h1 className="hero-title">
-              Разберитесь с <span className="highlight">ЖКХ</span> раз и навсегда
+              Жилищный вопрос? <span className="highlight"> Мы уже решили</span>
             </h1>
             
             <p className="hero-description">
