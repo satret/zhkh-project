@@ -46,46 +46,7 @@ export default function HomePage({ onPageChange }) {
           </div>
 
           {/* ПРАВАЯ ЧАСТЬ - ЧАТ */}
-          <div className="hero-chat-mockup">
-            <div className="chat-mockup-window">
-              <div className="chat-mockup-header">
-                <span className="chat-dot">🟢</span>
-                <span className="chat-title">ЖКХ Помощник · онлайн</span>
-              </div>
-              
-              <div className="chat-mockup-messages">
-                <div className="chat-message chat-message-bot">
-                  <div className="message-avatar">ЖКХ</div>
-                  <div className="message-text">
-                    Здравствуйте! Чем могу помочь? Задайте вопрос о коммунальных услугах
-                  </div>
-                </div>
-                
-                <div className="chat-message chat-message-user">
-                  <div className="message-text">
-                    Управляющая компания не делает ремонт в подъезде уже 2 года
-                  </div>
-                  <div className="message-avatar user-avatar">Я</div>
-                </div>
-                
-                <div className="chat-message chat-message-bot">
-                  <div className="message-avatar">ЖКХ</div>
-                  <div className="message-text">
-                    Это нарушение ст.145 ЖК РФ. Вы можете подать жалобу в ГЖИ или прокуратуру. Я помогу составить документ.
-                  </div>
-                </div>
-                
-                <div className="chat-action-button">
-                  📄 Составить жалобу в ГЖИ
-                </div>
-              </div>
-              
-              <div className="chat-mockup-input">
-                <div className="input-placeholder">Напишите вопрос...</div>
-                <button className="send-button">→</button>
-              </div>
-            </div>
-          </div>
+          
         </div>
 
         <div className="hero-stats">
