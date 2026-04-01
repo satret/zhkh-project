@@ -689,20 +689,3 @@
     font-size: 16px;
   }
 }
-
-/* Темная тема (опционально) */
-@media (prefers-color-scheme: dark) {
-  .contact-card,
-  .emergency-card,
-  .map-section {
-    background: var(--navy-mid);
-  }
-  
-  .address-item {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .address-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
