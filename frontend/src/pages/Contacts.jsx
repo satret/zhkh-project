@@ -2,12 +2,33 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/pages.css';
 import '../styles/contacts.css';
 
-export default function Contacts() {
+const SUBSECTION_TO_TAB = {
+  'emergency': 'emergencies',
+  'management-companies': 'uk',
+  'gji': 'gji',
+  'resource-suppliers': 'operators',
+};
+
+export default function Contacts({ subsection }) {
   const [activeTab, setActiveTab] = useState('uk');
   const [selectedCity, setSelectedCity] = useState('makhachkala');
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const [isMapReady, setIsMapReady] = useState(false);
+
+
+  useEffect(() => {
+    if (subsection && SUBSECTION_TO_TAB[subsection]) {
+      setActiveTab(SUBSECTION_TO_TAB[subsection]);
+      
+      setTimeout(() => {
+        const element = document.getElementById(`tab-${subsection}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [subsection]);
 
   // Контакты по городам Дагестана
   const cities = {
@@ -422,24 +443,28 @@ export default function Contacts() {
         {/* Вкладки */}
         <div className="contacts-tabs">
           <button 
+            id="tab-management-companies"
             className={`tab-btn ${activeTab === 'uk' ? 'active' : ''}`}
             onClick={() => setActiveTab('uk')}
           >
             Управляющие компании
           </button>
           <button 
+            id="tab-gji"
             className={`tab-btn ${activeTab === 'gji' ? 'active' : ''}`}
             onClick={() => setActiveTab('gji')}
           >
             Госжилинспекция
           </button>
           <button 
+            id="tab-resource-suppliers"
             className={`tab-btn ${activeTab === 'operators' ? 'active' : ''}`}
             onClick={() => setActiveTab('operators')}
           >
             Ресурсоснабжающие
           </button>
           <button 
+            id="tab-emergency"
             className={`tab-btn ${activeTab === 'emergencies' ? 'active' : ''}`}
             onClick={() => setActiveTab('emergencies')}
           >

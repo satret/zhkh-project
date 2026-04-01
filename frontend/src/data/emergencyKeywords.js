@@ -1,0 +1,53 @@
+// src/data/emergencyKeywords.js
+
+export const emergencyKeywords = {
+  water: {
+    keywords: ['течёт', 'течет', 'протечк', 'топит', 'залива', 'вода', 'труб', 'батаре', 'радиатор', 'кран', 'вентиль', 'потоп', 'авария'],
+    title: 'Протечка воды',
+    priority: 'critical'
+  },
+  gas: {
+    keywords: ['газ', 'запах газа', 'газовый', 'газовщик', 'утечка газа', 'пахнет газом'],
+    title: 'Утечка газа',
+    priority: 'critical'
+  },
+  electricity: {
+    keywords: ['нет света', 'электричество', 'свет отключ', 'розетк', 'провод', 'щиток', 'автомат', 'мигает свет'],
+    title: 'Проблемы с электричеством',
+    priority: 'high'
+  },
+  heating: {
+    keywords: ['нет отопления', 'батареи холодные', 'холодно', 'тепло', 'отопление', 'радиатор холодный', 'греет'],
+    title: 'Проблемы с отоплением',
+    priority: 'high'
+  },
+  elevator: {
+    keywords: ['лифт', 'лифт не работает', 'застрял', 'лифт застрял', 'кабина', 'подъёмник'],
+    title: 'Проблема с лифтом',
+    priority: 'high'
+  },
+  sewage: {
+    keywords: ['канализация', 'засор', 'унитаз', 'туалет', 'вода не уходит', 'нечистот', 'затопило'],
+    title: 'Засор канализации',
+    priority: 'medium'
+  }
+};
+
+export const detectEmergency = (text) => {
+  const lowerText = text.toLowerCase();
+  
+  for (const [type, data] of Object.entries(emergencyKeywords)) {
+    for (const keyword of data.keywords) {
+      if (lowerText.includes(keyword)) {
+        return {
+          isEmergency: true,
+          type,
+          title: data.title,
+          priority: data.priority
+        };
+      }
+    }
+  }
+  
+  return { isEmergency: false };
+};
