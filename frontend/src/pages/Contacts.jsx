@@ -3,8 +3,7 @@ import '../styles/pages.css';
 import '../styles/contacts.css';
 
 const SUBSECTION_TO_TAB = {
-  'emergency': 'emergencies',
-  'management-companies': 'uk',
+'management-companies': 'uk',
   'gji': 'gji',
   'resource-suppliers': 'operators',
 };
@@ -440,6 +439,21 @@ export default function Contacts({ subsection }) {
           </p>
         </div>
 
+        <div>
+              <div className="emergency-grid">
+                {emergencyServices.map((service, idx) => (
+                  <div key={idx} className="emergency-card">
+                    <div className="emergency-info">
+                      <h4>{service.name}</h4>
+                      <p className="emergency-type">{service.type}</p>
+                      <a href={`tel:${service.phone}`} className="emergency-phone">{service.phone}</a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+        </div>
+          
+
         {/* Вкладки */}
         <div className="contacts-tabs">
           <button 
@@ -462,13 +476,6 @@ export default function Contacts({ subsection }) {
             onClick={() => setActiveTab('operators')}
           >
             Ресурсоснабжающие
-          </button>
-          <button 
-            id="tab-emergency"
-            className={`tab-btn ${activeTab === 'emergencies' ? 'active' : ''}`}
-            onClick={() => setActiveTab('emergencies')}
-          >
-            Аварийные службы
           </button>
         </div>
 
@@ -550,22 +557,6 @@ export default function Contacts({ subsection }) {
                     <h4>{supplier.name}</h4>
                     <p><strong>Телефон:</strong> <a href={`tel:${supplier.phone}`}>{supplier.phone}</a></p>
                     <p><strong>Адрес:</strong> {supplier.address}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'emergencies' && (
-            <div>
-              <div className="emergency-grid">
-                {emergencyServices.map((service, idx) => (
-                  <div key={idx} className="emergency-card">
-                    <div className="emergency-info">
-                      <h4>{service.name}</h4>
-                      <p className="emergency-type">{service.type}</p>
-                      <a href={`tel:${service.phone}`} className="emergency-phone">{service.phone}</a>
-                    </div>
                   </div>
                 ))}
               </div>

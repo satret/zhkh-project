@@ -1,229 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/pages.css';
+
+import complaintData from '../docs_templates/complaint.json';
+import claimData from '../docs_templates/claim.json';
 
 export default function DocumentBuilder() {
   const [selectedDoc, setSelectedDoc] = useState('complaint');
-  const [formData, setFormData] = useState({
-    fullName: '',
-    address: '',
-    apartment: '',
-    phone: '',
-    issue: '',
-    dates: '',
-    damages: '',
-    witnesses: '',
-    evidence: ''
-  });
+  const [documents, setDocuments] = useState([]);
+  const [currentTemplate, setCurrentTemplate] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [emptyFields, setEmptyFields] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // состояние для модального окна
 
-  const documents = [
-    {
-      id: 'complaint',
-      name: 'Жалоба на управляющую компанию',
-      description: 'Для подачи в ГЖИ, Роспотребнадзор или прокуратуру'
-    },
-    {
-      id: 'recalc',
-      name: 'Заявление о перерасчете',
-      description: 'При некачественном оказании услуг или неправильных начислениях'
-    },
-    {
-      id: 'defect',
-      name: 'Акт о выявленных дефектах',
-      description: 'Для фиксации проблем в квартире и доме'
-    },
-    {
-      id: 'demand',
-      name: 'Претензия об устранении нарушений',
-      description: 'Обязательный этап перед судом'
-    },
-    {
-      id: 'refusal',
-      name: 'Заявление об отказе от услуги',
-      description: 'Отказ от коллективной антенны, радиоточки и т.д.'
-    },
-    {
-      id: 'petition',
-      name: 'Ходатайство о переводе на спецсчет',
-      description: 'Для перехода с счета регионального оператора на спецсчет дома'
-    }
-  ];
+  useEffect(() => {
+    const templates = {
+      complaint: complaintData,
+      claim: claimData
+    };
 
-  const documentTemplates = {
-    complaint: {
-      title: 'Жалоба на управляющую компанию',
-      template: `ЖАЛОБА
+    const loadedDocs = Object.keys(templates).map(id => ({
+      id,
+      name: templates[id].title,
+      description: templates[id].description || ''
+    }));
 
-Гражданин(ка): ${formData.fullName}
-Адрес: ${formData.address}, кв. ${formData.apartment}
-Телефон: ${formData.phone}
+    setDocuments(loadedDocs);
 
-На: [Наименование ГЖИ / Роспотребнадзора]
+    const current = templates[selectedDoc];
+    setCurrentTemplate(current);
 
-СУТЬ ЖАЛОБЫ:
-Я, ${formData.fullName}, обращаюсь с жалобой на ООО [Название УК], осуществляющую управление многоквартирным домом по адресу: ${formData.address}.
+    const initialFormData = {};
+    current.fields.forEach(field => {
+      initialFormData[field.name] = '';
+    });
+    setFormData(initialFormData);
 
-ОПИСАНИЕ ПРОБЛЕМЫ:
-${formData.issue}
-
-ПЕРИОД ПРОБЛЕМЫ:
-${formData.dates}
-
-ПОНЕСЁННЫЕ УБЫТКИ / ВРЕД:
-${formData.damages}
-
-ПРЕДЫДУЩИЕ ДЕЙСТВИЯ:
-- [Опишите, когда и как вы обращались в УК]
-- [Какие ответы вы получили]
-
-СВИДЕТЕЛИ:
-${formData.witnesses || 'Нет'}
-
-ДОКАЗАТЕЛЬСТВА:
-${formData.evidence}
-
-Прошу провести проверку и принять меры в соответствии с законодательством РФ.
-
-Дата: _________________
-Подпись: _______________`
-    },
-    recalc: {
-      title: 'Заявление о перерасчете',
-      template: `ЗАЯВЛЕНИЕ О ПЕРЕРАСЧЕТЕ
-
-Гражданин(ка): ${formData.fullName}
-Адрес: ${formData.address}, кв. ${formData.apartment}
-Телефон: ${formData.phone}
-
-Руководителю ООО [Название УК]
-
-Прошу произвести перерасчет платы за коммунальные услуги в связи со следующим:
-
-ПРИЧИНА ПЕРЕРАСЧЕТА:
-${formData.issue}
-
-ПЕРИОД, ПОДЛЕЖАЩИЙ ПЕРЕРАСЧЕТУ:
-${formData.dates}
-
-ОБОСНОВАНИЕ:
-- Согласно Постановлению Правительства РФ №354, перерасчет положен при ненадлежащем оказании услуг
-- Температура в квартире составляла ${formData.damages} (ниже нормы)
-- [Иные факты и ссылки на законодательство]
-
-ДОКАЗАТЕЛЬСТВА:
-${formData.evidence}
-
-Прошу произвести перерасчет и перевести сумму переплаты на мой лицевой счет.
-
-Дата: _________________
-Подпись: _______________`
-    },
-    defect: {
-      title: 'Акт о выявленных дефектах',
-      template: `АКТ О ВЫЯВЛЕННЫХ ДЕФЕКТАХ
-
-Дата составления: _________________
-Место осмотра: ${formData.address}, кв. ${formData.apartment}
-Собственник: ${formData.fullName}
-
-ВЫЯВЛЕННЫЕ ДЕФЕКТЫ:
-${formData.issue}
-
-МЕСТО ДЕФЕКТА:
-${formData.damages}
-
-ДАТА ВОЗНИКНОВЕНИЯ:
-${formData.dates}
-
-ПОСЛЕДСТВИЯ:
-${formData.evidence}
-
-СВИДЕТЕЛИ:
-${formData.witnesses}
-
-ФОТОГРАФИЧЕСКОЕ ПОДТВЕРЖДЕНИЕ:
-[Приложить фотографии]
-
-Акт составлен в двух экземплярах:
-1-й экземпляр - собственнику
-2-й экземпляр - управляющей организации
-
-Подпись собственника: _______________
-Подпись представителя УК: _______________`
-    },
-    demand: {
-      title: 'Претензия об устранении нарушений',
-      template: `ПРЕТЕНЗИЯ
-
-От: ${formData.fullName}
-Адрес: ${formData.address}, кв. ${formData.apartment}
-Телефон: ${formData.phone}
-
-Кому: ООО [Название УК]
-
-ТРЕБОВАНИЕ ОБ УСТРАНЕНИИ НАРУШЕНИЙ
-
-На основании Жилищного кодекса РФ, Постановления Правительства РФ №354 и договора управления, требую в течение 7 дней устранить следующие нарушения:
-
-ОПИСАНИЕ НАРУШЕНИЙ:
-${formData.issue}
-
-ПЕРИОД НАРУШЕНИЯ:
-${formData.dates}
-
-РАЗМЕР ТРЕБУЕМОЙ КОМПЕНСАЦИИ:
-${formData.damages}
-
-ДОКУМЕНТЫ И ДОКАЗАТЕЛЬСТВА:
-${formData.evidence}
-
-При неисполнении данной претензии в установленный срок я буду вынужден обратиться в суд с исковым заявлением.
-
-В случае судебного разбирательства все судебные издержки будут возложены на Вашу организацию.
-
-Дата: _________________
-Подпись: _______________
-Отправлено: _________________`
-    },
-    refusal: {
-      title: 'Заявление об отказе от услуги',
-      template: `ЗАЯВЛЕНИЕ ОБ ОТКАЗЕ
-
-От: ${formData.fullName}
-Адрес: ${formData.address}, кв. ${formData.apartment}
-Телефон: ${formData.phone}
-
-Руководителю ООО [Название УК]
-
-Прошу снять с моей квартиры и демонтировать:
-${formData.issue}
-
-Требую исключить расходы на содержание данного оборудования из квитанции начиная со следующего месяца.
-
-Демонтаж должен быть проведён за счет управляющей организации в течение 14 дней.
-
-Подтверждение о выполнении прошу направить письменно.
-
-Дата: _________________
-Подпись: _______________`
-    },
-    petition: {
-      title: 'Ходатайство о переводе на спецсчет',
-      template: `ХОДАТАЙСТВО
-
-На основании статьи 173 Жилищного кодекса РФ и решения собрания собственников от ${formData.dates}, ходатайствую о переводе средств на капитальный ремонт с регионального оператора на специальный счет дома.
-
-ДЕТАЛИ:
-Адрес дома: ${formData.address}
-Регистр УУ: [Номер]
-Региональный оператор: ${formData.issue}
-Сумма средств к переводу: ${formData.damages}
-
-${formData.evidence}
-
-Дата: _________________
-Подпись: _______________`
-    }
-  };
+    setLoading(false);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -231,34 +45,174 @@ ${formData.evidence}
       ...prev,
       [name]: value
     }));
+    // при изменении полей очищаем предупреждение о пустых полях
+    setEmptyFields([]);
   };
 
-  const downloadPDF = () => {
-    const template = documentTemplates[selectedDoc];
-    const content = template.template;
-    
-    // Простой способ скачать как текст
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-    element.setAttribute('download', `${template.title}.txt`);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+  const clearForm = () => {
+    const newFormData = {};
+    currentTemplate.fields.forEach(field => {
+      newFormData[field.name] = '';
+    });
+    setFormData(newFormData);
+    setEmptyFields([]);
+    setShowConfirmModal(false);
   };
 
-  const currentDoc = documents.find(d => d.id === selectedDoc);
-  const currentTemplate = documentTemplates[selectedDoc];
+  const getEmptyFields = () => {
+    return currentTemplate.fields.filter(field => {
+      if (!field.required) return false;
+      return !formData[field.name] || formData[field.name].trim() === '';
+    });
+  };
+
+  // Проверка на заполнение всех обязательных полей
+  const isAllRequiredFieldsFilled = () => {
+    const empty = getEmptyFields();
+    return empty.length === 0;
+  };
+
+  const handleDownload = () => {
+    const empty = getEmptyFields();
+    setEmptyFields(empty);
+
+    if (empty.length > 0) {
+      // Показываем модальное окно подтверждения
+      setShowConfirmModal(true);
+    } else {
+      // Все поля заполнены - скачиваем сразу
+      exportToWord();
+    }
+  };
+
+  // Подтверждение скачивания с незаполненными полями
+  const confirmDownload = () => {
+    setShowConfirmModal(false);
+    exportToWord();
+  };
+
+  // Заполнение шаблона (blocks)
+  const fillTemplate = () => {
+    if (!currentTemplate || !currentTemplate.blocks) return [];
+
+    return currentTemplate.blocks.map(block => {
+      let text = block.content;
+
+      Object.keys(formData).forEach(key => {
+        const regex = new RegExp(`{{${key}}}`, 'g');
+        text = text.replace(regex, formData[key] || `[${key}]`);
+      });
+
+      return {
+        type: block.type,
+        content: text
+      };
+    });
+  };
+
+  // Экспорт в Word
+  const exportToWord = () => {
+    if (!currentTemplate) return;
+
+    const contentBlocks = fillTemplate();
+    const styles = currentTemplate.styles || {};
+
+    const formatted = contentBlocks.map(block => {
+      const lines = block.content.split('\n');
+      const style = styles[block.type] || styles.body || {};
+
+      const styleString = Object.entries(style)
+        .map(([key, value]) => {
+          const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+          return `${cssKey}: ${value}`;
+        })
+        .join('; ');
+
+      return lines.map(line => {
+        if (line.trim() === '') {
+          return '<p>&nbsp;</p>';
+        }
+        return `<p style="${styleString}">${line}</p>`;
+      }).join('');
+    }).join('');
+
+    const wordHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>${currentTemplate.title}</title>
+        <style>
+          body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14pt;
+          }
+          p {
+            margin: 0;
+          }
+        </style>
+      </head>
+      <body>
+        ${formatted}
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([wordHtml], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${currentTemplate.title}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const changeDocument = (docId) => {
+    setSelectedDoc(docId);
+
+    const templates = {
+      complaint: complaintData,
+      claim: claimData
+    };
+
+    const newTemplate = templates[docId];
+    setCurrentTemplate(newTemplate);
+
+    const newFormData = {};
+    newTemplate.fields.forEach(field => {
+      newFormData[field.name] = '';
+    });
+    setFormData(newFormData);
+    setEmptyFields([]);
+    setShowConfirmModal(false);
+  };
+
+  if (loading) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>;
+  }
+
+  if (!currentTemplate) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Нет шаблонов</div>;
+  }
+
+  const filledContent = fillTemplate();
+  const styles = currentTemplate.styles || {};
+  const allFieldsFilled = isAllRequiredFieldsFilled();
 
   return (
     <section className="page-section">
       <div className="section-inner">
         <div className="page-header">
           <h1>Формирование документов</h1>
-          <p className="page-subtitle">Заполните шаблон — система создаст готовый документ, который можно сохранить и распечатать</p>
+          <p>Заполните шаблон - система создаст готовый документ, который можно будет сохранить и распечатать</p>
+          <p>или скачайте шаблон документа и заполните его самостоятельно</p>
         </div>
 
         <div className="doc-builder-container">
+
+          {/* выбор документа */}
           <div className="doc-selector">
             <h3>Выберите тип документа</h3>
             <div className="doc-grid">
@@ -266,158 +220,129 @@ ${formData.evidence}
                 <button
                   key={doc.id}
                   className={`doc-card ${selectedDoc === doc.id ? 'active' : ''}`}
-                  onClick={() => setSelectedDoc(doc.id)}
+                  onClick={() => changeDocument(doc.id)}
                 >
-                  <div className="doc-icon">{doc.icon}</div>
                   <h4>{doc.name}</h4>
-                  <p className="doc-desc">{doc.description}</p>
+                  <p>{doc.description}</p>
                 </button>
               ))}
             </div>
           </div>
 
+          {/* форма */}
           <div className="doc-form-section">
-            <h3>{currentDoc?.name}</h3>
-            
+            <h3>Заполните данные</h3>
+
+            {/* предупреждение о незаполненных полях */}
+            {emptyFields.length > 0 && (
+              <div className="form-warning">
+                Заполните обязательные поля: {emptyFields.map(f => f.label).join(', ')}
+              </div>
+            )}
+
+            {/* индикатор заполнения */}
+            <div style={{ marginBottom: '16px', fontSize: '13px' }}>
+              <span style={{ color: allFieldsFilled ? '#10b981' : '#f59e0b' }}>
+                {allFieldsFilled ? 'Все обязательные поля заполнены' : 'Не все обязательные поля заполнены'}
+              </span>
+            </div>
+
             <form className="doc-form">
-              <div className="form-group">
-                <label className="form-label">ФИО (как в паспорте)</label>
-                <input 
-                  className="form-input"
-                  type="text"
-                  name="fullName"
-                  placeholder="Иван Иванович Иванов"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                />
-              </div>
+              {currentTemplate.fields.map(field => {
+                const isEmpty = field.required && (!formData[field.name] || formData[field.name].trim() === '');
 
-              <div className="form-group">
-                <label className="form-label">Адрес дома</label>
-                <input 
-                  className="form-input"
-                  type="text"
-                  name="address"
-                  placeholder="ул. Ленина, д. 42"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                />
-              </div>
+                return (
+                  <div key={field.name} className="form-group">
+                    <label className="form-label">
+                      {field.label}
+                      {field.required && <span style={{ color: '#ef4444', marginLeft: '4px' }}>*</span>}
+                    </label>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Квартира</label>
-                  <input 
-                    className="form-input"
-                    type="text"
-                    name="apartment"
-                    placeholder="108"
-                    value={formData.apartment}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Телефон</label>
-                  <input 
-                    className="form-input"
-                    type="tel"
-                    name="phone"
-                    placeholder="+7 (912) 345-67-89"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Суть проблемы / Описание</label>
-                <textarea 
-                  className="form-textarea"
-                  name="issue"
-                  placeholder="Опишите что произошло, какие услуги не оказывались..."
-                  value={formData.issue}
-                  onChange={handleInputChange}
-                  rows="4"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Период / Даты</label>
-                <input 
-                  className="form-input"
-                  type="text"
-                  name="dates"
-                  placeholder="с 01.01.2026 по 10.03.2026"
-                  value={formData.dates}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Размер убытков / Ущерб</label>
-                <input 
-                  className="form-input"
-                  type="text"
-                  name="damages"
-                  placeholder="25 000 рублей или +5 градусов"
-                  value={formData.damages}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Свидетели (если есть)</label>
-                <textarea 
-                  className="form-textarea"
-                  name="witnesses"
-                  placeholder="ФИ и контакты свидетелей..."
-                  value={formData.witnesses}
-                  onChange={handleInputChange}
-                  rows="2"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Приложенные доказательства</label>
-                <textarea 
-                  className="form-textarea"
-                  name="evidence"
-                  placeholder="Акт в присутствии соседей от 15.02.2026, фото дефектов, переписка с УК в мессенджере..."
-                  value={formData.evidence}
-                  onChange={handleInputChange}
-                  rows="2"
-                />
-              </div>
+                    {field.type === 'textarea' ? (
+                      <textarea
+                        className={`form-textarea ${isEmpty ? 'input-error' : ''}`}
+                        placeholder={field.placeholder || ''}
+                        name={field.name}
+                        value={formData[field.name] || ''}
+                        onChange={handleInputChange}
+                      />
+                    ) : (
+                      <input
+                        className={`form-input ${isEmpty ? 'input-error' : ''}`}
+                        type={field.type || 'text'}
+                        placeholder={field.placeholder || ''}
+                        name={field.name}
+                        value={formData[field.name] || ''}
+                        onChange={handleInputChange}
+                      />
+                    )}
+                    {isEmpty && (
+                      <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }}>
+                        Это поле обязательно для заполнения
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </form>
+
+            <button className="btn-clear" onClick={clearForm}>Очистить</button>
           </div>
 
+          {/* предпросмотр */}
           <div className="doc-preview-section">
             <div className="preview-header">
-              <h3>Предпросмотр документа</h3>
-              <button className="btn-primary" onClick={downloadPDF}>
-                ⬇ Скачать документ
+              <h3>Предпросмотр</h3>
+              <button className="btn-primary" onClick={handleDownload}>
+                Скачать Word
               </button>
             </div>
-            
-            <pre className="doc-preview">
-              {currentTemplate?.template || ''}
-            </pre>
-          </div>
-        </div>
 
-        <div className="builder-help">
-          <h4>💡 Советы при составлении документов:</h4>
-          <ul>
-            <li>Будьте конкретны и точны в деталях</li>
-            <li>Указывайте точные даты и адреса</li>
-            <li>Прилагайте всё доказательства (фото, акты, переписку)</li>
-            <li>Отправляйте документы заказным письмом или лично с отметкой о получении</li>
-            <li>Сохраняйте копии всех отправленных документов</li>
-            <li>Дайте УК 7-14 дней на ответ перед обращением в контролирующие органы</li>
-          </ul>
+            <div className="doc-preview">
+              {filledContent.map((block, i) => (
+                <div key={i} style={styles[block.type]}>
+                  {block.content.split('\n').map((line, j) => (
+                    <div key={j}>{line}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
+
+      {/* Модальное окно подтверждения */}
+      {showConfirmModal && (
+        <div className="modal-overlay" onClick={() => setShowConfirmModal(false)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <span className="modal-icon"></span>
+              <h3>Не все поля заполнены</h3>
+            </div>
+            <div className="modal-body">
+              <p>Следующие обязательные поля не заполнены:</p>
+              <ul className="modal-field-list">
+                {emptyFields.map(field => (
+                  <li key={field.name}>• {field.label}</li>
+                ))}
+              </ul>
+              <p className="modal-warning-text">
+                Документ будет сгенерирован с пустыми местами для этих полей.
+                Вы уверены, что хотите продолжить?
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button className="modal-btn-cancel" onClick={() => setShowConfirmModal(false)}>
+                Отмена
+              </button>
+              <button className="modal-btn-confirm" onClick={confirmDownload}>
+                Всё равно скачать
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
