@@ -94,17 +94,9 @@ export default function SelfCheck() {
         {
           id: 'c1',
           title: 'Составить исковое заявление',
-          tip: 'По требованиям ст. 131-132 ГПК РФ',
+          tip: '',
           link: '',
-          linkText: '',
-          importance: 'high'
-        },
-        {
-          id: 'c2',
-          title: 'Приложить все доказательства',
-          tip: 'Копии документов по количеству участников процесса',
-          link: '',
-          linkText: '',
+          linkText: 'Перейти в раздел формирование документов',
           importance: 'high'
         }
       ]
