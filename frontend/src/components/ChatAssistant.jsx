@@ -3,28 +3,89 @@ import { chatScenarios } from '../data/chatScenarios';
 import { detectEmergency } from '../data/emergencyKeywords';
 import '../styles/chat-assistant.css';
 
-export default function ChatAssistant({ open, onToggle, onPageChange }) {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'bot',
-      text: 'Привет! Я ИИ-консультант по вопросам ЖКХ. Помогу разобраться в тарифах, оформить документы и защитить ваши права.',
-      options: [
-        { label: 'Проверить начисления', value: 'check' },
-        { label: 'Подать жалобу', value: 'complaint' },
-        { label: 'Задать вопрос', value: 'question' },
-      ]
-    }
-  ]);
+export default function ChatAssistant({ 
+  open, 
+  onToggle, 
+  onPageChange, 
+  initialScenario,
+  onScenarioHandled 
+}) {
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(true);
+  const [chatInitialized, setChatInitialized] = useState(false);
   
   const messagesEndRef = useRef(null);
 
+  // 1. Инициализация только при первом открытии
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    if (open && !chatInitialized) {
+      if (initialScenario === 'emergency') {
+        setMessages([{
+          id: 1,
+          type: 'bot',
+          text: 'Что случилось? Выберите тип аварии:',
+          options: [
+            { label: '💧 Протечка воды', value: 'emergency_water_start' },
+            { label: '⚠️ Утечка газа', value: 'emergency_gas_start' },
+            { label: '💡 Нет электричества', value: 'emergency_electricity_start' },
+            { label: '🔥 Нет отопления', value: 'emergency_heating_start' },
+            { label: '🛗 Проблема с лифтом', value: 'emergency_elevator_start' },
+          ]
+        }]);
+      } else {
+        setMessages([{
+          id: 1,
+          type: 'bot',
+          text: 'Привет! Я ИИ-консультант по вопросам ЖКХ. Помогу разобраться в тарифах, оформить документы и защитить ваши права.',
+          options: [
+            { label: 'Проверить начисления', value: 'check' },
+            { label: 'Подать жалобу', value: 'complaint' },
+            { label: 'Задать вопрос', value: 'question' },
+          ]
+        }]);
+      }
+      setChatInitialized(true);
+      
+      // Сбрасываем initialScenario после первого использования
+      if (initialScenario && onScenarioHandled) {
+        onScenarioHandled();
+      }
+    }
+  }, [open, initialScenario, onScenarioHandled]);
+
+  // 2. Реакция на initialScenario при открытом чате
+  useEffect(() => {
+    if (open && initialScenario === 'emergency' && chatInitialized) {
+      setMessages(prev => [...prev, {
+        id: Date.now(),
+        type: 'bot',
+        text: 'Что случилось? Выберите тип аварии:',
+        options: [
+          { label: '💧 Протечка воды', value: 'emergency_water_start' },
+          { label: '⚠️ Утечка газа', value: 'emergency_gas_start' },
+          { label: '💡 Нет электричества', value: 'emergency_electricity_start' },
+          { label: '🔥 Нет отопления', value: 'emergency_heating_start' },
+          { label: '🛗 Проблема с лифтом', value: 'emergency_elevator_start' },
+        ]
+      }]);
+      
+      if (onScenarioHandled) {
+        onScenarioHandled();
+      }
+    }
+  }, [initialScenario, open, chatInitialized, onScenarioHandled]);
+
+
+  // Автопрокрутка вниз
+  useEffect(() => {
+  if (open) {  // ← Прокручиваем только когда чат открыт
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+}, [messages, loading, open]);  // ← Добавили 'open'
 
   const getBotResponse = (optionValue) => {
     return chatScenarios[optionValue] || chatScenarios['start'];
@@ -32,7 +93,6 @@ export default function ChatAssistant({ open, onToggle, onPageChange }) {
 
   const handleRedirect = (redirect) => {
     if (!redirect || !onPageChange) return;
-    
     onPageChange(redirect.page, redirect.subsection || null);
   };
 

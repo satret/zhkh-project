@@ -19,6 +19,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('mainpage');
   const [currentSubsection, setCurrentSubsection] = useState(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [initialScenario, setInitialScenario] = useState(null);
 
   // Скролл в начало при смене страницы
   useEffect(() => {
@@ -35,7 +36,13 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'mainpage':
-        return <MainPage onPageChange={handlePageChange} />;
+        return <MainPage 
+          onPageChange={handlePageChange} 
+          onChatToggle={(scenario) => {
+            setInitialScenario(scenario);  // Устанавливаем сценарий
+            setChatOpen(true);              // Открываем чат
+      }}
+        />;
       case 'faq':
         return <FAQ onPageChange={handlePageChange} />;
       case 'news':
@@ -68,8 +75,14 @@ export default function App() {
 
       <ChatAssistant 
         open={chatOpen} 
-        onToggle={setChatOpen}
+        onToggle={(value) => {
+          setChatOpen(value);
+          if (!value) {
+            setInitialScenario(null);  
+          }
+        }}
         onPageChange={handlePageChange}
+        initialScenario={initialScenario}
       />
 
       <Footer />

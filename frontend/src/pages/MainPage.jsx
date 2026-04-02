@@ -1,12 +1,23 @@
 import React from 'react';
 import '../styles/pages.css';
 
-export default function HomePage({ onPageChange }) {
-  const handleEmergencyClick = () => {};
+export default function HomePage({ onPageChange, onChatToggle }) {
+  const handleEmergencyClick = () => {
+    if (onChatToggle) {
+      onChatToggle('emergency');
+    }
+  };
+
+  const handleClick = () => {
+    const chatButton = document.querySelector('.chat-float-btn');
+    if (chatButton) {
+      chatButton.click();
+    }
+  };
 
   return (
     <div className="homepage">
-      {/* КНОПКА ЭКСТРЕННОЙ ПОМОЩИ - В ПРАВОМ ВЕРХНЕМ УГЛУ */}
+      {/* КНОПКА ЭКСТРЕННОЙ ПОМОЩИ - В ЛЕВОМ ВЕРХНЕМ УГЛУ */}
       <div className="emergency-corner-button">
         <button className="emergency-button-top" onClick={handleEmergencyClick}>
           <span className="emergency-icon-top">🚨</span>
@@ -17,7 +28,6 @@ export default function HomePage({ onPageChange }) {
       <section className="hero-section">
         <div className="hero-container">
           
-          {/* ЛЕВАЯ ЧАСТЬ - ТЕКСТ */}
           <div className="hero-content">
             <div className="hero-badge">Бесплатный сервис для граждан</div>
             
@@ -32,7 +42,7 @@ export default function HomePage({ onPageChange }) {
             <div className="hero-buttons">
               <button 
                 className="btn btn-primary"
-                onClick={() => onPageChange && onPageChange('faq')}
+                onClick={handleClick}
               >
                 Задать вопрос →
               </button>
@@ -43,9 +53,15 @@ export default function HomePage({ onPageChange }) {
                 Создать жалобу
               </button>
             </div>
-          </div>
 
-          {/* ПРАВАЯ ЧАСТЬ - ЧАТ */}
+            <button 
+              className="btn btn-third"
+              onClick={() => onPageChange && onPageChange('faq')}
+            >
+              Часто задаваемые вопросы
+            </button>
+
+          </div>
           
         </div>
 
