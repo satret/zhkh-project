@@ -1,8 +1,13 @@
 // src/data/emergencyKeywords.js
 
 export const emergencyKeywords = {
+  emergency: {
+    keywords: ['авари', 'авария', 'несчастный случай', 'чрезвычайная ситуация', 'срочно', 'помогите'],
+    title: 'Авария',
+    priority: 'critical'
+  },
   water: {
-    keywords: ['течёт', 'течет', 'протечк', 'топит', 'залива', 'вода', 'труб', 'батаре', 'радиатор', 'кран', 'вентиль', 'потоп', 'авария'],
+    keywords: ['течёт', 'течет', 'протечк', 'топит', 'залива', 'вода', 'труб', 'батаре', 'радиатор', 'кран', 'вентиль', 'потоп', 'водо'],
     title: 'Протечка воды',
     priority: 'critical'
   },
@@ -36,7 +41,10 @@ export const emergencyKeywords = {
 export const detectEmergency = (text) => {
   const lowerText = text.toLowerCase();
   
-  for (const [type, data] of Object.entries(emergencyKeywords)) {
+  const specificTypes = ['water', 'gas', 'electricity', 'heating', 'elevator', 'sewage'];
+  
+  for (const type of specificTypes) {
+    const data = emergencyKeywords[type];
     for (const keyword of data.keywords) {
       if (lowerText.includes(keyword)) {
         return {
@@ -46,6 +54,19 @@ export const detectEmergency = (text) => {
           priority: data.priority
         };
       }
+    }
+  }
+  
+  // Если не нашли конкретный тип — проверяем общий 'emergency'
+  const emergencyData = emergencyKeywords['emergency'];
+  for (const keyword of emergencyData.keywords) {
+    if (lowerText.includes(keyword)) {
+      return {
+        isEmergency: true,
+        type: 'emergency',  // ← Общий тип
+        title: emergencyData.title,
+        priority: emergencyData.priority
+      };
     }
   }
   

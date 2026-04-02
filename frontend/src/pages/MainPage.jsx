@@ -52,14 +52,13 @@ export default function HomePage({ onPageChange, onChatToggle }) {
               >
                 Создать жалобу
               </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => onPageChange && onPageChange('faq')}
+                >
+                  Частые вопросы
+                </button>
             </div>
-
-            <button 
-              className="btn btn-third"
-              onClick={() => onPageChange && onPageChange('faq')}
-            >
-              Часто задаваемые вопросы
-            </button>
 
           </div>
           

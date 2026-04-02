@@ -19,63 +19,49 @@ export default function ChatAssistant({
   const messagesEndRef = useRef(null);
 
   // 1. Инициализация только при первом открытии
-  useEffect(() => {
-    if (open && !chatInitialized) {
-      if (initialScenario === 'emergency') {
-        setMessages([{
-          id: 1,
-          type: 'bot',
-          text: 'Что случилось? Выберите тип аварии:',
-          options: [
-            { label: '💧 Протечка воды', value: 'emergency_water_start' },
-            { label: '⚠️ Утечка газа', value: 'emergency_gas_start' },
-            { label: '💡 Нет электричества', value: 'emergency_electricity_start' },
-            { label: '🔥 Нет отопления', value: 'emergency_heating_start' },
-            { label: '🛗 Проблема с лифтом', value: 'emergency_elevator_start' },
-          ]
-        }]);
-      } else {
-        setMessages([{
-          id: 1,
-          type: 'bot',
-          text: 'Привет! Я ИИ-консультант по вопросам ЖКХ. Помогу разобраться в тарифах, оформить документы и защитить ваши права.',
-          options: [
-            { label: 'Проверить начисления', value: 'check' },
-            { label: 'Подать жалобу', value: 'complaint' },
-            { label: 'Задать вопрос', value: 'question' },
-          ]
-        }]);
-      }
-      setChatInitialized(true);
-      
-      // Сбрасываем initialScenario после первого использования
-      if (initialScenario && onScenarioHandled) {
-        onScenarioHandled();
-      }
-    }
-  }, [open, initialScenario, onScenarioHandled]);
-
-  // 2. Реакция на initialScenario при открытом чате
-  useEffect(() => {
-    if (open && initialScenario === 'emergency' && chatInitialized) {
-      setMessages(prev => [...prev, {
-        id: Date.now(),
+useEffect(() => {
+  if (open && !chatInitialized) {
+    if (initialScenario === 'emergency') {
+      const scenario = chatScenarios['emergency_type_select'];
+      setMessages([{
+        id: 1,
         type: 'bot',
-        text: 'Что случилось? Выберите тип аварии:',
-        options: [
-          { label: '💧 Протечка воды', value: 'emergency_water_start' },
-          { label: '⚠️ Утечка газа', value: 'emergency_gas_start' },
-          { label: '💡 Нет электричества', value: 'emergency_electricity_start' },
-          { label: '🔥 Нет отопления', value: 'emergency_heating_start' },
-          { label: '🛗 Проблема с лифтом', value: 'emergency_elevator_start' },
-        ]
+        text: scenario.text,
+        options: scenario.options
       }]);
-      
-      if (onScenarioHandled) {
-        onScenarioHandled();
-      }
+    } else {
+      const scenario = chatScenarios['start'];
+      setMessages([{
+        id: 1,
+        type: 'bot',
+        text: scenario.text,
+        options: scenario.options
+      }]);
     }
-  }, [initialScenario, open, chatInitialized, onScenarioHandled]);
+    setChatInitialized(true);
+    
+    if (initialScenario && onScenarioHandled) {
+      onScenarioHandled();
+    }
+  }
+}, [open, initialScenario, onScenarioHandled]);
+
+// 2. Реакция на initialScenario при открытом чате
+useEffect(() => {
+  if (open && initialScenario === 'emergency' && chatInitialized) {
+    const scenario = chatScenarios['emergency_type_select'];
+    setMessages(prev => [...prev, {
+      id: Date.now(),
+      type: 'bot',
+      text: scenario.text,
+      options: scenario.options
+    }]);
+    
+    if (onScenarioHandled) {
+      onScenarioHandled();
+    }
+  }
+}, [initialScenario, open, chatInitialized, onScenarioHandled]);
 
 
   // Автопрокрутка вниз
@@ -114,16 +100,41 @@ export default function ChatAssistant({
     setTimeout(() => {
       let botMessage;
       
-      if (emergency.isEmergency && emergency.type === 'water') {
-        const scenario = getBotResponse('emergency_water_start');
-        botMessage = {
-          id: Date.now() + 1,
-          type: 'bot',
-          text: `${emergency.title}\n\n${scenario.text}`,
-          options: scenario.options,
-          scenarioStep: 'emergency_water_start'
-        };
+      if (emergency.isEmergency) {
+        // 🎯 ОБРАБОТКА АВАРИИ
+        if (emergency.type === 'emergency') {
+          // Общий тип — показываем выбор конкретного типа
+          const scenario = chatScenarios['emergency_type_select'];
+          botMessage = {
+            id: Date.now() + 1,
+            type: 'bot',
+            text: `Понял, у вас аварийная ситуация.\n\n${scenario.text}`,
+            options: scenario.options,
+            scenarioStep: 'emergency_type_select'
+          };
+        } else if (emergency.type === 'water') {
+          // Конкретный тип — показываем соответствующий сценарий
+          const scenario = chatScenarios[`emergency_${emergency.type}_start`];
+          botMessage = {
+            id: Date.now() + 1,
+            type: 'bot',
+            text: `${emergency.title}\n\n${scenario?.text || 'Срочно вызовите аварийную службу!'}`,
+            options: scenario?.options || [{ label: 'Вызвать аварийную службу', value: 'emergency_phones' }],
+            scenarioStep: `emergency_${emergency.type}_start`
+          };
+        } else {
+          // Другие конкретные типы (gas, electricity, etc.)
+          const scenario = chatScenarios[`emergency_${emergency.type}_start`];
+          botMessage = {
+            id: Date.now() + 1,
+            type: 'bot',
+            text: `${emergency.title}\n\n${scenario?.text || 'Срочно вызовите аварийную службу!'}`,
+            options: scenario?.options || [{ label: 'Вызвать аварийную службу', value: 'emergency_phones' }],
+            scenarioStep: `emergency_${emergency.type}_start`
+          };
+        }
       } else {
+        // Не авария — обычный ответ
         const response = getBotResponse('default');
         botMessage = {
           id: Date.now() + 1,

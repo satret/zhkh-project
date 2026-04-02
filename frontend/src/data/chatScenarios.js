@@ -5,38 +5,38 @@ export const chatScenarios = {
   start: {
     text: 'Привет! Я ИИ-консультант по вопросам ЖКХ. Чем могу помочь?',
     options: [
-      { label: 'Проверить начисления', value: 'check' },
+      { label: 'Проверить начисления', value: 'check'},
       { label: 'Подать жалобу', value: 'complaint' },
       { label: 'Задать вопрос', value: 'question' },
     ]
   },
   
   check: {
-    text: 'Выберите тип услуги для проверки:',
-    options: [
-      { label: 'Отопление', value: 'heating' },
-      { label: 'Вода', value: 'water' },
-      { label: 'Электричество', value: 'electricity' },
-      { label: 'Назад', value: 'start' },
-    ]
+    text: 'Перевожу вас в раздел Проверки начислений.',
+    redirect: {
+      page: 'calculator'
+    }
   },
   
   complaint: {
     text: 'Что случилось? Опишите проблему:',
     options: [
-      { label: 'Нет ремонта в подъезде', value: 'repair' },
-      { label: 'Завышенные счета', value: 'bills' },
+      { label: 'Нет ремонта в подъезде', value: 'in_construction' },
+      { label: 'Завышенные счета', value: 'in_construction' },
       { label: 'Назад', value: 'start' },
     ]
   },
   
   question: {
-    text: 'Задайте ваш вопрос, я помогу!',
+    text: 'Задайте ваш вопрос, я помогу!\n\nТакже можете посмотреть на частые вопросы пользователей и ответы на них. Кто знает, может быть на ваш вопрос уже ответили.',
     options: [
-      { label: 'Как передать показания?', value: 'meters' },
-      { label: 'Как сделать перерасчёт?', value: 'recalc' },
+      { label: 'Как передать показания?', value: 'in_construction' },
+      { label: 'Как сделать перерасчёт?', value: 'in_construction' },
       { label: 'Назад', value: 'start' },
-    ]
+    ],
+    redirect: {
+      page: 'faq'
+    }
   },
   
   default: {
@@ -46,7 +46,26 @@ export const chatScenarios = {
     ]
   },
 
-  // ========== СЦЕНАРИЙ ЗАТОПЛЕНИЯ ==========
+  in_construction: {
+    text: 'Данный раздел находится в разработке',
+    options: [
+      { label: 'В главное меню', value: 'start' },
+    ]
+  },
+
+  // ========== АВАРИЙНЫЕ СЦЕНАРИИ ==========
+
+  emergency_type_select: {
+    text: 'Что случилось? Выберите тип аварии:',
+    options: [
+      { label: 'Протечка воды', value: 'emergency_water_start' },
+      { label: 'Утечка газа', value: 'in_construction' },
+      { label: 'Нет электричества', value: 'in_construction' },
+      { label: 'Нет отопления', value: 'in_construction' },
+      { label: 'Проблема с лифтом', value: 'in_construction' },
+      { label: 'Проблема с канализацией', value: 'in_construction' },
+    ]
+  },
   
   emergency_water_start: {
     text: 'Это аварийная ситуация! Срочные действия:\n\n1. Перекройте воду (кран в ванной/туалете или вводной кран в квартире)\n2. Вызовите аварийную службу УК\n3. Уведомите соседей снизу о возможном затоплении',
@@ -102,10 +121,7 @@ export const chatScenarios = {
     text: 'Зафиксируйте последствия затопления:\n\n1. Составьте акт о заливе (с представителем УК)\n2. Сделайте фото и видео повреждений\n3. Сохраните чеки на ремонт и оценку ущерба\n4. Зафиксируйте дату и время аварии',
     options: [
       { label: 'Перейти к формированию документов', value: 'emergency_water_redirect_docs' },
-    ],
-    redirect: {
-      page: 'documents'
-    }
+    ]
   },
   
   emergency_water_redirect_docs: {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/pages.css';
 
 export default function FAQ() {
-  const [expandedCategory, setExpandedCategory] = useState('charges');
+  const [expandedCategory, setExpandedCategory] = useState(null);
   const [expandedItems, setExpandedItems] = useState({});
 
   const toggleItem = (id) => {
