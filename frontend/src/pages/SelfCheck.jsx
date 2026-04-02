@@ -96,7 +96,7 @@ export default function SelfCheck() {
           title: 'Составить исковое заявление',
           tip: '',
           link: '',
-          linkText: 'Перейти в раздел формирование документов',
+          linkText: '',
           importance: 'high'
         }
       ]
