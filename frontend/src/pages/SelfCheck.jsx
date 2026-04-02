@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import '../styles/pages.css';
+import '../styles/selfcheck.css';
 
 export default function SelfCheck() {
-  const [selectedCategory, setSelectedCategory] = useState('general');
+  const [selectedCategory, setSelectedCategory] = useState('fix');
   const [checkedItems, setCheckedItems] = useState({});
 
   const toggleCheck = (id) => {
@@ -12,280 +12,419 @@ export default function SelfCheck() {
     }));
   };
 
-  const checklistCategories = [
+ const checklistCategories = [
     {
-      id: 'general',
-      name: 'Общие требования к документам',
+      id: 'fix',
+      name: 'Фиксация нарушений',
       items: [
         {
-          id: 'g1',
-          title: 'Все ФИО указаны полностью',
-          tip: 'Используйте данные из паспорта, без сокращений',
+          id: 'f1',
+          title: 'Заявка в УК',
+          tip: 'Зарегистрируйте заявку в аварийно-диспетчерской службе',
+          link: '',
+          linkText: '',
           importance: 'high'
         },
         {
-          id: 'g2',
-          title: 'Адрес дома совпадает с паспортом и лицевым счётом',
-          tip: 'Даже малейшие расхождения могут привести к отказу',
+          id: 'f2',
+          title: 'Акт осмотра',
+          tip: 'Укажите адрес, дату, время, суть проблемы (например, «протечка крыши», «нет горячей воды 5 дней»), соберите подписи свидетелей.',
+          link: '',
+          linkText: '',
           importance: 'high'
         },
         {
-          id: 'g3',
-          title: 'Указаны номер квартиры и лицевого счета',
-          tip: 'Найдите в квитанции ЖКХ',
-          importance: 'high'
-        },
-        {
-          id: 'g4',
-          title: 'Контактный телефон и e-mail (если требуется)',
-          tip: 'Позволит суду связаться с вами при необходимости',
+          id: 'f3',
+          title: 'Фото и видео подтверждения',
+          tip: 'Если есть',
+          link: '',
+          linkText: '',
           importance: 'medium'
         },
         {
-          id: 'g5',
-          title: 'Документы напечатаны на бумаге формата А4',
-          tip: 'Нестандартные форматы могут не приняться в суде',
+          id: 'f4',
+          title: 'Чеки',
+          tip: 'Если были расходы',
+          link: '',
+          linkText: '',
           importance: 'medium'
-        },
+        }
+      ]
+    },
+    {
+      id: 'choice_of_court',
+      name: 'Определение суда, в который необходимо обратиться',
+      items: [
         {
-          id: 'g6',
-          title: 'Все документы оригиналы или заверенные копии',
-          tip: 'Ксерокопии нужно заверить у нотариуса',
+          id: 'coc1',
+          title: 'Определите суд, в который будете обращаться',
+          tip: 'Иск подается по месту нахождения ответчика или по месту жительства истца',
+          link: 'https://податьвсуд.рф/справочник-судов/дагестан/районные',
+          linkText: 'Определить свой суд можно по ссылке',
           importance: 'high'
         }
       ]
     },
     {
-      id: 'claims',
-      name: 'Исковое заявление',
+      id: 'pre-trial_claim',
+      name: 'Досудебная претензия',
+      items: [
+        {
+          id: 'ptc1',
+          title: 'Составить претензию',
+          tip: 'Укажите требования и срок для ответа (обычно 10-30 дней)',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        },
+        {
+          id: 'ptc2',
+          title: 'Отправить заказным письмом',
+          tip: 'Сохраните квитанцию и опись вложения',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        }
+      ]
+    },
+    {
+      id: 'claim',
+      name: 'Иск',
       items: [
         {
           id: 'c1',
-          title: 'Четко определены требования (конкретная сумма)',
-          tip: 'Суд не может присудить больше, чем вы просите',
-          importance: 'high'
-        },
-        {
-          id: 'c2',
-          title: 'Указаны обстоятельства нарушения',
-          tip: 'Кто, что, когда, где и почему нарушил закон',
-          importance: 'high'
-        },
-        {
-          id: 'c3',
-          title: 'Приложены ссылки на законы и нормативные акты',
-          tip: 'Жилищный кодекс РФ, ПП №354, ПП №290 и др.',
-          importance: 'high'
-        },
-        {
-          id: 'c4',
-          title: 'Все доказательства перечислены и приложены',
-          tip: 'Квитанции, акты, переписка, фотографии, экспертизы',
-          importance: 'high'
-        },
-        {
-          id: 'c5',
-          title: 'Указана неправомерность действий ответчика',
-          tip: 'Покажите, какой закон нарушила УК',
-          importance: 'high'
-        },
-        {
-          id: 'c6',
-          title: 'Указано расчетное обоснование суммы',
-          tip: 'Как вы пришли к этой цифре (документооборот, расчеты)',
+          title: 'Составить исковое заявление',
+          tip: '',
+          link: '',
+          linkText: '',
           importance: 'high'
         }
       ]
     },
     {
-      id: 'evidence',
-      name: 'Доказательства',
+      id: 'duty',
+      name: 'Госпошлина',
       items: [
         {
-          id: 'e1',
-          title: 'Квитанции об оплате за 12 месяцев',
-          tip: 'Подтверждают, что вы добросовестно платили',
-          importance: 'high'
-        },
-        {
-          id: 'e2',
-          title: 'Акты о выявленных дефектах / нарушениях',
-          tip: 'Составлены в присутствии представителя УК и соседей',
-          importance: 'high'
-        },
-        {
-          id: 'e3',
-          title: 'Переписка с УК (письма, SMS, e-mail)',
-          tip: 'Все обращения с датами и ответами',
-          importance: 'high'
-        },
-        {
-          id: 'e4',
-          title: 'Фотографии и видео нарушений',
-          tip: 'С датой съемки, видно масштаб проблемы',
-          importance: 'medium'
-        },
-        {
-          id: 'e5',
-          title: 'Справки из организаций (МЖД, МУП, соседей)',
-          tip: 'Подтверждающие факты нарушений или убытков',
-          importance: 'high'
-        },
-        {
-          id: 'e6',
-          title: 'Независимая экспертиза (если требуется)',
-          tip: 'При материальном ущербе или качественных нарушениях',
-          importance: 'medium'
-        },
-        {
-          id: 'e7',
-          title: 'Выписка из протокола общего собрания',
-          tip: 'Если решение собрания является основанием требования',
+          id: 'd1',
+          title: 'Рассчитайте госпошлину',
+          tip: '',
+          link: 'https://calc.consultant.ru/gosposhlina-soj',
+          linkText: 'Рассчитать госпошлину на сайте Консультант+',
           importance: 'medium'
         }
       ]
     },
-    {
-      id: 'pretension',
-      name: 'Претензия (досудебное урегулирование)',
-      items: [
-        {
-          id: 'p1',
-          title: 'Претензия отправлена ДО подачи в суд',
-          tip: 'Это обязательный этап для большинства споров',
-          importance: 'high'
-        },
-        {
-          id: 'p2',
-          title: 'Претензия отправлена заказным письмом',
-          tip: 'Простое письмо не будет принято в суде как доказательство',
-          importance: 'high'
-        },
-        {
-          id: 'p3',
-          title: 'Получена расписка о получении претензии',
-          tip: 'Или ответ от компании (согласие/отказ)',
-          importance: 'high'
-        },
-        {
-          id: 'p4',
-          title: 'Задана конкретная сумма требований',
-          tip: 'С расчетом и ссылками на документы',
-          importance: 'high'
-        },
-        {
-          id: 'p5',
-          title: 'Установлен срок ответа (7-14 дней)',
-          tip: 'Суд может отказать в иске, если сроки не соблюдены',
-          importance: 'high'
-        }
-      ]
-    },
-    {
-      id: 'procedure',
-      name: 'Процедурные требования',
-      items: [
-        {
-          id: 'pr1',
-          title: 'Известен правильный суд (мировой или районный)',
-          tip: 'До 100 000 ₽ — мировой судья, свыше — районный суд',
-          importance: 'high'
-        },
-        {
-          id: 'pr2',
-          title: 'Установлена подсудность (по адресу ответчика)',
-          tip: 'Чаще всего это Киров, если УК там зарегистрирована',
-          importance: 'high'
-        },
-        {
-          id: 'pr3',
-          title: 'Рассчитана судебная пошлина',
-          tip: 'Зависит от суммы иска. Можно потребовать компенсацию',
-          importance: 'medium'
-        },
-        {
-          id: 'pr4',
-          title: 'Иск подан в трёх экземплярах',
-          tip: 'Один суду, два — ответчику и истцу',
-          importance: 'high'
-        },
-        {
-          id: 'pr5',
-          title: 'Есть номер телефона и адрес ответчика',
-          tip: 'Для надлежащего вручения документов',
-          importance: 'high'
-        }
-      ]
-    },
-    {
-      id: 'special',
-      name: 'Специальные требования',
-      items: [
-        {
-          id: 's1',
-          title: 'При требовании перерасчета ЖКУ: все подтверждающие акты',
-          tip: 'Акты о нарушении температурного режима, водоснабжения и т.д.',
-          importance: 'high'
-        },
-        {
-          id: 's2',
-          title: 'При залитии: справка о размере убытков',
-          tip: 'От соседей о согласии на компенсацию или независимая экспертиза',
-          importance: 'high'
-        },
-        {
-          id: 's3',
-          title: 'При нарушении качества услуг: справки МУП',
-          tip: 'Подтверждающие нарушение стандартов (температура, давление и т.д.)',
-          importance: 'medium'
-        },
-        {
-          id: 's4',
-          title: 'При требовании компенсации морального вреда: доказательства страданий',
-          tip: 'Справки из больницы, психолога, свидетельства очевидцев',
-          importance: 'medium'
-        }
-      ]
-    }
   ];
 
+  // Получаем все пункты из всех категорий для общего чек-листа
+  const getAllItems = () => {
+    const allItems = [];
+    checklistCategories.forEach(category => {
+      category.items.forEach(item => {
+        allItems.push({
+          ...item,
+          categoryName: category.name,
+          categoryId: category.id
+        });
+      });
+    });
+    return allItems;
+  };
+
+  const allItems = getAllItems();
+  const totalAllItems = allItems.length;
+  const checkedAllCount = allItems.filter(item => checkedItems[item.id]).length;
+  const totalAllPercent = totalAllItems > 0 ? Math.round((checkedAllCount / totalAllItems) * 100) : 0;
+
+ // Функция экспорта общего чек-листа в Word
+  const downloadFullChecklistAsWord = () => {
+    const currentDate = new Date().toLocaleDateString('ru-RU');
+    
+    // Группируем пункты по категориям для экспорта
+    let categoriesHtml = '';
+    checklistCategories.forEach(category => {
+      const categoryItems = category.items;
+      const categoryCheckedCount = categoryItems.filter(item => checkedItems[item.id]).length;
+      const categoryTotalCount = categoryItems.length;
+      const categoryPercent = categoryTotalCount > 0 ? Math.round((categoryCheckedCount / categoryTotalCount) * 100) : 0;
+      
+      let itemsHtml = '';
+      categoryItems.forEach(item => {
+        const isChecked = checkedItems[item.id] || false;
+        const importanceText = item.importance === 'high' ? 'Критично' : (item.importance === 'medium' ? 'Важно' : 'Обычно');
+        
+        itemsHtml += `
+          <div style="margin-bottom: 15px; padding: 8px; border-left: 3px solid ${isChecked ? '#4CAF50' : '#FF9800'}; background: ${isChecked ? '#f9fff9' : '#fff'};">
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+              <span style="font-size: 16px; margin-right: 8px;">${isChecked ? '✅' : '⬜'}</span>
+              <strong style="font-size: 13px;">${item.title}</strong>
+              <span style="margin-left: 8px; font-size: 11px; ">${importanceText}</span>
+            </div>
+            ${item.tip ? `<div style="margin-left: 24px; font-size: 11px; font-style: italic;">${item.tip}</div>` : ''}
+            ${item.link ? `<div style="margin-left: 24px; font-size: 11px; margin-top: 4px;">🔗 <a href="${item.link}" style="color: #2c7da0;">${item.linkText || 'Ссылка'}</a></div>` : ''}
+          </div>
+        `;
+      });
+      
+      categoriesHtml += `
+        <div style="margin-bottom: 30px;">
+          <div style="background: #f0f0f0; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+            <h3 style="margin: 0;">${category.name}</h3>
+            <div style="font-size: 12px; margin-top: 5px;">
+              Выполнено: ${categoryCheckedCount} из ${categoryTotalCount} (${categoryPercent}%)
+            </div>
+          </div>
+          ${itemsHtml}
+        </div>
+      `;
+    });
+    
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Полный чек-лист подготовки к суду</title>
+        <style>
+          body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            margin: 40px;
+            line-height: 1.4;
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+          }
+          h1 {
+            margin-bottom: 10px;
+          }
+          .meta {
+            color: #666;
+            font-size: 12px;
+          }
+          .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+          }
+          a {
+            color: #2c7da0;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Полный чек-лист подготовки к суду</h1>
+          <div class="meta">Дата создания: ${currentDate}</div>
+        </div>
+
+        ${categoriesHtml}
+        
+        <div class="footer">
+          Сгенерировано в разделе самопроверки системы ЖКХ помощник<br>
+          * Отмеченные ✅ пункты уже выполнены<br>
+        </div>
+      </body>
+      </html>
+    `;
+    
+    const blob = new Blob([htmlContent], { type: 'application/msword' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    const fileName = `Полный_чеклист_подготовки_к_суду_${currentDate}.doc`;
+    
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Функция экспорта текущего раздела в Word
+  const downloadChecklistAsWord = () => {
+    const currentCategory = checklistCategories.find(c => c.id === selectedCategory);
+    const currentItemIds = currentCategory?.items.map(item => item.id) || [];
+    const checkedCountInCurrent = currentItemIds.filter(id => checkedItems[id]).length;
+    const totalCount = currentCategory?.items.length || 0;
+    const completionPercent = totalCount > 0 ? Math.round((checkedCountInCurrent / totalCount) * 100) : 0;
+    
+    const currentDate = new Date().toLocaleDateString('ru-RU');
+    
+    let itemsHtml = '';
+    currentCategory?.items.forEach(item => {
+      const isChecked = checkedItems[item.id] || false;
+      const importanceText = item.importance === 'high' ? 'Критично' : (item.importance === 'medium' ? 'Важно' : 'Обычно');
+      
+      itemsHtml += `
+        <div style="margin-bottom: 20px; padding: 10px; border-left: 4px solid ${isChecked ? '#4CAF50' : '#FF9800'}; background: ${isChecked ? '#f0f8f0' : '#fff'};">
+          <div style="display: flex; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 18px; margin-right: 10px;">${isChecked ? '✅' : '⬜'}</span>
+            <strong style="font-size: 14px;">${item.title}</strong>
+            <span style="margin-left: 10px; font-size: 12px;">${importanceText}</span>
+          </div>
+          ${item.tip ? `<div style="margin-left: 28px; font-size: 12px;font-style: italic;">${item.tip}</div>` : ''}
+          ${item.link ? `<div style="margin-left: 28px; font-size: 12px; margin-top: 5px;"> <a href="${item.link}" style="color: #2c7da0;">${item.linkText || 'Ссылка'}</a></div>` : ''}
+        </div>
+      `;
+    });
+    
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Чек-лист: ${currentCategory?.name}</title>
+        <style>
+          body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            margin: 40px;
+            line-height: 1.5;
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+          }
+          h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+          }
+          .meta {
+            color: #666;
+            font-size: 12px;
+          }
+          .status {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+          }
+          .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+          }
+          a {
+            color: #2c7da0;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Чек-лист: ${currentCategory?.name}</h1>
+          <div class="meta">Дата создания: ${currentDate}</div>
+        </div>
+               
+        <h2>Список задач:</h2>
+        ${itemsHtml}
+        
+        <div class="footer">
+          Сгенерировано в разделе самопроверки системы ЖКХ помощник<br>
+          * Отмеченные ✅ пункты уже выполнены
+        </div>
+      </body>
+      </html>
+    `;
+    
+    const blob = new Blob([htmlContent], { type: 'application/msword' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    const fileName = `Чеклист_${currentCategory?.name.replace(/[^а-яА-Яa-zA-Z0-9]/g, '_')}_${currentDate}.doc`;
+    
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+
   const currentCategory = checklistCategories.find(c => c.id === selectedCategory);
-  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
   const totalCount = currentCategory?.items.length || 0;
-  const completionPercent = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+  const currentItemIds = currentCategory?.items.map(item => item.id) || [];
+  const checkedCountInCurrent = currentItemIds.filter(id => checkedItems[id]).length;
+  const completionPercent = totalCount > 0 ? Math.round((checkedCountInCurrent / totalCount) * 100) : 0;
 
   return (
     <section className="page-section">
       <div className="section-inner">
         <div className="page-header">
-          <h1>Самопроверка перед судом</h1>
-          <p className="page-subtitle">Проверьте, правильно ли заполнены все документы и собраны ли доказательства</p>
+          <div>
+            <div>
+              <h1>Самопроверка</h1>
+              <p className="page-subtitle">Проверьте готовность документов перед подачей в суд</p>
+            </div>
+          </div>
         </div>
+
+        {/* Общий прогресс по всем разделам */}
+          <div className="total-progress-wrapper">
+            <div className="total-progress">
+              <h3>Общий прогресс по всем разделам</h3>
+              <div className="total-progress-percent">{totalAllPercent}%</div>
+              <div className="total-progress-text">
+                Выполнено {checkedAllCount} из {totalAllItems} пунктов
+              </div>
+              <button 
+              onClick={downloadFullChecklistAsWord}
+              className="download-full-btn"
+            >
+              Скачать полный чек-лист (Word)
+            </button>
+            </div>
+          </div>
 
         <div className="selfcheck-container">
           <div className="check-nav">
             <h3>Категории проверки</h3>
             <div className="check-nav-buttons">
-              {checklistCategories.map(cat => (
-                <button
-                  key={cat.id}
-                  className={`check-nav-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(cat.id)}
-                >
-                  <span className="nav-icon">{cat.icon}</span>
-                  <span className="nav-text">{cat.name}</span>
-                </button>
-              ))}
+              {checklistCategories.map(cat => {
+                const catItems = cat.items;
+                const catChecked = catItems.filter(item => checkedItems[item.id]).length;
+                const catPercent = catItems.length > 0 ? Math.round((catChecked / catItems.length) * 100) : 0;
+                
+                return (
+                  <button
+                    key={cat.id}
+                    className={`check-nav-btn ${selectedCategory === cat.id ? 'active' : ''}`}
+                    onClick={() => setSelectedCategory(cat.id)}
+                  >
+                    <span className="nav-text">{cat.name}</span>
+                    <span className="nav-percent">{catPercent}%</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           <div className="check-content">
             <div className="check-header">
-              <h2>{currentCategory?.name}</h2>
+              <div className="header-actions">
+                <h2>{currentCategory?.name}</h2>
+                <button 
+                  onClick={downloadChecklistAsWord}
+                  className="download-section-btn"
+                >
+                  Скачать чек-лист (Word)
+                </button>
+              </div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{ width: `${completionPercent}%` }}></div>
               </div>
-              <p className="progress-text">{checkedCount} из {totalCount} пунктов ({completionPercent}%)</p>
+              <p className="progress-text">{checkedCountInCurrent} из {totalCount} пунктов ({completionPercent}%)</p>
             </div>
 
             <div className="checklist">
@@ -306,43 +445,25 @@ export default function SelfCheck() {
                       <strong>{item.title}</strong>
                       {item.importance === 'high' && <span className="importance-badge">Критично</span>}
                       {item.importance === 'medium' && <span className="importance-badge">Важно</span>}
-                      <div className="check-tip">{item.tip}</div>
+                      <div className="check-tip">
+                        {item.tip}
+                        {item.link && (
+                          <div className="check-link">
+                            <a 
+                              href={item.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                            >
+                              {item.linkText || 'Открыть ссылку'}
+                            </a>
+                          </div>
+                        )}
+                      </div>
                     </span>
                   </label>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-
-        <div className="selfcheck-footer">
-          {completionPercent === 100 ? (
-            <div className="success-message">
-              <h3>Отлично! Документы готовы к подаче в суд</h3>
-              <p>Все пункты проверки пройдены. Ваш иск имеет хорошие шансы на успех.</p>
-              <p className="small-text">Помните: судья оценивает не только документы, но и их содержание. Будьте готовы ответить на уточняющие вопросы.</p>
-            </div>
-          ) : completionPercent >= 70 ? (
-            <div className="warning-message">
-              <h3>Почти готово</h3>
-              <p>Заполните оставшиеся пункты для полноты документов.</p>
-            </div>
-          ) : (
-            <div className="alert-message">
-              <h3>Требуется внимание</h3>
-              <p>Заполните все пункты перед подачей в суд. Неполные документы могут привести к отказу.</p>
-            </div>
-          )}
-
-          <div className="footer-tips">
-            <h4>💡 Дополнительные советы:</h4>
-            <ul>
-              <li>Судебная пошлина для физических лиц по гражданским делам: 3% от суммы иска, но не менее 100 и не более 15 000 ₽</li>
-              <li>Срок исковой давности: 3 года с момента нарушения прав</li>
-              <li>Если вы выиграете дело, можете требовать компенсацию судебных издержек</li>
-              <li>При наличии инвалидности или статуса малоимущего можно просить льготу на пошлину</li>
-              <li>Все документы нужно подавать в оригинале или нотариально заверенных копиях</li>
-            </ul>
           </div>
         </div>
       </div>

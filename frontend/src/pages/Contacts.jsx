@@ -45,101 +45,92 @@ export default function Contacts({ subsection }) {
     makhachkala: [
       { 
         name: 'Госжилинспекция РД', 
-        coords: [42.9849, 47.5046], 
-        address: 'ул. Даниялова, 35', 
-        phone: '+7 (8722) 67-09-52',
+        coords: [42.9652993412733, 47.49615429447747], 
+        address: 'пр.И.Шамиля,58', 
+        phone: '+7 (8722) 517318',
         email: 'gji_rd@e-dag.ru',
-        workHours: 'Пн-Чт: 9:00-18:00, Пт: 9:00-17:00',
+        workHours: 'Пн-Пт: 9:00-18:00',
         color: '#1D9E75'
       },
       { 
         name: 'Фонд капремонта РД', 
-        coords: [42.9823, 47.5123], 
-        address: 'ул. Гагарина, 120', 
-        phone: '+7 (8722) 55-55-30',
+        coords: [42.96108609905954, 47.49216972515221], 
+        address: 'ул. Ярагского, 124', 
+        phone: '+7 (872) 255-53-16',
         email: 'info@fkr-rd.ru',
-        workHours: 'Пн-Пт: 9:00-18:00',
+        workHours: 'Пн-Чт: 9:00-18:00 Пт: 9:00-17:00',
         color: '#E8A020'
       },
       { 
         name: 'Дагестанская энергосбытовая компания', 
-        coords: [42.9867, 47.5089], 
-        address: 'ул. Даниялова, 85', 
-        phone: '+7 (8722) 55-60-00',
+        coords: [42.97415041851924, 47.4996444693332], 
+        address: 'ул. Дахадаева, д.73', 
+        phone: '+7 (8722) 67-87-51',
         email: 'info@dagenergo.ru',
         workHours: 'Пн-Пт: 8:30-17:30',
         color: '#2563EB'
       },
       { 
         name: 'ГУП "Дагводоканал"', 
-        coords: [42.9812, 47.4998], 
-        address: 'ул. Аскерханова, 3', 
-        phone: '+7 (8722) 56-37-94',
+        coords: [42.95514335113276, 47.50762586562732], 
+        address: 'пр. Гамидова, 69 б', 
+        phone: '+7 (8722) 67-02-01',
         email: 'dagvodokanal@mail.ru',
         workHours: 'Пн-Пт: 8:00-17:00',
         color: '#1D9E75'
       },
       { 
         name: 'Газпром межрегионгаз Махачкала', 
-        coords: [42.9884, 47.5156], 
-        address: 'ул. Ирчи Казака, 29', 
-        phone: '+7 (8722) 68-85-05',
+        coords: [42.97225345721194, 47.49111189999951], 
+        address: 'пр. Имама Шамиля, 50', 
+        phone: '+7 (8722) 561832',
         email: 'dagestan@mezhregiongaz.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#D85A30'
       },
       { 
         name: 'Прокуратура РД', 
-        coords: [42.9912, 47.5023], 
-        address: 'пр. Р. Гамзатова, 70', 
-        phone: '+7 (8722) 67-09-90',
+        coords: [42.996577199803404, 47.4509623487527], 
+        address: 'ул. Керимова, 7', 
+        phone: '+7 9640110161',
         email: 'procrd@mail.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#2563EB'
       },
       { 
         name: 'Минстрой РД', 
-        coords: [42.9834, 47.5067], 
-        address: 'пр. И. Шамиля, 54', 
-        phone: '+7 (8722) 67-07-27',
+        coords: [42.96535762814829, 47.49616836748029], 
+        address: 'пр. И. Шамиля, 58', 
+        phone: '+7 8722623469',
         email: 'minstroy@e-dag.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#E8A020'
       },
       { 
-        name: 'ООО "УК ЖилКомСервис"', 
-        coords: [42.9815, 47.5082], 
-        address: 'пр. Имама Шамиля, 45', 
-        phone: '+7 (8722) 67-89-01',
+        name: 'ООО "УК Прогресс"', 
+        coords: [42.96779089844094, 47.50017016796792], 
+        address: 'ул. Ирчи Казака, 21', 
+        phone: '+7 8004445205',
         email: 'info@zhilkom-rd.ru',
         workHours: 'Пн-Пт: 8:30-17:30',
-        color: '#D85A30'
-      },
-      { 
-        name: 'ООО "УК Центр"', 
-        coords: [42.9843, 47.5117], 
-        address: 'ул. Ярагского, 78', 
-        phone: '+7 (8722) 93-45-67',
-        email: 'uk.center@mail.ru',
-        workHours: 'Пн-Пт: 9:00-18:00',
         color: '#D85A30'
       }
     ],
     kaspiysk: [
       { 
         name: 'Администрация Каспийска', 
-        coords: [42.8917, 47.6367], 
-        address: 'ул. Ленина, 42', 
-        phone: '+7 (87246) 5-12-34',
+        coords: [42.88959228794293, 47.63356606562388], 
+        address: 'ул. Орджоникидзе, 12', 
+        phone: '+7 722682728',
         email: 'adm_kaspiysk@mail.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#1D9E75'
       },
       { 
-        name: 'ООО "ЖилУправление"', 
-        coords: [42.8893, 47.6331], 
-        address: 'ул. Ленина, 23', 
-        phone: '+7 (87246) 5-12-34',
+        name: 'ООО "УК Жилсервис"', 
+        coords: [42.88805108913665, 47.6423207404238], 
+        address: 'ул. Ленина, 18', 
+        phone: '+7 9637916528',
         email: 'zhiluprav@yandex.ru',
         workHours: 'Пн-Пт: 8:00-17:00',
         color: '#D85A30'
@@ -148,18 +139,18 @@ export default function Contacts({ subsection }) {
     derbent: [
       { 
         name: 'Администрация Дербента', 
-        coords: [42.0579, 48.2889], 
-        address: 'ул. 345-й Дагестанской дивизии, 12', 
-        phone: '+7 (87240) 4-11-22',
+        coords: [42.05920175657587, 48.2889588610066], 
+        address: 'пл. Свободы, 2', 
+        phone: '+7 8724046075',
         email: 'derbent@e-dag.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#1D9E75'
       },
       { 
-        name: 'ООО "УК Дербент"', 
-        coords: [42.0554, 48.2856], 
-        address: 'ул. Буйнакского, 15', 
-        phone: '+7 (87240) 4-11-22',
+        name: 'ООО "Первая Управляющая Компания"', 
+        coords: [42.06530950328426, 48.3008781296386], 
+        address: 'ул. Гейдара Алиева, 8', 
+        phone: '+7 9604107237',
         email: 'uk-derbent@mail.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
         color: '#D85A30'
@@ -179,8 +170,8 @@ export default function Contacts({ subsection }) {
     izberbash: [
       { 
         name: 'Администрация Избербаша', 
-        coords: [42.5639, 47.8604], 
-        address: 'ул. Буйнакского, 45', 
+        coords: [42.55967627633034, 47.874348103704094], 
+        address: 'ул. Гамидова, 12а', 
         phone: '+7 (87245) 2-12-34',
         email: 'izberbash@e-dag.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
@@ -190,8 +181,8 @@ export default function Contacts({ subsection }) {
     buynaksk: [
       { 
         name: 'Администрация Буйнакска', 
-        coords: [42.8219, 47.1168], 
-        address: 'ул. Ленина, 12', 
+        coords: [42.844004361184865, 47.11938519559617], 
+        address: 'ул. Ленина, 9', 
         phone: '+7 (87237) 2-12-34',
         email: 'buynaksk@e-dag.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
@@ -200,9 +191,9 @@ export default function Contacts({ subsection }) {
     ],
     khasavyurt: [
       { 
-        name: 'Администрация Хасавюрта', 
-        coords: [43.2505, 46.5867], 
-        address: 'ул. Грозненская, 12', 
+        name: 'Администрация Хасавюртского района', 
+        coords: [43.25393597793626, 46.579544549592946], 
+        address: 'пер. Спортивный, 1', 
         phone: '+7 (87231) 2-12-34',
         email: 'khasavyurt@e-dag.ru',
         workHours: 'Пн-Пт: 9:00-18:00',
