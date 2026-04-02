@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { chatScenarios } from '../data/chatScenarios';
 import { detectEmergency } from '../data/emergencyKeywords';
+import { detectProblem } from '../data/problemKeywords';
 import '../styles/chat-assistant.css';
 
 export default function ChatAssistant({ 
@@ -95,6 +96,7 @@ useEffect(() => {
     setShowOptions(false);
 
     const emergency = detectEmergency(input);
+    const problem = !emergency.isEmergency ? detectProblem(input) : { isProblem: false };
     
     setLoading(true);
     setTimeout(() => {
@@ -133,7 +135,23 @@ useEffect(() => {
             scenarioStep: `emergency_${emergency.type}_start`
           };
         }
-      } else {
+      }
+      else if (problem.isProblem) {
+      const scenario = chatScenarios[problem.scenario];
+      botMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        text: `${problem.title}\n\n${scenario?.text || 'Расскажите подробнее о вашей проблеме.'}`,
+        options: scenario?.options || [{ label: 'В главное меню', value: 'start' }],
+        scenarioStep: problem.scenario
+      };
+
+      // ВЫЗЫВАЕМ ПЕРЕНАПРАВЛЕНИЕ, ЕСЛИ ОНО ЕСТЬ
+      if (scenario?.redirect) {
+        handleRedirect(scenario.redirect);
+      }
+    } 
+      else {
         // Не авария — обычный ответ
         const response = getBotResponse('default');
         botMessage = {

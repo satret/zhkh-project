@@ -1,4 +1,3 @@
-// src/data/emergencyKeywords.js
 
 export const emergencyKeywords = {
   emergency: {
@@ -35,7 +34,7 @@ export const emergencyKeywords = {
     keywords: ['канализация', 'засор', 'унитаз', 'туалет', 'вода не уходит', 'нечистот', 'затопило'],
     title: 'Засор канализации',
     priority: 'medium'
-  }
+  },
 };
 
 export const detectEmergency = (text) => {

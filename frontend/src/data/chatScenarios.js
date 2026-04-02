@@ -162,4 +162,136 @@ export const chatScenarios = {
       { label: 'В главное меню', value: 'start' },
     ]
   },
+
+  // Сценарий: Большая платёжка
+  problem_large_bill_start: {
+    text: 'Вам пришла большая платёжка, хотя вы ждали сумму меньше.\n\nДавайте воспользуемся Калькулятором начислений, чтобы сравнить, какая сумма должна была придти.',
+    options: [
+      { label: 'Я получил ту же сумму, что и в квитанции.', value: 'problem_large_bill_ok' },
+      { label: 'Я получил сумму меньше', value: 'problem_large_bill_recalc' },
+    ],
+    redirect: {
+      page: 'calculator'
+    }
+  },
+  
+  problem_large_bill_ok: {
+    text: 'Калькулятор посчитал ту же сумму, значит сумма в квитанции правильная. Просто всё дорожает, как и услуги ЖКХ.',
+    options: [
+      { label: 'В главное меню', value: 'start' },
+    ]
+  },
+  
+  problem_large_bill_recalc: {
+    text: 'Давайте разберёмся с возможными причинами повышенной квитанции.\n\nВ вашей квартире установлены индивидуальные приборы учёта (счётчики) на газ, воду, электричество?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_readings' },
+      { label: 'Нет', value: 'problem_large_bill_no_counter' },
+    ]
+  },
+
+  problem_large_bill_no_counter: {
+    text: 'Составлен ли акт о технической невозможности установки счётчиков? Такой акт выдают, если установка прибора невозможна.',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_house' },
+      { label: 'Нет', value: 'problem_large_bill_no_counter_bill' },
+    ]
+  },
+
+  problem_large_bill_no_counter_bill: {
+    text: 'Если счётчики отсутствуют, то применяется повышающий коэффициент 1,5 к нормативу потребления. Это законно, но сумма дейсвительно может быть высокой.\n\nСоответствует ли рост расходов указанной информации?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_final' },
+      { label: 'Нет', value: 'problem_large_bill_appeal' },
+    ]
+  },
+  
+  problem_large_bill_readings: {
+    text: 'Передавали ли вы показания счётчиков?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_house' },
+      { label: 'Нет, менее 3 месяцев', value: 'problem_large_bill_less' },
+      { label: 'Нет, более 3 месяцев', value: 'problem_large_bill_more' },
+    ]
+  },
+
+  problem_large_bill_house: {
+    text: 'Выросли ли расходы на общедомовые нужды?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_appeal1' },
+      { label: 'Нет', value: 'problem_large_bill_appeal2' },
+    ]
+  },
+
+  problem_large_bill_appeal1: {
+    text: 'Возможно, УК распределила сверхнормативный ОДН. Это недопустимо без решения общего собрания собственников.\n\nСоветуем обратиться в УК с заявлением о проверке правильности начислений.\n\nЗаявление должно быть зарегестрировано в течение 3 рабочих дней, ответ УК обязана дать в течение 10 рабочих дней.\n\nЯ пересылаю вас в раздел Формирование документов, где можно заполнить шаблон обращения в УК.',
+    options: [
+      { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
+    ],
+    redirect: {
+      page: 'documents'
+    }
+  },
+
+  problem_large_bill_appeal2: {
+    text: 'Причина повышенной платёжки не является одной из частых.\n\nСоветуем обратиться в УК с заявлением о проверке правильности начислений.\n\nЗаявление должно быть зарегестрировано в течение 3 рабочих дней, ответ УК обязана дать в течение 10 рабочих дней.\n\nЯ пересылаю вас в раздел Формирование документов, где можно заполнить шаблон обращения в УК.',
+    options: [
+      { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
+    ],
+    redirect: {
+      page: 'documents'
+    }
+  },
+  
+  problem_large_bill_less: {
+    text: 'Начисления должны были осуществляться по среднемесячному расходу. Поэтому плата действительно могла возрасти.\n\nСоответствует ли рост расходов указанной информации?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_final' },
+      { label: 'Нет', value: 'problem_large_bill_appeal' },
+    ]
+  },
+
+  problem_large_bill_more: {
+    text: 'В течение 3 месяцев расчёт должен был производиться по среднемесячному расходу. С 3-го месяца - по нормативу. Поэтому плата действительно могла возрасти.\n\nСоответствует ли рост расходов указанной информации?',
+    options: [
+      { label: 'Да', value: 'problem_large_bill_final' },
+      { label: 'Нет', value: 'problem_large_bill_appeal' },
+    ]
+  },
+  
+  problem_large_bill_appeal: {
+    text: 'Советуем обратиться в УК с заявлением о проверке правильности начислений.\n\nЗаявление должно быть зарегестрировано в течение 3 рабочих дней, ответ УК обязана дать в течение 10 рабочих дней.\n\nЯ пересылаю вас в раздел Формирование документов, где можно заполнить шаблон обращения в УК.',
+    options: [
+      { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
+    ],
+    redirect: {
+      page: 'documents'
+    }
+  },
+
+  problem_large_bill_checklists: {
+    text: 'Перенаправляю вас в раздел Самопроверка. В этом разделе расписаны пукнты, которые необходимы для подачи обращения в УК. Проверьте, что вы выполнили все пукнты.',
+    options: [
+      { label: 'Всё готово, что дальше?', value: 'problem_large_bill_complete' },
+      { label: 'Мне нужно вернуться к документам', value: 'problem_large_bill_appeal' },
+    ],
+    redirect: {
+      page: 'selfcheck'
+    }
+  },
+
+  problem_large_bill_complete: {
+    text: 'Отлично! Теперь вы можете обратиться в управляющую компанию с пакетом документов для обжалования квитанции.',
+    redirect: {
+      page: 'contacts',
+      subsection: 'management-companies'
+    }
+  },
+  
+  problem_large_bill_final: {
+    text: 'Спасибо за обращение. Если появятся новые вопросы, мы с радостью на них ответим!',
+    options: [
+      { label: 'В главное меню', value: 'start' },
+    ]
+  },
 };
