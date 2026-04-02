@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/pages.css';
+import '../styles/regulation-docs.css';
 
 export default function RegulationDocs() {
   const [expandedGroups, setExpandedGroups] = useState({ federal: false });

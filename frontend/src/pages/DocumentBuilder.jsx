@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/pages.css';
+import '../styles/document-builder.css';
 
 import complaintData from '../docs_templates/complaint.json';
 import claimData from '../docs_templates/claim.json';
