@@ -350,3 +350,7 @@
 .doc-preview p {
     min-height: 1em;
 }
+
+.input-error { border-color: #ef4444 !important; background-color: #fef2f2; }
+.error-hint { color: #ef4444; font-size: 12px; margin-top: 4px; display: block; }
+.req { color: #ef4444; }
