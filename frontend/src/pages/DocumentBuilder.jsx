@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/document-builder.css';
 
+// Предполагаем, что json данные импортируются так же
 import complaintData from '../docs_templates/complaint.json';
 import claimData from '../docs_templates/claim.json';
 
@@ -11,9 +12,10 @@ export default function DocumentBuilder() {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [emptyFields, setEmptyFields] = useState([]);
-  const [showConfirmModal, setShowConfirmModal] = useState(false); // состояние для модального окна
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
+    // В реальности данные грузятся из файлов, здесь имитация
     const templates = {
       complaint: complaintData,
       claim: claimData
@@ -30,14 +32,16 @@ export default function DocumentBuilder() {
     const current = templates[selectedDoc];
     setCurrentTemplate(current);
 
+    // Инициализация пустых полей формы
     const initialFormData = {};
-    current.fields.forEach(field => {
-      initialFormData[field.name] = '';
-    });
+    if (current && current.fields) {
+      current.fields.forEach(field => {
+        initialFormData[field.name] = '';
+      });
+    }
     setFormData(initialFormData);
-
     setLoading(false);
-  }, []);
+  }, [selectedDoc]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,8 +49,10 @@ export default function DocumentBuilder() {
       ...prev,
       [name]: value
     }));
-    // при изменении полей очищаем предупреждение о пустых полях
-    setEmptyFields([]);
+    // Очищаем ошибки при вводе
+    if (emptyFields.length > 0) {
+      setEmptyFields([]);
+    }
   };
 
   const clearForm = () => {
@@ -59,82 +65,143 @@ export default function DocumentBuilder() {
     setShowConfirmModal(false);
   };
 
-  const getEmptyFields = () => {
+  const getEmptyRequiredFields = () => {
+    if (!currentTemplate || !currentTemplate.fields) return [];
     return currentTemplate.fields.filter(field => {
       if (!field.required) return false;
       return !formData[field.name] || formData[field.name].trim() === '';
     });
   };
 
-  // Проверка на заполнение всех обязательных полей
   const isAllRequiredFieldsFilled = () => {
-    const empty = getEmptyFields();
-    return empty.length === 0;
+    return getEmptyRequiredFields().length === 0;
   };
 
   const handleDownload = () => {
-    const empty = getEmptyFields();
+    const empty = getEmptyRequiredFields();
     setEmptyFields(empty);
 
     if (empty.length > 0) {
-      // Показываем модальное окно подтверждения
       setShowConfirmModal(true);
     } else {
-      // Все поля заполнены - скачиваем сразу
       exportToWord();
     }
   };
 
-  // Подтверждение скачивания с незаполненными полями
   const confirmDownload = () => {
     setShowConfirmModal(false);
     exportToWord();
   };
 
-  // Заполнение шаблона (blocks)
-  const fillTemplate = () => {
+  // --- ЛОГИКА ЗАПОЛНЕНИЯ ШАБЛОНА ---
+
+  // Функция для генерации текста заполнителя (для пустых полей)
+  const getPlaceholderText = (fieldLabel) => {
+    return `[ЗАПОЛНИТЬ: ${fieldLabel.toUpperCase()}]`;
+  };
+
+  // 1. Для отображения в браузере (с использованием React-компонентов для подсветки)
+  const fillTemplateForPreview = () => {
     if (!currentTemplate || !currentTemplate.blocks) return [];
 
-    return currentTemplate.blocks.map(block => {
-      let text = block.content;
+    return currentTemplate.blocks.map((block, blockIndex) => {
+      let content = block.content;
+      const parts = [];
+      let lastIndex = 0;
 
-      Object.keys(formData).forEach(key => {
-        const regex = new RegExp(`{{${key}}}`, 'g');
-        text = text.replace(regex, formData[key] || `[${key}]`);
-      });
+      // Регулярное выражение для поиска {{variable}}
+      const regex = /{{(.*?)}}/g;
+      let match;
+
+      while ((match = regex.exec(content)) !== null) {
+        // Добавляем текст ДО переменной
+        parts.push(content.substring(lastIndex, match.index));
+
+        const fieldName = match[1];
+        const value = formData[fieldName];
+        
+        // Находим лейбл поля для заполнителя
+        const fieldConfig = currentTemplate.fields.find(f => f.name === fieldName);
+        const fieldLabel = fieldConfig ? fieldConfig.label : fieldName;
+
+        if (value && value.trim() !== '') {
+          // Поле заполнено - вставляем текст
+          parts.push(<strong key={match.index}>{value}</strong>);
+        } else {
+          // Поле пустое - вставляем подсвеченный заполнитель
+          parts.push(
+            <mark key={match.index} className="doc-param-highlight">
+              {getPlaceholderText(fieldLabel)}
+            </mark>
+          );
+        }
+
+        lastIndex = regex.lastIndex;
+      }
+
+      // Добавляем оставшийся текст ПОСЛЕ последней переменной
+      parts.push(content.substring(lastIndex));
 
       return {
         type: block.type,
-        content: text
+        content: parts // Теперь здесь массив React-элементов и строк
       };
     });
   };
 
-  // Экспорт в Word
+  // 2. Для экспорта в Word (генерирует чистую HTML строку с CSS-подсветкой для Word)
+ const fillTemplateForWord = () => {
+    if (!currentTemplate || !currentTemplate.blocks) return '';
+
+    const wordHighlightStyle = 'background-color: yellow; mso-highlight: yellow;';
+
+    return currentTemplate.blocks.map(block => {
+      let blockContent = block.content;
+
+      // Регулярка ищет всё внутри {{ }}
+      const processedText = blockContent.replace(/{{(.*?)}}/g, (match, p1) => {
+        const placeholderName = p1.trim();
+        
+        // 1. Пытаемся найти конфиг поля по имени ИЛИ по лейблу
+        // Это спасет, если в шаблоне написали {{Дата начала проблемы}} вместо {{date_name}}
+        const fieldConfig = currentTemplate.fields.find(f => 
+          f.name === placeholderName || f.label === placeholderName
+        );
+
+        // 2. Определяем техническое имя для поиска в formData
+        const internalName = fieldConfig ? fieldConfig.name : placeholderName;
+        const value = formData[internalName];
+        
+        // 3. Определяем понятное имя для подсказки (label)
+        const displayLabel = fieldConfig ? fieldConfig.label : placeholderName;
+
+        if (value && String(value).trim() !== '') {
+          // ЕСЛИ ЗАПОЛНЕНО: возвращаем жирный текст без желтого фона
+          return `<b>${value}</b>`;
+        } else {
+          // ЕСЛИ ПУСТО: возвращаем желтую заливку
+          return `<span style="${wordHighlightStyle}">[ЗАПОЛНИТЬ: ${displayLabel.toUpperCase()}]</span>`;
+        }
+      });
+
+      const styles = currentTemplate.styles || {};
+      const blockStyle = styles[block.type] || styles.body || {};
+      const styleString = Object.entries(blockStyle)
+        .map(([k, v]) => `${k.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${v}`)
+        .join('; ');
+
+      return processedText.split('\n').map(line => {
+        return line.trim() === '' 
+          ? '<p style="margin:0;">&nbsp;</p>' 
+          : `<p style="${styleString}; margin:0;">${line}</p>`;
+      }).join('');
+    }).join('');
+  };
+
   const exportToWord = () => {
     if (!currentTemplate) return;
 
-    const contentBlocks = fillTemplate();
-    const styles = currentTemplate.styles || {};
-
-    const formatted = contentBlocks.map(block => {
-      const lines = block.content.split('\n');
-      const style = styles[block.type] || styles.body || {};
-
-      const styleString = Object.entries(style)
-        .map(([key, value]) => {
-          const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
-          return `${cssKey}: ${value}`;
-        })
-        .join('; ');
-
-      return lines.map(line => {
-        if (line.trim() === '') {
-          return '<p>&nbsp;</p>';
-        }
-        return `<p style="${styleString}">${line}</p>`;
-      }).join('');
-    }).join('');
+    const formattedContent = fillTemplateForWord();
 
     const wordHtml = `
       <!DOCTYPE html>
@@ -143,17 +210,13 @@ export default function DocumentBuilder() {
         <meta charset="UTF-8">
         <title>${currentTemplate.title}</title>
         <style>
-          body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 14pt;
-          }
-          p {
-            margin: 0;
-          }
+          body { font-family: 'Times New Roman', Times, serif; font-size: 14pt; line-height: 1.5; }
+          p { margin: 0; padding: 0; }
+          b { font-weight: bold; }
         </style>
       </head>
       <body>
-        ${formatted}
+        ${formattedContent}
       </body>
       </html>
     `;
@@ -171,33 +234,12 @@ export default function DocumentBuilder() {
 
   const changeDocument = (docId) => {
     setSelectedDoc(docId);
-
-    const templates = {
-      complaint: complaintData,
-      claim: claimData
-    };
-
-    const newTemplate = templates[docId];
-    setCurrentTemplate(newTemplate);
-
-    const newFormData = {};
-    newTemplate.fields.forEach(field => {
-      newFormData[field.name] = '';
-    });
-    setFormData(newFormData);
-    setEmptyFields([]);
-    setShowConfirmModal(false);
   };
 
-  if (loading) {
-    return <div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>;
-  }
+  if (loading) return <div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>;
+  if (!currentTemplate) return <div style={{ padding: '40px', textAlign: 'center' }}>Шаблон не найден</div>;
 
-  if (!currentTemplate) {
-    return <div style={{ padding: '40px', textAlign: 'center' }}>Нет шаблонов</div>;
-  }
-
-  const filledContent = fillTemplate();
+  const previewContent = fillTemplateForPreview();
   const styles = currentTemplate.styles || {};
   const allFieldsFilled = isAllRequiredFieldsFilled();
 
@@ -206,13 +248,11 @@ export default function DocumentBuilder() {
       <div className="section-inner">
         <div className="page-header">
           <h1>Формирование документов</h1>
-          <p>Заполните шаблон - система создаст готовый документ, который можно будет сохранить и распечатать</p>
-          <p>или скачайте шаблон документа и заполните его самостоятельно</p>
+          <p>Заполните поля слева. Пустые обязательные поля в документе будут выделены желтым.</p>
         </div>
 
         <div className="doc-builder-container">
-
-          {/* выбор документа */}
+          {/* Селектор документов (без изменений) */}
           <div className="doc-selector">
             <h3>Выберите тип документа</h3>
             <div className="doc-grid">
@@ -223,120 +263,96 @@ export default function DocumentBuilder() {
                   onClick={() => changeDocument(doc.id)}
                 >
                   <h4>{doc.name}</h4>
-                  <p>{doc.description}</p>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* форма */}
+          {/* Форма (без изменений, только стили для ошибок) */}
           <div className="doc-form-section">
-            <h3>Заполните данные</h3>
-
-            {/* предупреждение о незаполненных полях */}
-            {emptyFields.length > 0 && (
-              <div className="form-warning">
-                Заполните обязательные поля: {emptyFields.map(f => f.label).join(', ')}
-              </div>
-            )}
-
-            {/* индикатор заполнения */}
-            <div style={{ marginBottom: '16px', fontSize: '13px' }}>
+            <h3>Ввод данных</h3>
+            
+            <div style={{ marginBottom: '16px', fontSize: '14px', fontWeight: '500' }}>
+              Статус: {' '}
               <span style={{ color: allFieldsFilled ? '#10b981' : '#f59e0b' }}>
-                {allFieldsFilled ? 'Все обязательные поля заполнены' : 'Не все обязательные поля заполнены'}
+                {allFieldsFilled ? '● Готов к скачиванию' : '○ Есть пустые поля'}
               </span>
             </div>
 
             <form className="doc-form">
               {currentTemplate.fields.map(field => {
-                const isEmpty = field.required && (!formData[field.name] || formData[field.name].trim() === '');
-
+                const isError = emptyFields.some(f => f.name === field.name);
                 return (
                   <div key={field.name} className="form-group">
                     <label className="form-label">
-                      {field.label}
-                      {field.required && <span style={{ color: '#ef4444', marginLeft: '4px' }}>*</span>}
+                      {field.label} {field.required && <span style={{ color: '#ef4444' }}>*</span>}
                     </label>
-
                     {field.type === 'textarea' ? (
                       <textarea
-                        className={`form-textarea ${isEmpty ? 'input-error' : ''}`}
-                        placeholder={field.placeholder || ''}
+                        className={`form-textarea ${isError ? 'input-error' : ''}`}
                         name={field.name}
                         value={formData[field.name] || ''}
                         onChange={handleInputChange}
+                        placeholder={`Введите ${field.label.toLowerCase()}`}
                       />
                     ) : (
                       <input
-                        className={`form-input ${isEmpty ? 'input-error' : ''}`}
+                        className={`form-input ${isError ? 'input-error' : ''}`}
                         type={field.type || 'text'}
-                        placeholder={field.placeholder || ''}
                         name={field.name}
                         value={formData[field.name] || ''}
                         onChange={handleInputChange}
+                        placeholder={`Введите ${field.label.toLowerCase()}`}
                       />
-                    )}
-                    {isEmpty && (
-                      <div style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }}>
-                        Это поле обязательно для заполнения
-                      </div>
                     )}
                   </div>
                 );
               })}
             </form>
-
-            <button className="btn-clear" onClick={clearForm}>Очистить</button>
+            <button className="btn-clear" onClick={clearForm}>Очистить форму</button>
           </div>
 
-          {/* предпросмотр */}
+          {/* Предпросмотр (с подсветкой) */}
           <div className="doc-preview-section">
             <div className="preview-header">
-              <h3>Предпросмотр</h3>
+              <h3>Предпросмотр документа</h3>
               <button className="btn-primary" onClick={handleDownload}>
-                Скачать Word
+                Скачать Word (.doc)
               </button>
             </div>
-
             <div className="doc-preview">
-              {filledContent.map((block, i) => (
+              {previewContent.map((block, i) => (
                 <div key={i} style={styles[block.type]}>
-                  {block.content.split('\n').map((line, j) => (
-                    <div key={j}>{line}</div>
-                  ))}
+                  {/* content теперь массив, React сам его отрендерит */}
+                  {Array.isArray(block.content) ? block.content : block.content}
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* Модальное окно подтверждения */}
+      {/* Модальное окно (обновленный текст) */}
       {showConfirmModal && (
-        <div className="modal-overlay" onClick={() => setShowConfirmModal(false)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+          <div className="modal-container" style={{ backgroundColor: 'white', padding: '24px', borderRadius: '8px', maxWidth: '500px', width: '90%', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
             <div className="modal-header">
-              <span className="modal-icon"></span>
-              <h3>Не все поля заполнены</h3>
+              <h3 style={{ color: '#b91c1c', margin: 0 }}>⚠️ Внимание: пустые поля</h3>
             </div>
-            <div className="modal-body">
-              <p>Следующие обязательные поля не заполнены:</p>
-              <ul className="modal-field-list">
-                {emptyFields.map(field => (
-                  <li key={field.name}>• {field.label}</li>
-                ))}
+            <div className="modal-body" style={{ margin: '20px 0' }}>
+              <p>Вы не заполнили обязательные поля:</p>
+              <ul style={{ color: '#4b5563', fontSize: '14px', paddingLeft: '20px' }}>
+                {emptyFields.map(field => <li key={field.name} style={{ marginBottom: '4px' }}>{field.label}</li>)}
               </ul>
-              <p className="modal-warning-text">
-                Документ будет сгенерирован с пустыми местами для этих полей.
-                Вы уверены, что хотите продолжить?
+              <p style={{ marginTop: '16px', fontWeight: '500', borderLeft: '4px solid #f59e0b', paddingLeft: '10px' }}>
+                В скачанном Word-файле эти места будут <span style={{backgroundColor: 'yellow'}}>выделены желтым фоном</span> с текстом подсказки (например, <span style={{backgroundColor: 'yellow'}}>[ЗАПОЛНИТЬ: ФИО]</span>). Вы сможете легко заменить их, просто начав печатать поверх выделения в редакторе.
               </p>
             </div>
-            <div className="modal-footer">
-              <button className="modal-btn-cancel" onClick={() => setShowConfirmModal(false)}>
-                Отмена
+            <div className="modal-footer" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button onClick={() => setShowConfirmModal(false)} style={{ padding: '10px 20px', borderRadius: '6px', border: '1px solid #d1d5db', cursor: 'pointer', backgroundColor: 'white' }}>
+                Вернуться к заполнению
               </button>
-              <button className="modal-btn-confirm" onClick={confirmDownload}>
+              <button onClick={confirmDownload} style={{ padding: '10px 20px', borderRadius: '6px', backgroundColor: '#2563eb', color: 'white', border: 'none', cursor: 'pointer', fontWeight: '500' }}>
                 Всё равно скачать
               </button>
             </div>
