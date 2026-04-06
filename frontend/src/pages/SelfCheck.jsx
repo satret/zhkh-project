@@ -15,36 +15,37 @@ export default function SelfCheck() {
  const checklistCategories = [
     {
       id: 'fix',
-      name: 'Фиксация нарушений',
+      name: 'Зафиксируйте нарушение',
       items: [
         {
           id: 'f1',
-          title: 'Заявка в УК',
-          tip: 'Зарегистрируйте заявку в аварийно-диспетчерской службе',
+          title: 'Позвоните в диспетчерскую службу вашей УК/ТСЖ, оставьте заявку',
+          tip: 'Запишите номер заявки, дату, время и фамилию оператора',
           link: '',
           linkText: '',
           importance: 'high'
         },
         {
           id: 'f2',
-          title: 'Акт осмотра',
-          tip: 'Укажите адрес, дату, время, суть проблемы (например, «протечка крыши», «нет горячей воды 5 дней»), соберите подписи свидетелей.',
+          title: 'Потребуйте составления акта осмотра',
+          tip: 'Если представитель не пришёл составьте акт сами с двумя соседями-свидетелями.В акте укажите: адрес, дату, время, суть проблемы (например, «протечка крыши», «нет горячей воды 5 дней»), подписи свидетелей',
           link: '',
           linkText: '',
           importance: 'high'
         },
         {
           id: 'f3',
-          title: 'Фото и видео подтверждения',
-          tip: 'Если есть',
+          title: 'Сделайте фото и видео нарушения',
+          tip: 'Важно, чтобы на записи была видна дата и адрес дома',
           link: '',
           linkText: '',
           importance: 'medium'
-        },
+        }
+        ,
         {
           id: 'f4',
-          title: 'Чеки',
-          tip: 'Если были расходы',
+          title: 'Сохраните все чеки',
+          tip: 'Если понесли расходы из-за нарушения (ремонт, покупка оборудования, испорченные вещи)',
           link: '',
           linkText: '',
           importance: 'medium'
@@ -52,14 +53,14 @@ export default function SelfCheck() {
       ]
     },
     {
-      id: 'choice_of_court',
-      name: 'Определение суда, в который необходимо обратиться',
+      id: 'choice_of_uk',
+      name: 'Определение УК/ТСЖ, в который необходимо обратиться',
       items: [
         {
-          id: 'coc1',
-          title: 'Определите суд, в который будете обращаться',
-          tip: 'Иск подается по месту нахождения ответчика или по месту жительства истца',
-          link: 'https://податьвсуд.рф/справочник-судов/дагестан/районные',
+          id: 'cou1',
+          title: 'Найдите контакты своего УК/ТСЖ',
+          tip: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
+          link: '#',
           linkText: 'Определить свой суд можно по ссылке',
           importance: 'high'
         }
@@ -67,20 +68,59 @@ export default function SelfCheck() {
     },
     {
       id: 'pre-trial_claim',
-      name: 'Досудебная претензия',
+      name: 'Направьте досудебную претензию',
       items: [
         {
           id: 'ptc1',
-          title: 'Составить претензию',
-          tip: 'Укажите требования и срок для ответа (обычно 10-30 дней)',
+          title: 'Напишите претензию в свободной форме',
+          tip: 'Кто вы, что произошло, чего требуете (устранить нарушение, вернуть деньги, выплатить компенсацию)',
+          link: '#',
+          linkText: 'Составить досудебную претензию можно в разделе "Формирование документов"',
+          importance: 'high'
+        },
+        {
+          id: 'ptc2',
+          title: 'Приложите копии документов',
+          tip: 'Акт осмотра, фото, чеки, справка из УК',
           link: '',
           linkText: '',
           importance: 'high'
         },
         {
-          id: 'ptc2',
-          title: 'Отправить заказным письмом',
-          tip: 'Сохраните квитанцию и опись вложения',
+          id: 'ptc3',
+          title: 'Отправьте претензию Почтой России',
+          tip: 'Заказным письмом с описью вложения и уведомлением о вручении. Сохраните почтовую квитанцию и опись  это доказательство для суда. Ждите ответа до 30 дней',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        }
+      ]
+    },
+    {
+      id: 'prepare_for_trial',
+      name: 'Если претензию проигнорировали или отказали - готовьтесь к суду',
+      items: [
+        {
+          id: 'pft1',
+          title: 'Закажите независимую экспертизу, если нужно оценить ущерб (залив, поломка техники)',
+          tip: 'Эксперт должен иметь лицензию',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        },
+        {
+          id: 'pft2',
+          title: 'Уведомите ответчика об осмотре эксперта',
+          tip: 'Отправьте телеграмму или заказное письмо за 3–5 дней до визита эксперта',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        }
+        ,
+        {
+          id: 'pft3',
+          title: 'Получите письменный отчёт эксперта с расчётом суммы ущерба',
+          tip: '',
           link: '',
           linkText: '',
           importance: 'high'
@@ -89,29 +129,53 @@ export default function SelfCheck() {
     },
     {
       id: 'claim',
-      name: 'Иск',
+      name: 'Подайте иск в суд',
       items: [
         {
           id: 'c1',
-          title: 'Составить исковое заявление',
+          title: 'Определите свой суд',
           tip: '',
           link: '',
           linkText: '',
+          importance: 'high'
+        },
+        {
+          id: 'c2',
+          title: 'Рассчитайте госпошлину',
+          tip: '',
+          link: 'https://calc.consultant.ru/gosposhlina-soj',
+          linkText: 'Рассчитать госпошлину на сайте "Консультант Плюс"',
+          importance: 'high'
+        },
+        {
+          id: 'c3',
+          title: 'Составьте и подайте иск',
+          tip: '',
+          link: '#',
+          linkText: 'Составить иск можно в разделе "Формирование документов"',
           importance: 'high'
         }
       ]
     },
     {
-      id: 'duty',
-      name: 'Госпошлина',
+      id: 'trial',
+      name: 'Участвуйте в суде',
       items: [
         {
-          id: 'd1',
-          title: 'Рассчитайте госпошлину',
+          id: 't1',
+          title: 'Приходите на заседания',
+          tip: 'Если не можете направьте письменное ходатайство о рассмотрении без вас или отправьте представителя',
+          link: '',
+          linkText: '',
+          importance: 'high'
+        },
+        {
+          id: 't2',
+          title: 'Предоставляйте суду оригиналы документов, если попросят',
           tip: '',
-          link: 'https://calc.consultant.ru/gosposhlina-soj',
-          linkText: 'Рассчитать госпошлину на сайте Консультант+',
-          importance: 'medium'
+          link: '',
+          linkText: '',
+          importance: 'high'
         }
       ]
     },
@@ -365,20 +429,8 @@ export default function SelfCheck() {
           <div>
             <div>
               <h1>Самопроверка</h1>
-              <p className="page-subtitle">Проверьте готовность документов перед подачей в суд</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Общий прогресс по всем разделам */}
-          <div className="total-progress-wrapper">
-            <div className="total-progress">
-              <h3>Общий прогресс по всем разделам</h3>
-              <div className="total-progress-percent">{totalAllPercent}%</div>
-              <div className="total-progress-text">
-                Выполнено {checkedAllCount} из {totalAllItems} пунктов
-              </div>
-              <button 
+              <p className="page-subtitle">Процессуальный алгоритм для граждан при обнаружении нарушений в сфере ЖКХ</p>
+               <button 
               onClick={downloadFullChecklistAsWord}
               className="download-full-btn"
             >
@@ -386,10 +438,11 @@ export default function SelfCheck() {
             </button>
             </div>
           </div>
+        </div>
 
         <div className="selfcheck-container">
           <div className="check-nav">
-            <h3>Категории проверки</h3>
+            <h3>Шаги</h3>
             <div className="check-nav-buttons">
               {checklistCategories.map(cat => {
                 const catItems = cat.items;
