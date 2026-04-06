@@ -14,7 +14,7 @@ export default function RegulationDocs() {
   const documentGroups = [
   {
     id: 'federal',
-    name: 'Федеральные законы',
+    name: 'Акты федерального уровня',
     documents: [
       {
         "title": "Гражданский кодекс РФ",
@@ -241,7 +241,7 @@ export default function RegulationDocs() {
   },
   {
   "id": "regional",
-  "name": "Нормативные акты Республики Дагестан",
+  "name": "Акты регионального уровня",
   "documents": [
     {
       "title": "Закон Республики Дагестан «Об организации проведения капитального ремонта общего имущества в многоквартирных домах в Республике Дагестан»",

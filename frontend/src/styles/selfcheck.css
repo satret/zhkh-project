@@ -449,3 +449,37 @@ background: var(--teal-pale);
     gap: 15px;
   }
 }
+
+.footer-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.footer-tip-card {
+  background: #ffffff;
+  border: 1px solid #d6e4ee;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.footer-tip-card h5 {
+  margin: 0 0 12px 0;
+  color: #2c7da0;
+  font-size: 15px;
+}
+
+.footer-tip-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.footer-tip-card li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-tips-grid {
+    grid-template-columns: 1fr;
+  }
+}
