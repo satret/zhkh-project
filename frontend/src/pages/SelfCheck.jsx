@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import '../styles/selfcheck.css';
+import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
 
 export default function SelfCheck({ onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
@@ -151,8 +152,8 @@ export default function SelfCheck({ onPageChange }) {
           id: 'c1',
           title: 'Определите свой суд',
           tip: '',
-          link: '',
-          linkText: '',
+          link: courtReminderPdf,
+          linkText: 'Памятка по определению суда',
           importance: 'high'
         },
         {
