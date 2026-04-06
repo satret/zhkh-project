@@ -5,7 +5,7 @@ import '../styles/document-builder.css';
 import complaintData from '../docs_templates/complaint.json';
 import claimData from '../docs_templates/claim.json';
 
-export default function DocumentBuilder() {
+export default function DocumentBuilder({ subsection }) {
   const [selectedDoc, setSelectedDoc] = useState('complaint');
   const [documents, setDocuments] = useState([]);
   const [currentTemplate, setCurrentTemplate] = useState(null);
@@ -73,6 +73,12 @@ export default function DocumentBuilder() {
     setValidationErrors({}); // Сброс ошибок при смене документа
     setLoading(false);
   }, [selectedDoc]);
+
+  useEffect(() => {
+    if (subsection === 'complaint' || subsection === 'claim') {
+      setSelectedDoc(subsection);
+    }
+  }, [subsection]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

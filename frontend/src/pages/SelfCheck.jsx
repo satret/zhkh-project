@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import '../styles/selfcheck.css';
 
-export default function SelfCheck() {
+export default function SelfCheck({ onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
   const [checkedItems, setCheckedItems] = useState({});
 
@@ -10,6 +10,28 @@ export default function SelfCheck() {
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  const handleItemLinkClick = (event, item) => {
+    if (item.link !== '#') return;
+
+    event.preventDefault();
+
+    if (!onPageChange) return;
+
+    if (item.id === 'ptc1') {
+      onPageChange('documents', 'complaint');
+      return;
+    }
+
+    if (item.id === 'c3') {
+      onPageChange('documents', 'claim');
+      return;
+    }
+
+    if (item.id === 'f5') {
+      onPageChange('contacts');
+    }
   };
 
  const checklistCategories = [
@@ -49,19 +71,13 @@ export default function SelfCheck() {
           link: '',
           linkText: '',
           importance: 'medium'
-        }
-      ]
-    },
-    {
-      id: 'choice_of_uk',
-      name: 'Определение УК/ТСЖ, в который необходимо обратиться',
-      items: [
+        },
         {
-          id: 'cou1',
-          title: 'Найдите контакты своего УК/ТСЖ',
-          tip: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
+          id: 'f5',
+          title: 'Определите контакты своего УК/ТСЖ',
+          tip: '',
           link: '#',
-          linkText: 'Определить свой суд можно по ссылке',
+          linkText: 'Найти контакты своего УК/ТС можно в разделе "Контакты"',
           importance: 'high'
         }
       ]
@@ -506,6 +522,7 @@ export default function SelfCheck() {
                               href={item.link} 
                               target="_blank" 
                               rel="noopener noreferrer"
+                              onClick={(event) => handleItemLinkClick(event, item)}
                             >
                               {item.linkText || 'Открыть ссылку'}
                             </a>

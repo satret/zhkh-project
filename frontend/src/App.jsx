@@ -52,7 +52,7 @@ export default function App() {
       case 'documents':
         return <DocumentBuilder subsection={currentSubsection} />;
       case 'selfcheck':
-        return <SelfCheck subsection={currentSubsection} />;
+        return <SelfCheck subsection={currentSubsection} onPageChange={handlePageChange} />;
       case 'regulations':
         return <RegulationDocs />;
       case 'contacts':
