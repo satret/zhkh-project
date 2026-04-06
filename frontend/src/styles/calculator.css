@@ -1,0 +1,342 @@
+/* Сброс проблемных стилей */
+.page-section,
+.section-inner {
+  overflow: visible !important;
+}
+
+.calculator-wrapper {
+  overflow: visible !important;
+}
+
+/* ========== ОБЁРТКА КАЛЬКУЛЯТОРА ========== */
+.calculator-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* ========== КОНТЕЙНЕР ШАГОВ ========== */
+.steps-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.calculator-step {
+  padding: 40px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-number {
+  font-size: 14px;
+  color: #00ff88;
+  margin-bottom: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calculator-step h3 {
+  margin: 0 0 24px 0;
+  color: #1a2a3a;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.step-description {
+  color: #4a5568;
+  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ========== ЭЛЕМЕНТЫ ФОРМ ========== */
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  background: #f0fdf4;
+  border-color: #00ff88;
+}
+
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #00ff88;
+}
+
+.radio-label span,
+.checkbox-label span {
+  font-size: 15px;
+  color: #1a2a3a;
+  font-weight: 500;
+}
+
+.input-group {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.input-field input {
+  padding: 12px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.input-field input:focus {
+  outline: none;
+  border-color: #00ff88;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+
+/* ========== ИНФОРМАЦИЯ О НОРМАТИВЕ ========== */
+.normative-info {
+  background: #f0fdf4;
+  border-left: 4px solid #00ff88;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.normative-info strong {
+  color: #1a2a3a;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.normative-info small {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+/* ========== СЕКЦИЯ ОДН ========== */
+.odn-section {
+  margin-top: 24px;
+  padding: 24px;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 2px solid #e8e8e8;
+}
+
+.odn-section h4 {
+  margin: 0 0 20px 0;
+  color: #1a2a3a;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ========== НАВИГАЦИЯ ========== */
+.calculator-navigation {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 24px 40px;
+  border-top: 2px solid #f0f0f0;
+  margin-top: 0;
+}
+
+.calculator-navigation .btn {
+  min-width: 140px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #00ff88;
+  color: #1a2a3a;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #00dd77;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #1a2a3a;
+  border: 2px solid #e8e8e8;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #f7fafc;
+  border-color: #00ff88;
+}
+
+/* ========== РЕЗУЛЬТАТ ========== */
+.calculator-result {
+  padding: 40px;
+  background: linear-gradient(135deg, #00ff88 0%, #00dd77 100%);
+  border-radius: 16px;
+  color: #1a2a3a;
+}
+
+.calculator-result h3 {
+  margin: 0 0 24px 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.result-normative {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 2px solid rgba(26, 42, 58, 0.1);
+  font-size: 16px;
+}
+
+.result-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 0 0;
+  margin-top: 12px;
+  border-top: 3px solid rgba(26, 42, 58, 0.3);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.result-item strong,
+.result-total strong {
+  font-weight: 700;
+}
+
+/* ========== ОШИБКА ========== */
+.error-message {
+  background: #fff5f5;
+  border-left: 4px solid #fc8181;
+  color: #c53030;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 768px) {
+  .progress-bar {
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  
+  .progress-step {
+    flex: 0 0 calc(33.333% - 10px);
+    margin-bottom: 16px;
+  }
+  
+  .progress-number {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .progress-label {
+    font-size: 11px;
+  }
+  
+  .progress-line {
+    display: none;
+  }
+  
+  .calculator-step {
+    padding: 28px;
+  }
+  
+  .calculator-step h3 {
+    font-size: 20px;
+  }
+  
+  .calculator-navigation {
+    flex-direction: column;
+    padding: 20px 28px;
+  }
+  
+  .calculator-navigation .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .calculator-result {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-step {
+    flex: 0 0 calc(50% - 10px);
+  }
+  
+  .calculator-step {
+    padding: 20px;
+  }
+  
+  .radio-label,
+  .checkbox-label {
+    padding: 14px;
+  }
+}
