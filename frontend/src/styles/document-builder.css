@@ -1,7 +1,7 @@
 .doc-builder-container {
   display: grid;
-  grid-template-columns: 200px 2fr 1.5fr;
-  gap: 32px;
+  grid-template-columns: 280px 2fr 1.5fr;
+  gap: 20px;
   margin-bottom: 48px;
 }
 
@@ -10,10 +10,24 @@
   margin-bottom: 16px;
 }
 
+.doc-selector {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  min-height: 0;
+}
+
 .doc-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
+  overflow-y: auto;
+  padding-right: 6px;
+  min-height: 0;
 }
 
 .doc-card {
@@ -299,8 +313,14 @@
     grid-template-columns: 1fr;
   }
 
+  .doc-selector {
+    height: auto;
+  }
+
   .doc-grid {
     grid-template-columns: repeat(3, 1fr);
+    overflow-y: visible;
+    padding-right: 0;
   }
 }
 

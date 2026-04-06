@@ -440,7 +440,6 @@ export default function RegulationDocs() {
               <li><a href="https://minstroy.e-dag.ru/documents?ysclid=mn76pfmjd756863927" target="_blank" rel="noopener noreferrer">Официальный сайт министерства строительства, архитектуры и жилищно-коммунального хозяйства РД →</a></li>
               <li><a href="https://dom.gosuslugi.ru/" target="_blank" rel="noopener noreferrer">ГИС ЖКХ — Портал управления многоквартирным домом →</a></li>
               <li><a href="https://www.consultant.ru/" target="_blank" rel="noopener noreferrer">Консультант+ — Справочная правовая система →</a></li>
-              <li><a href="https://base.garant.ru/" target="_blank" rel="noopener noreferrer">Гарант — Справочная правовая система →</a></li>
             </ul>
           </div>
         </div>

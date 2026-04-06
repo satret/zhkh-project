@@ -78,7 +78,7 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Определите контакты своего УК/ТСЖ',
           tip: '',
           link: '#',
-          linkText: 'Найти контакты своего УК/ТС можно в разделе "Контакты"',
+          linkText: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
           importance: 'high'
         }
       ]

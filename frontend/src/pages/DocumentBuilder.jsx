@@ -4,6 +4,11 @@ import '../styles/document-builder.css';
 // Предполагаем, что json данные импортируются так же
 import complaintData from '../docs_templates/complaint.json';
 import claimData from '../docs_templates/claim.json';
+import penaltyStatementData from '../docs_templates/penalty_statement.json';
+import pretenziyaData from '../docs_templates/pretenziya.json';
+import gzhiComplaintData from '../docs_templates/gzhi_complaint.json';
+import damageCompensationAgreementData from '../docs_templates/damage_compensation_agreement.json';
+import moneyReceiptData from '../docs_templates/money_receipt.json';
 
 export default function DocumentBuilder({ subsection }) {
   const [selectedDoc, setSelectedDoc] = useState('complaint');
@@ -48,7 +53,12 @@ export default function DocumentBuilder({ subsection }) {
   useEffect(() => {
     const templates = {
       complaint: complaintData,
-      claim: claimData
+      claim: claimData,
+      penalty_statement: penaltyStatementData,
+      pretenziya: pretenziyaData,
+      gzhi_complaint: gzhiComplaintData,
+      damage_compensation_agreement: damageCompensationAgreementData,
+      money_receipt: moneyReceiptData
     };
 
     const loadedDocs = Object.keys(templates).map(id => ({
