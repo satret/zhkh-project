@@ -4,6 +4,7 @@ import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
 
 export default function SelfCheck({ onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
+  const [activeTab, setActiveTab] = useState('steps');
   const [checkedItems, setCheckedItems] = useState({});
 
   const toggleCheck = (id) => {
@@ -21,7 +22,7 @@ export default function SelfCheck({ onPageChange }) {
     if (!onPageChange) return;
 
     if (item.id === 'ptc1') {
-      onPageChange('documents', 'complaint');
+      onPageChange('documents', 'pretenziya');
       return;
     }
 
@@ -30,7 +31,7 @@ export default function SelfCheck({ onPageChange }) {
       return;
     }
 
-    if (item.id === 'f5') {
+    if (item.id === 'f1' || item.id === 'ptc3') {
       onPageChange('contacts');
     }
   };
@@ -44,8 +45,8 @@ export default function SelfCheck({ onPageChange }) {
           id: 'f1',
           title: 'Позвоните в диспетчерскую службу вашей УК/ТСЖ, оставьте заявку',
           tip: 'Запишите номер заявки, дату, время и фамилию оператора',
-          link: '',
-          linkText: '',
+          link: '#',
+          linkText: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
           importance: 'high'
         },
         {
@@ -72,14 +73,6 @@ export default function SelfCheck({ onPageChange }) {
           link: '',
           linkText: '',
           importance: 'medium'
-        },
-        {
-          id: 'f5',
-          title: 'Определите контакты своего УК/ТСЖ',
-          tip: '',
-          link: '#',
-          linkText: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
-          importance: 'high'
         }
       ]
     },
@@ -105,10 +98,10 @@ export default function SelfCheck({ onPageChange }) {
         },
         {
           id: 'ptc3',
-          title: 'Отправьте претензию Почтой России',
-          tip: 'Заказным письмом с описью вложения и уведомлением о вручении. Сохраните почтовую квитанцию и опись  это доказательство для суда. Ждите ответа до 30 дней',
-          link: '',
-          linkText: '',
+          title: 'Отправьте претензию в УК',
+          tip: 'Отправить можно Почтой России заказным письмом с описью вложения и уведомлением о вручении, через ГИС ЖКХ или на официальный email УК. Сохраните почтовую квитанцию и опись - это доказательство для суда. Ждите ответа до 30 дней',
+          link: '#',
+          linkText: 'Найти email своего УК можно в разделе "Контакты"',
           importance: 'high'
         }
       ]
@@ -469,8 +462,11 @@ export default function SelfCheck({ onPageChange }) {
                 return (
                   <button
                     key={cat.id}
-                    className={`check-nav-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`check-nav-btn ${activeTab === 'steps' && selectedCategory === cat.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveTab('steps');
+                      setSelectedCategory(cat.id);
+                    }}
                   >
                     <span className="nav-text">{cat.name}</span>
                     <span className="nav-percent">{catPercent}%</span>
@@ -478,63 +474,151 @@ export default function SelfCheck({ onPageChange }) {
                 );
               })}
             </div>
+            <div className="check-nav-divider"></div>
+            <button
+              className={`check-nav-btn check-nav-info-btn ${activeTab === 'representative' ? 'active' : ''}`}
+              onClick={() => setActiveTab('representative')}
+            >
+              <span className="nav-text">Как действовать через представителя?</span>
+            </button>
           </div>
 
           <div className="check-content">
-            <div className="check-header">
-              <div className="header-actions">
-                <h2>{currentCategory?.name}</h2>
-                <button 
-                  onClick={downloadChecklistAsWord}
-                  className="download-section-btn"
-                >
-                  Скачать чек-лист (Word)
-                </button>
-              </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${completionPercent}%` }}></div>
-              </div>
-              <p className="progress-text">{checkedCountInCurrent} из {totalCount} пунктов ({completionPercent}%)</p>
-            </div>
+            {activeTab === 'representative' ? (
+              <div className="representative-guide">
+                <h2>Как действовать через представителя?</h2>
+                <p>
+                  Спор с управляющей компанией через представителя это стандартная и часто более эффективная практика,
+                  чем самостоятельное ведение дела.
+                </p>
+                <p>
+                  Представителем может быть юрист, адвокат или просто доверенное лицо, если у него есть надлежащим
+                  образом оформленная доверенность.
+                </p>
 
-            <div className="checklist">
-              {currentCategory?.items.map(item => (
-                <div 
-                  key={item.id} 
-                  className={`check-item importance-${item.importance} ${checkedItems[item.id] ? 'checked' : ''}`}
-                >
-                  <label className="check-label">
-                    <input 
-                      type="checkbox"
-                      checked={checkedItems[item.id] || false}
-                      onChange={() => toggleCheck(item.id)}
-                      className="check-input"
-                    />
-                    <span className="check-box"></span>
-                    <span className="check-text">
-                      <strong>{item.title}</strong>
-                      {item.importance === 'high' && <span className="importance-badge">Критично</span>}
-                      {item.importance === 'medium' && <span className="importance-badge">Важно</span>}
-                      <div className="check-tip">
-                        {item.tip}
-                        {item.link && (
-                          <div className="check-link">
-                            <a 
-                              href={item.link} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              onClick={(event) => handleItemLinkClick(event, item)}
-                            >
-                              {item.linkText || 'Открыть ссылку'}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </span>
-                  </label>
+                <h3>1. Оформление полномочий представителя</h3>
+                <h4>Доверенность</h4>
+                <p>
+                  Для суда: доверенность должна быть нотариально удостоверена. В ней должны быть четко прописаны
+                  полномочия: право на подачу иска, изменение требований, подписание мирового соглашения, получение
+                  решений/определений, обжалование.
+                </p>
+                <p>
+                  Для досудебного порядка: часто достаточно простой письменной формы, но многие госорганы требуют
+                  нотариальную доверенность или доверенность, заверенную по месту работы/учебы/лечения собственника.
+                  Лучше сразу делать нотариальную, чтобы избежать отказов в приеме документов.
+                </p>
+
+                <h3>Какие споры чаще всего решаются через представителя?</h3>
+                <ul>
+                  <li>
+                    Перерасчет коммунальных платежей: некачественные услуги (холодная вода, отопление), отсутствие услуг
+                    в период отъезда (если были основания).
+                  </li>
+                  <li>
+                    Устранение недостатков общего имущества: протечки, плесень в подъезде, сломанный лифт, отсутствие
+                    освещения.
+                  </li>
+                  <li>
+                    Оспаривание решений общих собраний собственников: если УК манипулировала голосами или нарушила
+                    процедуру.
+                  </li>
+                  <li>
+                    Взыскание ущерба: затопление квартиры по вине УК (прорыв стояка), падение сосульки на машину и т.д.
+                  </li>
+                  <li>
+                    Навязанные услуги: включение в квитанцию услуг, на которые не было согласия собственников.
+                  </li>
+                </ul>
+
+                <h3>Преимущества использования представителя</h3>
+                <ul>
+                  <li>
+                    Профессионализм: юрист знает, какие нормы закона применять, как правильно формулировать требования,
+                    чтобы их не отклонили.
+                  </li>
+                  <li>Экономия времени: вам не нужно ходить в суды, писать жалобы, отслеживать сроки.</li>
+                  <li>Объективность: представитель действует без эмоций, что важно в переговорах и суде.</li>
+                  <li>
+                    Правильное оформление документов: ошибки в иске или доверенности могут привести к оставлению
+                    заявления без движения или возвращению.
+                  </li>
+                </ul>
+
+                <h3>Риски и на что обратить внимание</h3>
+                <ul>
+                  <li>
+                    Стоимость услуг: услуги юриста могут стоить дорого. Оцените, соразмерна ли сумма спора расходам на
+                    представителя. Однако по делам о защите прав потребителей можно взыскать судебные расходы с УК в
+                    случае победы.
+                  </li>
+                  <li>
+                    Полномочия: внимательно проверяйте текст доверенности. Там должно быть право на подписание искового
+                    заявления, представление интересов в суде, получение присужденного имущества/денег.
+                  </li>
+                  <li>
+                    Выбор представителя: лучше обращаться к юристам, специализирующимся именно на жилищном праве.
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <>
+                <div className="check-header">
+                  <div className="header-actions">
+                    <h2>{currentCategory?.name}</h2>
+                    <button 
+                      onClick={downloadChecklistAsWord}
+                      className="download-section-btn"
+                    >
+                      Скачать чек-лист (Word)
+                    </button>
+                  </div>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ width: `${completionPercent}%` }}></div>
+                  </div>
+                  <p className="progress-text">{checkedCountInCurrent} из {totalCount} пунктов ({completionPercent}%)</p>
                 </div>
-              ))}
-            </div>
+
+                <div className="checklist">
+                  {currentCategory?.items.map(item => (
+                    <div 
+                      key={item.id} 
+                      className={`check-item importance-${item.importance} ${checkedItems[item.id] ? 'checked' : ''}`}
+                    >
+                      <label className="check-label">
+                        <input 
+                          type="checkbox"
+                          checked={checkedItems[item.id] || false}
+                          onChange={() => toggleCheck(item.id)}
+                          className="check-input"
+                        />
+                        <span className="check-box"></span>
+                        <span className="check-text">
+                          <strong>{item.title}</strong>
+                          {item.importance === 'high' && <span className="importance-badge">Критично</span>}
+                          {item.importance === 'medium' && <span className="importance-badge">Важно</span>}
+                          <div className="check-tip">
+                            {item.tip}
+                            {item.link && (
+                              <div className="check-link">
+                                <a 
+                                  href={item.link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  onClick={(event) => handleItemLinkClick(event, item)}
+                                >
+                                  {item.linkText || 'Открыть ссылку'}
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        </span>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
 

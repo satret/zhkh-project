@@ -85,7 +85,17 @@ export default function DocumentBuilder({ subsection }) {
   }, [selectedDoc]);
 
   useEffect(() => {
-    if (subsection === 'complaint' || subsection === 'claim') {
+    const allowedSubsections = new Set([
+      'complaint',
+      'claim',
+      'penalty_statement',
+      'pretenziya',
+      'gzhi_complaint',
+      'damage_compensation_agreement',
+      'money_receipt'
+    ]);
+
+    if (allowedSubsections.has(subsection)) {
       setSelectedDoc(subsection);
     }
   }, [subsection]);
