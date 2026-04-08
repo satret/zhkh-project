@@ -1,4 +1,4 @@
-.page-section {
+﻿.page-section {
   padding: 40px 20px;
   background: #f8f9fa;
   min-height: 100vh;
@@ -25,7 +25,7 @@
   color: #6c757d;
 }
 
-/* Кнопка скачивания полного чек-листа */
+/* РљРЅРѕРїРєР° СЃРєР°С‡РёРІР°РЅРёСЏ РїРѕР»РЅРѕРіРѕ С‡РµРє-Р»РёСЃС‚Р° */
 .download-full-btn {
   padding: 6px 14px;
   background: none;
@@ -87,7 +87,7 @@
   transition: width 0.3s ease;
 }
 
-/* Контейнер самопроверки */
+/* РљРѕРЅС‚РµР№РЅРµСЂ СЃР°РјРѕРїСЂРѕРІРµСЂРєРё */
 .selfcheck-container {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -99,7 +99,7 @@
   margin-bottom: 30px;
 }
 
-/* Навигация по категориям */
+/* РќР°РІРёРіР°С†РёСЏ РїРѕ РєР°С‚РµРіРѕСЂРёСЏРј */
 .check-nav {
   background: #f8f9fa;
   padding: 20px;
@@ -117,6 +117,14 @@
   flex-direction: column;
   gap: 10px;
 }
+
+
+.check-nav-divider {
+  height: 1px;
+  background: #d9e3e8;
+  margin: 16px 0;
+}
+
 
 .check-nav-btn {
   position: relative;
@@ -143,6 +151,13 @@ background: var(--teal-pale);
   background: var(--teal-pale);
 }
 
+
+.check-nav-info-btn {
+  min-height: 54px;
+  font-weight: 600;
+}
+
+
 .nav-text {
   display: block;
 }
@@ -162,7 +177,44 @@ background: var(--teal-pale);
   color: #4CAF50;
 }
 
-/* Контент чек-листа */
+.representative-guide {
+  background: #f8fbfd;
+  border: 1px solid #d6e4ee;
+  border-radius: 10px;
+  padding: 22px;
+  line-height: 1.55;
+  color: #2f3e46;
+}
+
+.representative-guide h2 {
+  margin: 0 0 12px 0;
+  color: #1f5e7a;
+}
+
+.representative-guide h3 {
+  margin: 20px 0 10px 0;
+  color: #2c7da0;
+  font-size: 18px;
+}
+
+.representative-guide h4 {
+  margin: 10px 0 8px 0;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.representative-guide p {
+  margin: 0 0 10px 0;
+}
+
+.representative-guide ul {
+  margin: 0 0 10px 0;
+  padding-left: 20px;
+}
+
+.representative-guide li {
+  margin-bottom: 8px;
+}
 .check-content {
   padding: 20px;
 }
@@ -202,7 +254,7 @@ background: var(--teal-pale);
   background-color: #1f5e7a;
 }
 
-/* Прогресс-бар */
+/* РџСЂРѕРіСЂРµСЃСЃ-Р±Р°СЂ */
 .progress-bar {
   background: #e9ecef;
   border-radius: 10px;
@@ -225,7 +277,7 @@ background: var(--teal-pale);
   text-align: right;
 }
 
-/* Список чек-листа */
+/* РЎРїРёСЃРѕРє С‡РµРє-Р»РёСЃС‚Р° */
 .checklist {
   display: flex;
   flex-direction: column;
@@ -351,7 +403,7 @@ background: var(--teal-pale);
   text-decoration: underline;
 }
 
-/* Футер с сообщениями */
+/* Р¤СѓС‚РµСЂ СЃ СЃРѕРѕР±С‰РµРЅРёСЏРјРё */
 .selfcheck-footer {
   margin-top: 30px;
 }
@@ -394,7 +446,7 @@ background: var(--teal-pale);
   margin: 0;
 }
 
-/* Дополнительные советы */
+/* Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СЃРѕРІРµС‚С‹ */
 .footer-tips {
   padding: 20px;
   border-radius: 8px;
@@ -417,7 +469,7 @@ background: var(--teal-pale);
   line-height: 1.4;
 }
 
-/* Адаптивность */
+/* РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ */
 @media (max-width: 768px) {
   .selfcheck-container {
     grid-template-columns: 1fr;
@@ -427,15 +479,19 @@ background: var(--teal-pale);
     border-right: none;
     border-bottom: 1px solid #e0e0e0;
   }
-  
   .check-nav-buttons {
     flex-direction: row;
     flex-wrap: wrap;
   }
-  
+
   .check-nav-btn {
     flex: 1;
     min-width: 150px;
+  }
+
+  
+  .check-nav-info-btn {
+    width: 100%;
   }
   
   .header-actions {
@@ -483,3 +539,4 @@ background: var(--teal-pale);
     grid-template-columns: 1fr;
   }
 }
+

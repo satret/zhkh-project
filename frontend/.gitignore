@@ -29,3 +29,5 @@ Desktop.ini
 *.tmp
 *.bak
 *.backup
+
+__pycache__/
