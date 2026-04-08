@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/pages.css';
 
-export default function HomePage({ onPageChange, onChatToggle }) {
+export default function HomePage({ onPageChange, onChatToggle, onOpenChatWithScenario }) {
   const handleEmergencyClick = () => {
     if (onChatToggle) {
       onChatToggle('emergency');
@@ -9,15 +9,14 @@ export default function HomePage({ onPageChange, onChatToggle }) {
   };
 
   const handleClick = () => {
-    const chatButton = document.querySelector('.chat-float-btn');
-    if (chatButton) {
-      chatButton.click();
+    if (onOpenChatWithScenario) {
+      onOpenChatWithScenario('question');  // ← Передаём тип сценария
     }
   };
 
   return (
     <div className="homepage">
-      {/* КНОПКА ЭКСТРЕННОЙ ПОМОЩИ - В ЛЕВОМ ВЕРХНЕМ УГЛУ */}
+      {/* Кнопка экстренной помощи */}
       <div className="emergency-corner-button">
         <button className="emergency-button-top" onClick={handleEmergencyClick}>
           <span className="emergency-icon-top">🚨</span>
