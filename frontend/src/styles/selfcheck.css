@@ -341,7 +341,7 @@ background: var(--teal-pale);
 }
 
 .check-input:checked + .check-box::after {
-  content: 'вњ“';
+  content: '✓';
   position: absolute;
   color:white;
   font-size: 14px;
