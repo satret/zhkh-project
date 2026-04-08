@@ -146,7 +146,7 @@ useEffect(() => {
         scenarioStep: problem.scenario
       };
 
-      // ВЫЗЫВАЕМ ПЕРЕНАПРАВЛЕНИЕ, ЕСЛИ ОНО ЕСТЬ
+      // Вызываем перенаправление, если оно есть
       if (scenario?.redirect) {
         handleRedirect(scenario.redirect);
       }
@@ -158,8 +158,14 @@ useEffect(() => {
           id: Date.now() + 1,
           type: 'bot',
           text: response.text,
-          options: response.options
+          options: response.options,
+          redirect: response.redirect  
         };
+        
+        // Вызываем перенаправление, если оно есть
+        if (response.redirect) {
+          handleRedirect(response.redirect);
+        }
       }
       
       setMessages(prev => [...prev, botMessage]);
