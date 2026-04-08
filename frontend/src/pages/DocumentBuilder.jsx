@@ -85,10 +85,22 @@ export default function DocumentBuilder({ subsection }) {
   }, [selectedDoc]);
 
   useEffect(() => {
-    if (subsection === 'complaint' || subsection === 'claim') {
-      setSelectedDoc(subsection);
-    }
-  }, [subsection]);
+  // Список всех доступных ID документов
+  const validDocIds = [
+    'complaint',
+    'claim', 
+    'penalty_statement',
+    'pretenziya',
+    'gzhi_complaint',
+    'damage_compensation_agreement',
+    'money_receipt'
+  ];
+  
+  // Если subsection валиден — переключаем документ
+  if (subsection && validDocIds.includes(subsection)) {
+    setSelectedDoc(subsection);
+  }
+}, [subsection]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -229,7 +229,8 @@ export const chatScenarios = {
       { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
     ],
     redirect: {
-      page: 'documents'
+      page: 'documents',
+      subsection: 'complaint'
     }
   },
 
