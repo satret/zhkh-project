@@ -28,7 +28,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_5142/"
           }
         ]
@@ -45,7 +45,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "Консультант+",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_51057/"
           }
         ]
@@ -62,7 +62,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "Консультант+",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_305/"
           }
         ]
@@ -79,7 +79,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_122867/"
           }
         ]
@@ -96,7 +96,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "Консультант+",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_121895/"
           }
         ]
@@ -114,7 +114,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_44772/"
           }
         ]
@@ -130,7 +130,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "Консультант+",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_19589/"
           }
         ]
@@ -147,7 +147,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_62293/"
           }
         ]
@@ -164,7 +164,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_45158/"
           }
         ]
@@ -181,7 +181,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_114247/"
           }
         ]
@@ -198,7 +198,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_207118/"
           }
         ]
@@ -215,7 +215,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_144804/"
           }
         ]
@@ -232,7 +232,7 @@ export default function RegulationDocs() {
         ],
         "links": [
           {
-            "title": "КонсультантПлюс",
+            "title": "Консультант Плюс",
             "url": "https://www.consultant.ru/document/cons_doc_LAW_218822/"
           }
         ]
@@ -439,7 +439,7 @@ export default function RegulationDocs() {
             <ul>
               <li><a href="https://minstroy.e-dag.ru/documents?ysclid=mn76pfmjd756863927" target="_blank" rel="noopener noreferrer">Официальный сайт министерства строительства, архитектуры и жилищно-коммунального хозяйства РД →</a></li>
               <li><a href="https://dom.gosuslugi.ru/" target="_blank" rel="noopener noreferrer">ГИС ЖКХ — Портал управления многоквартирным домом →</a></li>
-              <li><a href="https://www.consultant.ru/" target="_blank" rel="noopener noreferrer">Консультант+ — Справочная правовая система →</a></li>
+              <li><a href="https://www.consultant.ru/" target="_blank" rel="noopener noreferrer">Консультант Плюс — Справочная правовая система →</a></li>
             </ul>
           </div>
         </div>
