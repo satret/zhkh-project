@@ -40,10 +40,13 @@ export const chatScenarios = {
   },
   
   default: {
-    text: 'Спасибо за ваш вопрос. Я анализирую информацию и подготавливаю ответ...',
+    text: 'Спасибо за ваш вопрос, мы его получили и скоро обработаем!\n\nА пока можете проверить, не ответили ли мы на него в разделе "Часто задаваемых вопросов"',
     options: [
       { label: 'В главное меню', value: 'start' },
-    ]
+    ],
+    redirect: {
+      page: 'faq'
+    }
   },
 
   in_construction: {
@@ -130,7 +133,8 @@ export const chatScenarios = {
       { label: 'Я сформировал документы, что мне делать дальше?', value: 'emergency_water_checklist' },
     ],
     redirect: {
-      page: 'documents'
+      page: 'documents',
+      subsection: 'complaint',
     }
   },
   
@@ -240,7 +244,8 @@ export const chatScenarios = {
       { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
     ],
     redirect: {
-      page: 'documents'
+      page: 'documents',
+      subsection: 'complaint',
     }
   },
   
@@ -266,7 +271,8 @@ export const chatScenarios = {
       { label: 'Я заполнил документы. Что дальше?', value: 'problem_large_bill_checklists' },
     ],
     redirect: {
-      page: 'documents'
+      page: 'documents',
+      subsection: 'complaint',
     }
   },
 
@@ -293,6 +299,6 @@ export const chatScenarios = {
     text: 'Спасибо за обращение. Если появятся новые вопросы, мы с радостью на них ответим!',
     options: [
       { label: 'В главное меню', value: 'start' },
-    ]
+    ],
   },
 };
