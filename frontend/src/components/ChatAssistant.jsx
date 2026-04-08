@@ -30,20 +30,6 @@ useEffect(() => {
         text: scenario.text,
         options: scenario.options
       }]);
-    } else if (initialScenario === 'question') {
-      const scenario = chatScenarios['question'];
-      initialMessage = {
-        id: 1,
-        type: 'bot',
-        text: scenario.text,
-        options: scenario.options,
-        redirect: scenario.redirect 
-      };
-      
-      // Вызываем перенаправление, если оно есть
-      if (scenario?.redirect) {
-        handleRedirect(scenario.redirect);
-      }
     } else {
       const scenario = chatScenarios['start'];
       setMessages([{

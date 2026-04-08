@@ -21,11 +21,6 @@ export default function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [initialScenario, setInitialScenario] = useState(null);
 
-  const openChatWithScenario = (scenarioType) => {
-    setInitialScenario(scenarioType);
-    setChatOpen(true);
-  };
-
   // Скролл в начало при смене страницы
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -46,8 +41,7 @@ export default function App() {
           onChatToggle={(scenario) => {
             setInitialScenario(scenario);  // Устанавливаем сценарий
             setChatOpen(true);              // Открываем чат
-          }}
-          onOpenChatWithScenario={openChatWithScenario}
+      }}
         />;
       case 'faq':
         return <FAQ onPageChange={handlePageChange} />;
@@ -89,7 +83,6 @@ export default function App() {
         }}
         onPageChange={handlePageChange}
         initialScenario={initialScenario}
-        onScenarioHandled={() => setInitialScenario(null)}
       />
 
       <Footer />
