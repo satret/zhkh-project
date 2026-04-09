@@ -166,3 +166,27 @@
   .calc-wrapper .calc-form-grid { grid-template-columns: 1fr; }
   .calc-wrapper .calc-menu-grid { grid-template-columns: 1fr 1fr; }
 }
+
+.calc-menu-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.calc-menu-grid .btn {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .calc-menu-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calc-menu-grid .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}

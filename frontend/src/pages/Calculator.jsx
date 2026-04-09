@@ -114,29 +114,30 @@ export default function ElectricityCalculator() {
   // === VIEW: MENU ===
   if (view === 'menu') {
     return (
-      <section className="calc-wrapper">
-        <div className="page-header">
-          <h1>Калькулятор коммунальных услуг</h1>
-          <p>Выберите тип ресурса для расчёта стоимости потребления</p>
-          <p>Если стоимость оказалась меньше, чем пришла, есть повод обратиться в УК.</p>
-        </div>
-        <div className="calc-container">
-          <div className="calc-menu-grid">
-            <button className="btn btn-primary">
-              <span className="calc-card-title">Холодная вода</span>
-            </button>
-            <button className="btn btn-primary">
-              <span className="calc-card-title">Горячая вода</span>
-            </button>
-            <button className="btn btn-primary">
-              <span className="calc-card-title">Газ</span>
-            </button>
-            <button className="btn btn-primary" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
-              <span className="calc-card-title">Электроэнергия</span>
-            </button>
-          </div>
-        </div>
-      </section>
+      <section className="page-section">
+    <div className="section-inner">
+      <div className="page-header">
+        <h1>Калькулятор коммунальных услуг</h1>
+        <p>Выберите тип ресурса для расчёта стоимости потребления</p>
+        <p>Если стоимость оказалась меньше, чем пришла, есть повод обратиться в УК.</p>
+      </div>
+      
+      <div className="calc-menu-grid">
+        <button className="btn btn-primary">
+          <span className="calc-card-title">Холодная вода</span>
+        </button>
+        <button className="btn btn-primary">
+          <span className="calc-card-title">Горячая вода</span>
+        </button>
+        <button className="btn btn-primary">
+          <span className="calc-card-title">Газ</span>
+        </button>
+        <button className="btn btn-primary" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
+          <span className="calc-card-title">Электроэнергия</span>
+        </button>
+      </div>
+    </div>
+  </section>
     );
   }
 
