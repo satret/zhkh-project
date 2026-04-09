@@ -1,849 +1,275 @@
 import React, { useState } from 'react';
-import '../styles/pages.css';
 import '../styles/calculator.css';
 
-export default function Calculator() {
-  // Шаг калькулятора
-  const [currentStep, setCurrentStep] = useState(1);
+// Нормативы из вашего Excel
+const NORMATIVES = {
+  1: { 1: [111, 69, 53, 43, 38], 2: [143, 89, 69, 56, 49], 3: [162, 100, 78, 63, 55], 4: [175, 109, 84, 68, 60] },
+  2: { 1: [161, 100, 77, 63, 55], 2: [190, 118, 91, 74, 65], 3: [208, 129, 100, 81, 71], 4: [221, 137, 106, 86, 75] },
+  3: { 1: [308, 191, 148, 120, 105], 2: [397, 246, 191, 155, 135], 3: [450, 279, 216, 175, 153], 4: [487, 302, 234, 190, 165] },
+  4: { 1: [234, 145, 112, 91, 80], 2: [302, 187, 145, 118, 103], 3: [342, 212, 164, 133, 116], 4: [370, 229, 177, 144, 126] },
+  5: { 1: [358, 222, 172, 140, 122], 2: [422, 262, 203, 165, 144], 3: [462, 286, 222, 180, 157], 4: [490, 304, 235, 191, 167] }
+};
+
+export default function ElectricityCalculator() {
+  const [view, setView] = useState('menu'); // 'menu' | 'electricity'
   
-  // Основные параметры
-  const [houseType, setHouseType] = useState(''); // 'private' или 'mkd'
-  const [settlementType, setSettlementType] = useState(''); // 'city' или 'village'
-  const [hasElectricStove, setHasElectricStove] = useState(false);
-  const [hasElectricHeating, setHasElectricHeating] = useState(false);
-  const [hasMeter, setHasMeter] = useState(false);
-  
-  // Параметры для расчёта по счётчику
+  // Состояния калькулятора
+  const [settlementType, setSettlementType] = useState('city');
+  const [hasStove, setHasStove] = useState(false);
+  const [hasHeating, setHasHeating] = useState(false);
+  const [isHeatingMonth, setIsHeatingMonth] = useState(false);
+  const [hasMeters, setHasMeters] = useState(false);
   const [tariffType, setTariffType] = useState('single');
-  const [consumption, setConsumption] = useState({
-    total: '',
-    day: '',
-    night: '',
-    peak: '',
-    semiPeak: ''
-  });
   
-  // Параметры для расчёта по нормативу
-  const [residentsCount, setResidentsCount] = useState('');
-  const [roomsCount, setRoomsCount] = useState('');
-  const [heatingSeason, setHeatingSeason] = useState(false);
-  
-  // Параметры ОДН
-  const [includeODN, setIncludeODN] = useState(false);
-  const [odnMethod, setOdnMethod] = useState('odpu');
-  const [odpuTotal, setOdpuTotal] = useState('');
-  const [ipuTotal, setIpuTotal] = useState('');
-  const [area, setArea] = useState('');
-  const [commonArea, setCommonArea] = useState('');
-  const [normativeODN, setNormativeODN] = useState('');
-  
+  const [consumption, setConsumption] = useState('');
+  const [consDay, setConsDay] = useState('');
+  const [consNight, setConsNight] = useState('');
+  const [consPeak, setConsPeak] = useState('');
+  const [consSemiPeak, setConsSemiPeak] = useState('');
+  const [consNight3, setConsNight3] = useState('');
+  const [rooms, setRooms] = useState('');
+  const [people, setPeople] = useState('');
+  const [canInstallMeter, setCanInstallMeter] = useState(false);
+
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
 
-  // Тарифы (из документа electariff.docx)
-  const tariffs = {
-    before2026: {
-      cityNoElectric: {
-        single: { range1: 4.00, range2: 5.02, range3: 8.74 },
-        twoZone: {
-          day: { range1: 4.54, range2: 5.70, range3: 9.91 },
-          night: { range1: 3.20, range2: 4.02, range3: 6.99 }
-        },
-        threeZone: {
-          peak: { range1: 4.81, range2: 6.04, range3: 10.49 },
-          semiPeak: { range1: 4.00, range2: 5.02, range3: 8.74 },
-          night: { range1: 3.20, range2: 4.02, range3: 6.99 }
-        }
-      },
-      cityWithElectric: {
-        single: { range1: 2.80, range2: 3.51, range3: 8.74 },
-        twoZone: {
-          day: { range1: 3.18, range2: 3.99, range3: 9.91 },
-          night: { range1: 2.24, range2: 2.81, range3: 6.99 }
-        },
-        threeZone: {
-          peak: { range1: 3.37, range2: 4.23, range3: 10.49 },
-          semiPeak: { range1: 2.80, range2: 3.51, range3: 8.74 },
-          night: { range1: 2.24, range2: 2.81, range3: 6.99 }
-        }
-      }
-    }
-  };
+  const getSpecialCase = () => settlementType === 'city' && !hasStove && !hasHeating;
 
-  // Нормативы
-  const norms = {
-    city: {
-      noStoveNoHeating: { norm: 50, description: 'Нет плиты, нет отопления' },
-      hasStoveNoHeating: { norm: 80, description: 'Есть плита, нет отопления' },
-      noStoveHasHeatingSeason: { norm: 70, description: 'Нет плиты, есть отопление (отопительный сезон)' },
-      noStoveHasHeatingOffSeason: { norm: 50, description: 'Нет плиты, есть отопление (вне отопительного сезона)' },
-      hasStoveHasHeating: { norm: 100, description: 'Есть плита и отопление' }
-    },
-    village: {
-      noStoveNoHeating: { norm: 60, description: 'Нет плиты, нет отопления' },
-      hasStoveNoHeating: { norm: 90, description: 'Есть плита, нет отопления' },
-      noStoveHasHeatingSeason: { norm: 80, description: 'Нет плиты, есть отопление (отопительный сезон)' },
-      noStoveHasHeatingOffSeason: { norm: 60, description: 'Нет плиты, есть отопление (вне отопительного сезона)' },
-      hasStoveHasHeating: { norm: 110, description: 'Есть плита и отопление' }
-    }
-  };
-
-  // Определение норматива
-  const determineNormative = () => {
-    const settlementNorms = settlementType === 'city' ? norms.city : norms.village;
-    
-    if (hasElectricStove && hasElectricHeating) {
-      return settlementNorms.hasStoveHasHeating;
-    } else if (hasElectricStove && !hasElectricHeating) {
-      return settlementNorms.hasStoveNoHeating;
-    } else if (!hasElectricStove && hasElectricHeating) {
-      return heatingSeason ? settlementNorms.noStoveHasHeatingSeason : settlementNorms.noStoveHasHeatingOffSeason;
-    } else {
-      return settlementNorms.noStoveNoHeating;
-    }
-  };
-
-  const getTariffRate = () => {
-    if (houseType === 'private' && settlementType === 'city' && !hasElectricStove && !hasElectricHeating) {
-      return 1;
-    }
-    return 0.7;
-  };
-
-  const getTariff = () => {
-    const rate = getTariffRate();
-    let tariffGroup;
-    
-    if (settlementType === 'village' || hasElectricStove || hasElectricHeating) {
-      tariffGroup = tariffs.before2026.cityWithElectric;
-    } else {
-      tariffGroup = tariffs.before2026.cityNoElectric;
-    }
-    
-    const applyRate = (tariff) => {
-      if (typeof tariff === 'object') {
-        const result = {};
-        for (const key in tariff) {
-          result[key] = applyRate(tariff[key]);
-        }
-        return result;
-      }
-      return tariff * rate;
-    };
-    
-    return applyRate(tariffGroup);
-  };
-
-  const calculateByRanges = (amount, tariff) => {
-    const range1 = 3900;
-    const range2 = 6000;
-    let total = 0;
-    
-    if (amount <= range1) {
-      total = amount * tariff.range1;
-    } else if (amount <= range2) {
-      total = range1 * tariff.range1 + (amount - range1) * tariff.range2;
-    } else {
-      total = range1 * tariff.range1 + (range2 - range1) * tariff.range2 + (amount - range2) * tariff.range3;
-    }
-    
-    return total;
-  };
-
-  const validateStep = () => {
+  const validate = () => {
     setError('');
-    
-    switch(currentStep) {
-      case 1:
-        if (!houseType) {
-          setError('Выберите тип дома');
-          return false;
-        }
-        break;
-      case 2:
-        if (!settlementType) {
-          setError('Выберите тип населённого пункта');
-          return false;
-        }
-        break;
-      case 3:
-        // Для села без счётчика проверяем оборудование
-        if (settlementType === 'village' && !hasMeter && !hasElectricStove && !hasElectricHeating) {
-          // Это нормально, просто нет оборудования
-        }
-        break;
-      case 4:
-        if (hasMeter === null || hasMeter === undefined) {
-          setError('Выберите наличие счётчика');
-          return false;
-        }
-        break;
-      case 5:
-        if (hasMeter) {
-          if (!tariffType) {
-            setError('Выберите тип тарифа');
-            return false;
-          }
-          if (tariffType === 'single' && !consumption.total) {
-            setError('Введите общее потребление');
-            return false;
-          }
-          if (tariffType === 'two-zone' && (!consumption.day || !consumption.night)) {
-            setError('Введите потребление по зонам');
-            return false;
-          }
-          if (tariffType === 'three-zone' && (!consumption.peak || !consumption.semiPeak || !consumption.night)) {
-            setError('Введите потребление по зонам');
-            return false;
-          }
-        } else {
-          if (!residentsCount || residentsCount <= 0) {
-            setError('Введите количество проживающих');
-            return false;
-          }
-          if (houseType === 'private' && (!roomsCount || roomsCount <= 0)) {
-            setError('Введите количество комнат');
-            return false;
-          }
-        }
-        break;
-      case 6:
-        if (includeODN && houseType === 'mkd') {
-          if (!area || area <= 0) {
-            setError('Введите площадь квартиры');
-            return false;
-          }
-          if (odnMethod === 'odpu' && (!odpuTotal || !ipuTotal || !commonArea)) {
-            setError('Заполните все поля для расчёта ОДН');
-            return false;
-          }
-          if (odnMethod === 'normative' && !normativeODN) {
-            setError('Введите норматив ОДН');
-            return false;
-          }
-        }
-        break;
-      default:
-        break;
+    if (hasMeters) {
+      if (tariffType === 'single' && !consumption) return setError('Укажите общее потребление');
+      if (tariffType === 'dual' && (!consDay || !consNight)) return setError('Заполните показания дня и ночи');
+      if (tariffType === 'triple' && (!consPeak || !consSemiPeak || !consNight3)) return setError('Заполните все три зоны тарифа');
+    } else {
+      if (!rooms || !people) return setError('Укажите количество комнат и проживающих');
+      if (Number(people) < 1) return setError('Количество проживающих должно быть не менее 1');
     }
-    
     return true;
   };
 
-  const handleNext = () => {
-    if (validateStep()) {
-      setCurrentStep(prev => prev + 1);
-    }
-  };
+  const calculate = () => {
+    if (!validate()) return;
 
-  const handleBack = () => {
-    setCurrentStep(prev => prev - 1);
-    setError('');
-  };
-
-  const calculateCost = () => {
-    if (!validateStep()) return;
-    
-    const tariff = getTariff();
     let cost = 0;
-    
-    if (hasMeter) {
+    let formulaParts = [];
+    let tariffRate = 0;
+    const isSpecial = getSpecialCase();
+
+    if (hasMeters) {
       if (tariffType === 'single') {
-        const total = parseFloat(consumption.total) || 0;
-        cost = calculateByRanges(total, tariff.single);
-      } else if (tariffType === 'two-zone') {
-        const day = parseFloat(consumption.day) || 0;
-        const night = parseFloat(consumption.night) || 0;
-        cost = calculateByRanges(day, tariff.twoZone.day) + 
-               calculateByRanges(night, tariff.twoZone.night);
-      } else if (tariffType === 'three-zone') {
-        const peak = parseFloat(consumption.peak) || 0;
-        const semiPeak = parseFloat(consumption.semiPeak) || 0;
-        const night = parseFloat(consumption.night) || 0;
-        cost = calculateByRanges(peak, tariff.threeZone.peak) + 
-               calculateByRanges(semiPeak, tariff.threeZone.semiPeak) +
-               calculateByRanges(night, tariff.threeZone.night);
+        tariffRate = isHeatingMonth ? (isSpecial ? 4.45 : 3.12) : (isSpecial ? 4.00 : 2.80);
+        cost = Number(consumption) * tariffRate;
+        formulaParts = [`${consumption} кВт·ч × ${tariffRate} ₽`];
+      } 
+      else if (tariffType === 'dual') {
+        const rDay = isHeatingMonth ? (isSpecial ? 5.32 : 3.72) : (isSpecial ? 4.54 : 3.18);
+        const rNight = isHeatingMonth ? (isSpecial ? 3.50 : 2.45) : (isSpecial ? 3.20 : 2.24);
+        cost = Number(consDay) * rDay + Number(consNight) * rNight;
+        formulaParts = [`${consDay} × ${rDay} + ${consNight} × ${rNight}`];
+      } 
+      else if (tariffType === 'triple') {
+        const rPeak = isHeatingMonth ? (isSpecial ? 6.71 : 4.70) : (isSpecial ? 4.81 : 3.37);
+        const rSemi = isHeatingMonth ? (isSpecial ? 4.45 : 3.12) : (isSpecial ? 4.00 : 2.80);
+        const rNight = isHeatingMonth ? (isSpecial ? 3.50 : 2.45) : (isSpecial ? 3.20 : 2.24);
+        cost = Number(consPeak) * rPeak + Number(consSemiPeak) * rSemi + Number(consNight3) * rNight;
+        formulaParts = [`${consPeak} × ${rPeak} + ${consSemiPeak} × ${rSemi} + ${consNight3} × ${rNight}`];
       }
     } else {
-      const residents = parseFloat(residentsCount) || 0;
-      const rooms = parseFloat(roomsCount) || 1;
-      const normative = determineNormative();
-      const normValue = normative.norm;
-      
-      let totalConsumption = 0;
-      
-      if (houseType === 'private') {
-        totalConsumption = normValue * residents * rooms;
-        if (hasElectricHeating && heatingSeason) {
-          totalConsumption *= 1.5;
-        }
-      } else {
-        totalConsumption = normValue * residents;
-      }
-      
-      cost = calculateByRanges(totalConsumption, tariff.single);
+      let cat;
+      if (!hasStove && !hasHeating) cat = 1;
+      else if (hasStove && !hasHeating) cat = 2;
+      else if (!hasStove && hasHeating && isHeatingMonth) cat = 3;
+      else if (!hasStove && hasHeating && !isHeatingMonth) cat = 4;
+      else cat = 5;
+
+      const roomsKey = rooms >= 4 ? 4 : Number(rooms);
+      const peopleIdx = Math.min(Number(people), 5) - 1;
+      const normative = NORMATIVES[cat]?.[roomsKey]?.[peopleIdx] || 0;
+
+      if (!hasStove && !hasHeating) tariffRate = settlementType === 'city' ? 4.00 : 2.80;
+      else if (hasStove && !hasHeating) tariffRate = 2.80;
+      else tariffRate = isHeatingMonth ? 3.12 : 2.80;
+
+      const multiplier = canInstallMeter ? 1.5 : 1;
+      cost = multiplier * Number(people) * normative * tariffRate;
+      formulaParts = [`${multiplier} × ${people} чел. × ${normative} кВт·ч × ${tariffRate} ₽`];
     }
-    
-    let odnCost = 0;
-    if (includeODN && houseType === 'mkd') {
-      if (odnMethod === 'odpu') {
-        const totalOdpu = parseFloat(odpuTotal) || 0;
-        const totalIpu = parseFloat(ipuTotal) || 0;
-        const userArea = parseFloat(area) || 0;
-        const totalArea = parseFloat(commonArea) || 0;
-        
-        const odnVolume = (totalOdpu - totalIpu) * (userArea / totalArea);
-        odnCost = calculateByRanges(odnVolume, tariff.single);
-      } else {
-        const norm = parseFloat(normativeODN) || 0;
-        const userArea = parseFloat(area) || 0;
-        odnCost = norm * userArea;
-      }
-    }
-    
-    setResult({
-      mainCost: cost,
-      odnCost: odnCost,
-      totalCost: cost + odnCost,
-      normativeInfo: !hasMeter ? determineNormative() : null
+
+    setResult({ 
+      cost: cost.toFixed(2), 
+      formula: formulaParts.join(' + ') + ` = ${cost.toFixed(2)} ₽`
     });
-    
-    setCurrentStep(prev => prev + 1);
   };
 
-  const resetCalculator = () => {
-    setCurrentStep(1);
-    setHouseType('');
-    setSettlementType('');
-    setHasElectricStove(false);
-    setHasElectricHeating(false);
-    setHasMeter(false);
-    setTariffType('single');
-    setConsumption({ total: '', day: '', night: '', peak: '', semiPeak: '' });
-    setResidentsCount('');
-    setRoomsCount('');
-    setHeatingSeason(false);
-    setIncludeODN(false);
-    setOdnMethod('odpu');
-    setOdpuTotal('');
-    setIpuTotal('');
-    setArea('');
-    setCommonArea('');
-    setNormativeODN('');
-    setResult(null);
-    setError('');
+  const reset = () => {
+    setHasMeters(false); setTariffType('single');
+    setConsumption(''); setConsDay(''); setConsNight('');
+    setConsPeak(''); setConsSemiPeak(''); setConsNight3('');
+    setRooms(''); setPeople(''); setCanInstallMeter(false);
+    setResult(null); setError('');
   };
 
-  // Определение максимального шага на основе предыдущих выборов
-  const getMaxStep = () => {
-    if (currentStep === 1) return 1;
-    if (currentStep === 2) return 2;
-    
-    // Шаг 3: оборудование (только для города или села без счётчика)
-    if (currentStep === 3) return 3;
-    
-    // Шаг 4: наличие счётчика
-    if (currentStep === 4) return 4;
-    
-    // Шаг 5: данные (зависит от наличия счётчика)
-    if (currentStep === 5) return 5;
-    
-    // Шаг 6: ОДН (только для МКД)
-    if (houseType === 'mkd' && currentStep === 6) return 6;
-    
-    // Шаг 7: результат
-    if (result) return 7;
-    
-    return 6;
-  };
-
-  const renderStep = () => {
-    switch(currentStep) {
-      case 1:
-        return (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 1 из 6</div>
-            <h3>Тип дома</h3>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="houseType"
-                  value="private"
-                  checked={houseType === 'private'}
-                  onChange={(e) => setHouseType(e.target.value)}
-                />
-                <span>Частный дом</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="houseType"
-                  value="mkd"
-                  checked={houseType === 'mkd'}
-                  onChange={(e) => setHouseType(e.target.value)}
-                />
-                <span>МКД (многоквартирный дом)</span>
-              </label>
-            </div>
-          </div>
-        );
-        
-      case 2:
-        return (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 2 из 6</div>
-            <h3>Тип населённого пункта</h3>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="settlementType"
-                  value="city"
-                  checked={settlementType === 'city'}
-                  onChange={(e) => setSettlementType(e.target.value)}
-                />
-                <span>Город</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="settlementType"
-                  value="village"
-                  checked={settlementType === 'village'}
-                  onChange={(e) => setSettlementType(e.target.value)}
-                />
-                <span>Село</span>
-              </label>
-            </div>
-          </div>
-        );
-        
-      case 3:
-        return (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 3 из 6</div>
-            <h3>Оборудование</h3>
-            <p className="step-description">
-              Укажите, какое оборудование установлено в доме
-            </p>
-            <div className="checkbox-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={hasElectricStove}
-                  onChange={(e) => setHasElectricStove(e.target.checked)}
-                />
-                <span>Есть электроплита</span>
-              </label>
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={hasElectricHeating}
-                  onChange={(e) => setHasElectricHeating(e.target.checked)}
-                />
-                <span>Есть электроотопление</span>
-              </label>
-            </div>
-          </div>
-        );
-        
-      case 4:
-        return (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 4 из 6</div>
-            <h3>Наличие счётчика (ИПУ)</h3>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="hasMeter"
-                  value="yes"
-                  checked={hasMeter === true}
-                  onChange={() => setHasMeter(true)}
-                />
-                <span>Есть счётчик</span>
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="hasMeter"
-                  value="no"
-                  checked={hasMeter === false}
-                  onChange={() => setHasMeter(false)}
-                />
-                <span>Нет счётчика (расчёт по нормативу)</span>
-              </label>
-            </div>
-          </div>
-        );
-        
-      case 5:
-        return (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 5 из 6</div>
-            <h3>{hasMeter ? 'Параметры счётчика' : 'Данные для расчёта по нормативу'}</h3>
-            
-            {hasMeter ? (
-              <>
-                <h4>Тип тарифа</h4>
-                <div className="radio-group">
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="tariffType"
-                      value="single"
-                      checked={tariffType === 'single'}
-                      onChange={(e) => setTariffType(e.target.value)}
-                    />
-                    <span>Одноставочный</span>
-                  </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="tariffType"
-                      value="two-zone"
-                      checked={tariffType === 'two-zone'}
-                      onChange={(e) => setTariffType(e.target.value)}
-                    />
-                    <span>Двухзонный (день/ночь)</span>
-                  </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="tariffType"
-                      value="three-zone"
-                      checked={tariffType === 'three-zone'}
-                      onChange={(e) => setTariffType(e.target.value)}
-                    />
-                    <span>Трёхзонный (пик/полупик/ночь)</span>
-                  </label>
-                </div>
-                
-                <div className="input-group">
-                  {tariffType === 'single' && (
-                    <div className="input-field">
-                      <label>Общее потребление (кВт·ч):</label>
-                      <input
-                        type="number"
-                        value={consumption.total}
-                        onChange={(e) => setConsumption({...consumption, total: e.target.value})}
-                        placeholder="Введите общее потребление"
-                      />
-                    </div>
-                  )}
-                  
-                  {tariffType === 'two-zone' && (
-                    <>
-                      <div className="input-field">
-                        <label>Дневная зона (07:00-23:00), кВт·ч:</label>
-                        <input
-                          type="number"
-                          value={consumption.day}
-                          onChange={(e) => setConsumption({...consumption, day: e.target.value})}
-                          placeholder="Введите потребление днём"
-                        />
-                      </div>
-                      <div className="input-field">
-                        <label>Ночная зона (23:00-07:00), кВт·ч:</label>
-                        <input
-                          type="number"
-                          value={consumption.night}
-                          onChange={(e) => setConsumption({...consumption, night: e.target.value})}
-                          placeholder="Введите потребление ночью"
-                        />
-                      </div>
-                    </>
-                  )}
-                  
-                  {tariffType === 'three-zone' && (
-                    <>
-                      <div className="input-field">
-                        <label>Пиковая зона, кВт·ч:</label>
-                        <input
-                          type="number"
-                          value={consumption.peak}
-                          onChange={(e) => setConsumption({...consumption, peak: e.target.value})}
-                          placeholder="Введите потребление в пик"
-                        />
-                      </div>
-                      <div className="input-field">
-                        <label>Полупиковая зона, кВт·ч:</label>
-                        <input
-                          type="number"
-                          value={consumption.semiPeak}
-                          onChange={(e) => setConsumption({...consumption, semiPeak: e.target.value})}
-                          placeholder="Введите потребление в полупик"
-                        />
-                      </div>
-                      <div className="input-field">
-                        <label>Ночная зона, кВт·ч:</label>
-                        <input
-                          type="number"
-                          value={consumption.night}
-                          onChange={(e) => setConsumption({...consumption, night: e.target.value})}
-                          placeholder="Введите потребление ночью"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                {settlementType && (
-                  <div className="normative-info">
-                    <strong>Применяемый норматив:</strong> {determineNormative().description}
-                    <br />
-                    <small>Норматив: {determineNormative().norm} кВт·ч на человека</small>
-                  </div>
-                )}
-                
-                <div className="input-group">
-                  <div className="input-field">
-                    <label>Количество проживающих (чел.):</label>
-                    <input
-                      type="number"
-                      value={residentsCount}
-                      onChange={(e) => setResidentsCount(e.target.value)}
-                      placeholder="Введите количество человек"
-                    />
-                  </div>
-                  {houseType === 'private' && (
-                    <div className="input-field">
-                      <label>Количество комнат:</label>
-                      <input
-                        type="number"
-                        value={roomsCount}
-                        onChange={(e) => setRoomsCount(e.target.value)}
-                        placeholder="Введите количество комнат"
-                      />
-                    </div>
-                  )}
-                  {houseType === 'private' && hasElectricHeating && (
-                    <div className="checkbox-group">
-                      <label className="checkbox-label">
-                        <input
-                          type="checkbox"
-                          checked={heatingSeason}
-                          onChange={(e) => setHeatingSeason(e.target.checked)}
-                        />
-                        <span>Отопительный сезон</span>
-                      </label>
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-        );
-        
-      case 6:
-        return houseType === 'mkd' ? (
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 6 из 6</div>
-            <h3>Общедомовые нужды (ОДН)</h3>
-            <div className="checkbox-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={includeODN}
-                  onChange={(e) => setIncludeODN(e.target.checked)}
-                />
-                <span>Включить расчёт ОДН</span>
-              </label>
-            </div>
-            
-            {includeODN && (
-              <div className="odn-section">
-                <h4>Способ расчёта ОДН</h4>
-                <div className="radio-group">
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="odnMethod"
-                      value="odpu"
-                      checked={odnMethod === 'odpu'}
-                      onChange={(e) => setOdnMethod(e.target.value)}
-                    />
-                    <span>По ОДПУ</span>
-                  </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="odnMethod"
-                      value="normative"
-                      checked={odnMethod === 'normative'}
-                      onChange={(e) => setOdnMethod(e.target.value)}
-                    />
-                    <span>По нормативу</span>
-                  </label>
-                </div>
-                
-                {odnMethod === 'odpu' ? (
-                  <div className="input-group">
-                    <div className="input-field">
-                      <label>Показания ОДПУ (кВт·ч):</label>
-                      <input
-                        type="number"
-                        value={odpuTotal}
-                        onChange={(e) => setOdpuTotal(e.target.value)}
-                        placeholder="Общее потребление дома"
-                      />
-                    </div>
-                    <div className="input-field">
-                      <label>Сумма показаний ИПУ (кВт·ч):</label>
-                      <input
-                        type="number"
-                        value={ipuTotal}
-                        onChange={(e) => setIpuTotal(e.target.value)}
-                        placeholder="Сумма всех квартирных счётчиков"
-                      />
-                    </div>
-                    <div className="input-field">
-                      <label>Площадь вашей квартиры (м²):</label>
-                      <input
-                        type="number"
-                        value={area}
-                        onChange={(e) => setArea(e.target.value)}
-                        placeholder="Площадь квартиры"
-                      />
-                    </div>
-                    <div className="input-field">
-                      <label>Общая площадь дома (м²):</label>
-                      <input
-                        type="number"
-                        value={commonArea}
-                        onChange={(e) => setCommonArea(e.target.value)}
-                        placeholder="Общая площадь всех помещений"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="input-group">
-                    <div className="input-field">
-                      <label>Норматив ОДН (кВт·ч/м²):</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={normativeODN}
-                        onChange={(e) => setNormativeODN(e.target.value)}
-                        placeholder="Введите норматив"
-                      />
-                    </div>
-                    <div className="input-field">
-                      <label>Площадь вашей квартиры (м²):</label>
-                      <input
-                        type="number"
-                        value={area}
-                        onChange={(e) => setArea(e.target.value)}
-                        placeholder="Площадь квартиры"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ) : (
-          // Если частный дом, пропускаем шаг с ОДН
-          <div className="calculator-step active">
-            <div className="step-number">Шаг 6 из 6</div>
-            <h3>Готово к расчёту</h3>
-            <p>Все данные введены. Нажмите "Рассчитать" для получения результата.</p>
-          </div>
-        );
-        
-      case 7:
-        return (
-          <div className="calculator-result">
-            <h3>Результат расчёта</h3>
-            {result.normativeInfo && (
-              <div className="result-normative">
-                <small>Расчёт произведён по нормативу: {result.normativeInfo.description}</small>
-              </div>
-            )}
-            <div className="result-item">
-              <span>Стоимость электроэнергии:</span>
-              <strong>{result.mainCost.toFixed(2)} ₽</strong>
-            </div>
-            {includeODN && (
-              <div className="result-item">
-                <span>ОДН:</span>
-                <strong>{result.odnCost.toFixed(2)} ₽</strong>
-              </div>
-            )}
-            <div className="result-total">
-              <span>Итого к оплате:</span>
-              <strong>{result.totalCost.toFixed(2)} ₽</strong>
-            </div>
-          </div>
-        );
-        
-      default:
-        return null;
-    }
-  };
-
+  // === VIEW: MENU ===
+  if (view === 'menu') {
     return (
-    <section className="page-section">
-      <div className="section-inner">
-        <div className="page-header">
-          <h1>Калькулятор начислений за электроэнергию</h1>
-          <p className="page-subtitle">
-            Ответьте на вопросы последовательно для расчёта стоимости
-          </p>
+      <section className="calc-wrapper">
+        <div className="calc-container">
+          <header className="calc-header">
+            <h1 className="calc-title">Калькуляторы <span className="accent">коммунальных услуг</span></h1>
+            <p className="calc-subtitle">Выберите тип ресурса для расчёта стоимости потребления</p>
+          </header>
+          <div className="calc-menu-grid">
+            <button className="calc-menu-card active">
+              <span className="calc-card-title">Холодная вода</span>
+            </button>
+            <button className="calc-menu-card active">
+              <span className="calc-card-title">Горячая вода</span>
+            </button>
+            <button className="calc-menu-card active">
+              <span className="calc-card-title">Газ</span>
+            </button>
+            <button className="calc-menu-card active" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
+              <span className="calc-card-title">Электроэнергия</span>
+            </button>
+          </div>
         </div>
+      </section>
+    );
+  }
 
-        <div className="calculator-wrapper">
-          {/* Сообщение об ошибке */}
-          {error && (
-            <div className="error-message">
-              {error}
+  // === VIEW: CALCULATOR ===
+  return (
+    <section className="calc-wrapper">
+      <div className="calc-container">
+        <button className="calc-back-btn" onClick={() => setView('menu')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Назад к выбору услуг
+        </button>
+
+        <header className="calc-header">
+          <h1 className="calc-title">Калькулятор <span className="accent">электроэнергии</span></h1>
+          <p className="calc-subtitle">Точный расчёт стоимости по счётчику или нормативу с учётом тарифных зон</p>
+        </header>
+
+        <form className="calc-form" onSubmit={e => { e.preventDefault(); calculate(); }}>
+          <div className="calc-section">
+            <h3 className="calc-section-title">Параметры помещения</h3>
+            <div className="calc-form-grid">
+              <InputGroup label="Тип населённого пункта">
+                <ToggleGroup options={[{v:'city', l:'Город'}, {v:'village', l:'Село'}]} value={settlementType} onChange={setSettlementType} />
+              </InputGroup>
+              <InputGroup label="Стационарная электроплита?">
+                <ToggleGroup options={[{v:true, l:'Есть'}, {v:false, l:'Нет'}]} value={hasStove} onChange={setHasStove} />
+              </InputGroup>
+              <InputGroup label="Электроотопление?">
+                <ToggleGroup options={[{v:true, l:'Есть'}, {v:false, l:'Нет'}]} value={hasHeating} onChange={setHasHeating} />
+              </InputGroup>
+              <InputGroup label="Отопительный месяц?">
+                <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={isHeatingMonth} onChange={setIsHeatingMonth} />
+              </InputGroup>
+              <InputGroup label="Установлен счётчик?">
+                <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={hasMeters} onChange={setHasMeters} />
+              </InputGroup>
+            </div>
+          </div>
+
+          {hasMeters && (
+            <div className="calc-section">
+              <h3 className="calc-section-title">Показания счётчика</h3>
+              <div className="calc-form-grid">
+                <InputGroup label="Тарифная зона">
+                  <select className="calc-form-select" value={tariffType} onChange={e => setTariffType(e.target.value)}>
+                    <option value="single">Одноставочный</option>
+                    <option value="dual">Двухзонный (День/Ночь)</option>
+                    <option value="triple">Трёхзонный (Пик/Полупик/Ночь)</option>
+                  </select>
+                </InputGroup>
+                {tariffType === 'single' && (
+                  <InputGroup label="Потребление (кВт·ч)">
+                    <input type="number" className="form-input" value={consumption} onChange={e => setConsumption(e.target.value)} placeholder="0" />
+                  </InputGroup>
+                )}
+                {tariffType === 'dual' && (
+                  <>
+                    <InputGroup label="День (Т1)"><input type="number" className="form-input" value={consDay} onChange={e => setConsDay(e.target.value)} placeholder="0" /></InputGroup>
+                    <InputGroup label="Ночь (Т2)"><input type="number" className="form-input" value={consNight} onChange={e => setConsNight(e.target.value)} placeholder="0" /></InputGroup>
+                  </>
+                )}
+                {tariffType === 'triple' && (
+                  <>
+                    <InputGroup label="Пик (Т1)"><input type="number" className="form-input" value={consPeak} onChange={e => setConsPeak(e.target.value)} placeholder="0" /></InputGroup>
+                    <InputGroup label="Полупик (Т2)"><input type="number" className="form-input" value={consSemiPeak} onChange={e => setConsSemiPeak(e.target.value)} placeholder="0" /></InputGroup>
+                    <InputGroup label="Ночь (Т3)"><input type="number" className="form-input" value={consNight3} onChange={e => setConsNight3(e.target.value)} placeholder="0" /></InputGroup>
+                  </>
+                )}
+              </div>
             </div>
           )}
-          
-          {/* Контейнер для шагов */}
-          <div className="steps-container">
-            {renderStep()}
-            
-            {/* Кнопки навигации внутри контейнера шагов */}
-            {currentStep < 7 && (
-              <div className="calculator-navigation">
-                {currentStep > 1 && (
-                  <button className="btn btn-secondary" onClick={handleBack}>
-                    ← Назад
-                  </button>
-                )}
-                {currentStep < 6 || (currentStep === 6 && houseType === 'mkd') ? (
-                  <button 
-                    className="btn btn-primary" 
-                    onClick={currentStep === 6 && houseType === 'mkd' ? calculateCost : handleNext}
-                  >
-                    {currentStep === 6 ? 'Рассчитать' : 'Далее →'}
-                  </button>
-                ) : (
-                  <button className="btn btn-primary" onClick={calculateCost}>
-                    Рассчитать
-                  </button>
-                )}
+
+          {!hasMeters && (
+            <div className="calc-section">
+              <h3 className="calc-section-title">Расчёт по нормативу</h3>
+              <div className="calc-form-grid">
+                <InputGroup label="Количество комнат">
+                  <select className="calc-form-select" value={rooms} onChange={e => setRooms(e.target.value)}>
+                    <option value="">Выберите</option>
+                    {[1,2,3,4].map(r => <option key={r} value={r}>{r === 4 ? '4 и более' : r}</option>)}
+                  </select>
+                </InputGroup>
+                <InputGroup label="Проживающих (чел.)">
+                  <input type="number" min="1" className="form-input" value={people} onChange={e => setPeople(e.target.value)} placeholder="1" />
+                </InputGroup>
+                <InputGroup label="Есть тех. возможность установки счётчика?">
+                  <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={canInstallMeter} onChange={setCanInstallMeter} />
+                </InputGroup>
               </div>
-            )}
-            
-            {/* Кнопка сброса на странице результата */}
-            {currentStep === 7 && (
-              <div className="calculator-navigation">
-                <button className="btn btn-secondary" onClick={handleBack}>
-                  ← Назад к данным
-                </button>
-                <button className="btn btn-primary" onClick={resetCalculator}>
-                  Рассчитать заново
-                </button>
-              </div>
-            )}
+            </div>
+          )}
+
+          {error && <div className="error-msg">{error}</div>}
+
+          <div className="calc-actions">
+            <button type="submit" className="calc-btn btn-primary">Рассчитать стоимость</button>
+            <button type="button" className="calc-btn btn-secondary" onClick={reset}>Сбросить</button>
           </div>
-        </div>
+        </form>
+
+        {result && (
+          <div className="calc-result-box">
+            <div className="calc-result-header">
+              <span className="calc-result-title">Результат расчёта</span>
+              <span className="calc-result-total">{Number(result.cost).toLocaleString('ru-RU')} ₽</span>
+            </div>
+            <div className="calc-formula-card">
+              <span className="calc-formula-label">Формула расчёта</span>
+              <span dangerouslySetInnerHTML={{ __html: result.formula.replace(/\d+/g, m => `<span class="formula-highlight">${m}</span>`) }} />
+            </div>
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function InputGroup({ label, children }) {
+  return <div className="calc-input-group"><label className="input-label">{label}</label>{children}</div>;
+}
+
+function ToggleGroup({ options, value, onChange }) {
+  return (
+    <div className="calc-toggle-group">
+      {options.map(opt => (
+        <button
+          key={String(opt.v)}
+          className={`calc-toggle-btn ${value === opt.v ? 'active' : ''}`}
+          onClick={() => onChange(opt.v)}
+          type="button"
+        >
+          {opt.l}
+        </button>
+      ))}
+    </div>
   );
 }
