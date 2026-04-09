@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/pages.css';
 
-export default function FAQ() {
+export default function FAQ({ onPageChange }) {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [expandedItems, setExpandedItems] = useState({});
 
@@ -24,10 +24,34 @@ export default function FAQ() {
           a: (
             <>
               <p>Причины: корректировка за прошлые периоды, изменение тарифов, начисление пени, ошибка в показаниях или расчет по нормативу.</p>
-              <p>Что делать: запросите детализацию в УК {/* ПЕРЕХОД: Ссылка на контакты */} или через ГИС ЖКХ.</p>
+              <p>
+                Что делать: запросите детализацию в{' '}
+                <button 
+                  className="inline-link" 
+                  onClick={() => onPageChange('contacts')}
+                >
+                  УК (контакты)
+                </button>{' '}
+                или через ГИС ЖКХ.
+              </p>
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
-                <a href="https://www.consultant.ru/document/cons_doc_LAW_51057/139575aa60e88741a70818912399a939d07f5e2e/?spm=a2ty_o01.29997173.0.0.62885171kKzXpk" target="_blank" rel="noreferrer" className="npa-link">ЖК РФ ст. 155; ПП РФ № 354, п. 61–72</a>
+                <a 
+                  href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=100910&cacheid=A06604E423EC215C24148F7B48F8F6E4&mode=splus&rnd=W3YHA#nsOrHGVUBkCGKZ702" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="npa-link"
+                >
+                  ЖК РФ ст. 155 
+                </a>;{' '}
+                <a 
+                  href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=522272&cacheid=3B55D258AE1C56D9A2121FCD677651A7&mode=splus&rnd=W3YHA#55QtHGVKMQpaEqDt" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="npa-link"
+                >
+                  ПП РФ № 354, п. 61–72
+                </a>
               </p>
             </>
           )
@@ -40,7 +64,7 @@ export default function FAQ() {
               <p>ОДН - ресурсы на содержание общего имущества (лифт, освещение, уборка, потери в сетях). Платите за разницу между общедомовым и индивидуальными счетчиками.</p>
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
-                <a href="https://www.consultant.ru/document/cons_doc_LAW_51057/61daeebf9c8ca3f4be07be8de9bd59c9e5a5820b/" target="_blank" rel="noreferrer" className="npa-link">ЖК РФ ст. 36, 154; ПП РФ № 354, п. 40–44</a>
+                <a href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=100900&cacheid=9D25F3CFAA868532E4A106BF6F85B63A&mode=splus&rnd=W3YHA#rpxnHGVgfFHE11DS1" target="_blank" rel="noreferrer" className="npa-link">ЖК РФ ст. 36, 154; ПП РФ № 354, п. 40–44</a>
               </p>
             </>
           )
@@ -51,10 +75,18 @@ export default function FAQ() {
           a: (
             <>
               <p>Плата = Норматив × Тариф × Число проживающих (для отопления + площадь). Если счетчик не установлен по вашей вине - применяется повышающий коэффициент.</p>
-              <p>Проверьте расчет в {/* ПЕРЕХОД: Ссылка на калькулятор */} нашем калькуляторе.</p>
+              <p>
+                Проверьте расчет в{' '}
+                <button 
+                  className="inline-link" 
+                  onClick={() => onPageChange('calculator')}
+                >
+                  нашем калькуляторе
+                </button>.
+              </p>
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
-                <a href="https://www.consultant.ru/document/cons_doc_LAW_114247/" target="_blank" rel="noreferrer" className="npa-link">ЖК РФ ст. 157; ПП РФ № 354</a>
+                <a href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=79&field=134&rnd=W3YHA#JI6rHGVmafhrA5UI1" target="_blank" rel="noreferrer" className="npa-link">ЖК РФ ст. 157; ПП РФ № 354</a>
               </p>
             </>
           )
@@ -68,7 +100,7 @@ export default function FAQ() {
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
                 <a 
-                  href="https://www.consultant.ru/document/cons_doc_LAW_501136/" 
+                  href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=501136&dst=1000000001&cacheid=D743D83767333E230C419AA20DC195C4&mode=splus&rnd=W3YHA#Z4auHGVScId2HMQw" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="npa-link"
@@ -76,7 +108,7 @@ export default function FAQ() {
                   ПП РФ № 329 от 18.03.2025 
                 </a>;{' '}
                 <a 
-                  href="https://www.consultant.ru/document/cons_doc_LAW_51057/139575aa60e88741a70818912399a939d07f5e2e/" 
+                  href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=100910&cacheid=A06604E423EC215C24148F7B48F8F6E4&mode=splus&rnd=W3YHA#rfvuHGVGqSqysclN2" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="npa-link"
@@ -97,7 +129,7 @@ export default function FAQ() {
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
                 <a 
-                  href="https://www.consultant.ru/document/cons_doc_LAW_51057/65847e56a3ea5c739de751f60de4523ad97fcdb1/" 
+                  href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=100946&cacheid=2ABF37EE15B400590FE4B9350DEB7D37&mode=splus&rnd=W3YHA#In3vHGVBuO4sUT0W" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="npa-link"
@@ -142,7 +174,7 @@ export default function FAQ() {
           q: 'Как производится перерасчёт за временное отсутствие?',
           a: (
             <>
-              <p>Условия: отсутствие > 5 дней подряд + документы (билеты, справка). Перерасчет - только для воды/водоотведения (при отсутствии счетчиков). Не применяется к отоплению и содержанию жилья.</p>
+              <p>Условия: отсутствие &gt; 5 дней подряд + документы (билеты, справка). Перерасчет - только для воды/водоотведения (при отсутствии счетчиков). Не применяется к отоплению и содержанию жилья.</p>
               <p className="npa-row">
                 <span className="npa-abbr">НПА:</span>{' '}
                 <a href="https://www.consultant.ru/document/cons_doc_LAW_114247/" target="_blank" rel="noreferrer" className="npa-link">ПП РФ № 354, п. 86–97</a>
