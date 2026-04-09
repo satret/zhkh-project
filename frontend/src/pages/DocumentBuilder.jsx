@@ -11,6 +11,8 @@ import damageCompensationAgreementData from '../docs_templates/damage_compensati
 import moneyReceiptData from '../docs_templates/money_receipt.json';
 import floodActData from '../docs_templates/flood_act.json';
 import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
+import courtOptions from '../data/courts.json';
+import managementCompanies from '../data/management_companies.json';
 
 export default function DocumentBuilder({ subsection, onPageChange }) {
   const [selectedDoc, setSelectedDoc] = useState('complaint');
@@ -261,6 +263,66 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
       onPageChange('selfcheck', 'representative');
     }
   };
+  const getSelectedCourtId = () => {
+    const courtName = formData['Наименование суда'];
+    const courtAddress = formData['Адрес суда'];
+    const selectedCourt = courtOptions
+      .flatMap(group => group.items)
+      .find(court => court.name === courtName && court.address === courtAddress);
+
+    return selectedCourt?.id || '';
+  };
+  const handleCourtSelectChange = (e) => {
+    const selectedCourt = courtOptions
+      .flatMap(group => group.items)
+      .find(court => court.id === e.target.value);
+
+    setFormData(prev => ({
+      ...prev,
+      'Наименование суда': selectedCourt?.name || '',
+      'Адрес суда': selectedCourt?.address || ''
+    }));
+
+    if (emptyFields.length > 0) setEmptyFields([]);
+    setValidationErrors(prev => {
+      const newErrs = { ...prev };
+      delete newErrs['Наименование суда'];
+      delete newErrs['Адрес суда'];
+      return newErrs;
+    });
+  };
+  const getSelectedUkId = () => {
+    const companyName = formData['Название УК'] || formData['Наименование УК'];
+    const companyAddress = formData['Адрес УК'];
+    const selectedCompany = managementCompanies.find(
+      company => company.name === companyName && (!companyAddress || company.address === companyAddress)
+    );
+
+    return selectedCompany?.id?.toString() || '';
+  };
+  const handleUkSelectChange = (e) => {
+    const selectedCompany = managementCompanies.find(
+      company => company.id.toString() === e.target.value
+    );
+
+    setFormData(prev => ({
+      ...prev,
+      ...(Object.prototype.hasOwnProperty.call(prev, 'Название УК') ? { 'Название УК': selectedCompany?.name || '' } : {}),
+      ...(Object.prototype.hasOwnProperty.call(prev, 'Наименование УК') ? { 'Наименование УК': selectedCompany?.name || '' } : {}),
+      ...(Object.prototype.hasOwnProperty.call(prev, 'Адрес УК') ? { 'Адрес УК': selectedCompany?.address || '' } : {}),
+      ...(Object.prototype.hasOwnProperty.call(prev, 'ФИО директора') ? { 'ФИО директора': selectedCompany?.directorDative || selectedCompany?.director || '' } : {})
+    }));
+
+    if (emptyFields.length > 0) setEmptyFields([]);
+    setValidationErrors(prev => {
+      const newErrs = { ...prev };
+      delete newErrs['Название УК'];
+      delete newErrs['Наименование УК'];
+      delete newErrs['Адрес УК'];
+      delete newErrs['ФИО директора'];
+      return newErrs;
+    });
+  };
   const openCourtReminder = () => {
     window.open(courtReminderPdf, '_blank', 'noopener,noreferrer');
   };
@@ -313,6 +375,9 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
                 const isError = emptyFields.some(f => f.name === field.name);
                 const formatError = validationErrors[field.name];
                 const isLocked = isFieldLocked(field);
+                const isCourtNameField = field.name === 'Наименование суда';
+                const isCourtAddressField = field.name === 'Адрес суда';
+                const isUkNameField = field.name === 'Название УК' || field.name === 'Наименование УК';
                 
                 return (
                   <div key={field.name} className="form-group">
@@ -320,7 +385,48 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
                       {field.label} {field.required && <span style={{ color: '#ef4444' }}>*</span>}
                       {isLocked && <span className="field-lock-badge">Заполняется вручную</span>}
                     </label>
-                    {field.type === 'textarea' ? (
+                    {isCourtNameField ? (
+                      <select
+                        className={`form-input ${isError || formatError ? 'input-error' : ''}`}
+                        name={field.name}
+                        value={getSelectedCourtId()}
+                        onChange={handleCourtSelectChange}
+                      >
+                        <option value="">Выберите суд</option>
+                        {courtOptions.map(group => (
+                          <optgroup key={group.group} label={group.group}>
+                            {group.items.map(court => (
+                              <option key={court.id} value={court.id}>
+                                {court.name}
+                              </option>
+                            ))}
+                          </optgroup>
+                        ))}
+                      </select>
+                    ) : isUkNameField ? (
+                      <select
+                        className={`form-input ${isError || formatError ? 'input-error' : ''}`}
+                        name={field.name}
+                        value={getSelectedUkId()}
+                        onChange={handleUkSelectChange}
+                      >
+                        <option value="">Выберите управляющую компанию</option>
+                        {managementCompanies.map(company => (
+                          <option key={company.id} value={company.id}>
+                            {company.name}
+                          </option>
+                        ))}
+                      </select>
+                    ) : isCourtAddressField ? (
+                      <input
+                        className={`form-input ${isError || formatError ? 'input-error' : ''}`}
+                        type="text"
+                        name={field.name}
+                        value={formData[field.name] || ''}
+                        onChange={handleInputChange}
+                        placeholder="Адрес суда подставится автоматически"
+                      />
+                    ) : field.type === 'textarea' ? (
                       <textarea
                         className={`form-textarea ${isError || formatError ? 'input-error' : ''} ${isLocked ? 'input-locked' : ''}`}
                         name={field.name}
