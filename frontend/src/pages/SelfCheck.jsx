@@ -1,8 +1,8 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import '../styles/selfcheck.css';
 import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
 
-export default function SelfCheck({ onPageChange }) {
+export default function SelfCheck({ subsection, onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
   const [activeTab, setActiveTab] = useState('steps');
   const [checkedItems, setCheckedItems] = useState({});
@@ -210,6 +210,19 @@ export default function SelfCheck({ onPageChange }) {
   const totalAllItems = allItems.length;
   const checkedAllCount = allItems.filter(item => checkedItems[item.id]).length;
   const totalAllPercent = totalAllItems > 0 ? Math.round((checkedAllCount / totalAllItems) * 100) : 0;
+
+  useEffect(() => {
+    if (subsection === 'representative') {
+      setActiveTab('representative');
+      return;
+    }
+
+    const availableCategories = new Set(checklistCategories.map(category => category.id));
+    if (subsection && availableCategories.has(subsection)) {
+      setActiveTab('steps');
+      setSelectedCategory(subsection);
+    }
+  }, [subsection]);
 
  // Функция экспорта общего чек-листа в Word
   const downloadFullChecklistAsWord = () => {

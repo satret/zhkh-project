@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 ЖКХ Помощник</span>
+          <span>Сервис носит информационный характер и не является юридической консультацией.<br></br>© 2026 ЖКХ Помощник </span>
         </div>
       </div>
     </footer>
