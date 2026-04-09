@@ -121,16 +121,16 @@ export default function ElectricityCalculator() {
             <p className="calc-subtitle">Выберите тип ресурса для расчёта стоимости потребления</p>
           </header>
           <div className="calc-menu-grid">
-            <button className="calc-menu-card active">
+            <button className="btn btn-primary">
               <span className="calc-card-title">Холодная вода</span>
             </button>
-            <button className="calc-menu-card active">
+            <button className="btn btn-primary">
               <span className="calc-card-title">Горячая вода</span>
             </button>
-            <button className="calc-menu-card active">
+            <button className="btn btn-primary">
               <span className="calc-card-title">Газ</span>
             </button>
-            <button className="calc-menu-card active" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
+            <button className="btn btn-primary" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
               <span className="calc-card-title">Электроэнергия</span>
             </button>
           </div>
