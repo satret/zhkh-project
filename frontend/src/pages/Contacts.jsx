@@ -333,15 +333,7 @@ export default function Contacts({ subsection }) {
   };
 
   // Управляющие компании
-  const ukList = [
-    ...managementCompanies.map(company => ({
-      ...company,
-      phone: 'Уточняйте по телефону организации',
-      email: 'Не указан',
-      workHours: 'Уточняйте у организации',
-      emergency: 'Уточняйте у организации'
-    }))
-  ];
+  const ukList = managementCompanies;
 
   const gjiContacts = {
     name: 'Государственная жилищная инспекция Республики Дагестан',

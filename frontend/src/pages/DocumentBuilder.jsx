@@ -339,7 +339,8 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
       <div className="section-inner">
         <div className="page-header">
           <h1>Формирование документов</h1>
-          <p>Заполните поля слева. Пустые обязательные поля в документе будут выделены желтым.</p>
+          <p>Мы поможем подготовить документ для обращения в управляющую компанию, ГЖИ или суд.</p>
+          <p>Заполните форму слева, и справа сразу появится предварительный результат.</p>
           <div className="doc-builder-note">
             В целях вашей безопасности мы не запрашиваем паспортные данные на сайте. В шаблонах оставлены пустые поля, которые Вам необходимо заполнить самостоятельно после загрузки файла.
           </div>
@@ -485,13 +486,10 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
             <div className="doc-builder-resource-item">
               <h5>Памятка по выбору суда</h5>
               <button type="button" className="doc-builder-tip-link" onClick={openCourtReminder}>
-                Открыть памятку в новом окне
+                Открыть памятку
               </button>
             </div>
           </div>
-          <p className="doc-builder-disclaimer">
-            Сервис носит информационный характер и не является юридической консультацией.
-          </p>
         </div>
       </div>
 
