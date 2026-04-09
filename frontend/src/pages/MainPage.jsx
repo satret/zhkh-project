@@ -20,7 +20,6 @@ export default function HomePage({ onPageChange, onChatToggle }) {
       {/* КНОПКА ЭКСТРЕННОЙ ПОМОЩИ - В ЛЕВОМ ВЕРХНЕМ УГЛУ */}
       <div className="emergency-corner-button">
         <button className="emergency-button-top" onClick={handleEmergencyClick}>
-          <span className="emergency-icon-top">🚨</span>
           <span className="emergency-text-top">АВАРИЯ</span>
         </button>
       </div>
@@ -61,6 +60,30 @@ export default function HomePage({ onPageChange, onChatToggle }) {
             </div>
 
           </div>
+
+          <aside
+            className="hero-selfcheck-card"
+            onClick={() => onPageChange && onPageChange('selfcheck')}
+            role="button"
+            tabIndex="0"
+            onKeyDown={(event) => {
+              if ((event.key === 'Enter' || event.key === ' ') && onPageChange) {
+                event.preventDefault();
+                onPageChange('selfcheck');
+              }
+            }}
+          >
+            <div className="hero-selfcheck-badge">Самопроверка</div>
+            <h2 className="hero-selfcheck-title">Проблемы с управляющей компанией?</h2>
+            <p className="hero-selfcheck-text">
+              Пройдите по шагам и поймите, что делать дальше: от фиксации проблемы до претензии и иска.
+            </p>
+            <div className="hero-selfcheck-questions">
+              <div className="hero-selfcheck-question">Управляющая компания бездействует?</div>
+              <div className="hero-selfcheck-question">Не знаете, с чего начать?</div>
+            </div>
+            <div className="hero-selfcheck-link">Открыть самопроверку →</div>
+          </aside>
           
         </div>
 
