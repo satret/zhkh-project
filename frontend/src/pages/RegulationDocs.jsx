@@ -29,7 +29,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_5142/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=508490&dst=1000000001&cacheid=C4ABFD200A33ECEDE84B7EECE6B22B28&mode=splus&rnd=LT4YHGVQkAzBAX0t#nm5YHGVeUaEV1JrD"
           }
         ]
       },
@@ -46,7 +46,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_51057/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=511791&dst=1000000001&cacheid=60F4318BE36A3CA028CD9812EB4C1867&mode=splus&rnd=LT4YHGVQkAzBAX0t#4V4ZHGVvojLUWpJJ"
           }
         ]
       },
@@ -63,7 +63,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_305/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=515330&dst=1000000001&cacheid=31868727B3EB52C3985FB57A784AAF69&mode=splus&rnd=W3YHA#KRGZHGVawianZXYK1"
           }
         ]
       },
@@ -80,7 +80,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_122867/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=529676&dst=1000000001&cacheid=19E2433A3B5B6BCD256E2589071C5038&mode=splus&rnd=W3YHA#5QSZHGVExAWmL6gx1"
           }
         ]
       },
@@ -97,7 +97,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_121895/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=523556&dst=1000000001&cacheid=93B23A1070544950820BF8DA2D08E790&mode=splus&rnd=W3YHA#nIqZHGVFBCOnH9g7"
           }
         ]
       },
@@ -115,7 +115,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_44772/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=44772&dst=1000000001&cacheid=41093C2C82EFAAECC377A839D3148761&mode=splus&rnd=W3YHA#uZ0aHGVEfHNsjux4"
           }
         ]
       },
@@ -131,7 +131,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_19589/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=19589&cacheid=19D1A66A7F085C28BF21BB9E5910B847&mode=splus&rnd=W3YHA#M2saHGV4ot1RUZYp1"
           }
         ]
       },
@@ -148,7 +148,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_62293/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=500914&dst=1000000001&cacheid=0E9A90B2B9664EF3DF2D338D136B61B8&mode=splus&rnd=W3YHA#Rm1bHGViEqAm7no51"
           }
         ]
       },
@@ -165,7 +165,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_45158/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=479460&dst=1000000001&cacheid=C54904437AE6340AD5EB4BC95699D138&mode=splus&rnd=W3YHA#A5ObHGVwleuxBFO91"
           }
         ]
       },
@@ -182,7 +182,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_114247/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=522272&dst=1000000001&cacheid=4079BF9C6AB3745406D996BCCB1718A2&mode=splus&rnd=W3YHA#zkWbHGVgT4WyFwgT1"
           }
         ]
       },
@@ -199,7 +199,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_207118/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=500912&dst=1000000001&cacheid=D16983935A4E3976BBC40F403366E96D&mode=splus&rnd=W3YHA#q9rbHGViYt2LCIam"
           }
         ]
       },
@@ -216,7 +216,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_144804/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=500908&dst=1000000001&cacheid=81C4A42206FC57634E4B34B30787B8E3&mode=splus&rnd=W3YHA#Ws0cHGVwHAoIFnTn2"
           }
         ]
       },
@@ -233,7 +233,7 @@ export default function RegulationDocs() {
         "links": [
           {
             "title": "Консультант Плюс",
-            "url": "https://www.consultant.ru/document/cons_doc_LAW_218822/"
+            "url": "https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=218822&dst=1000000001&cacheid=12BAD8C135CCC34939E311D49DDAD447&mode=splus&rnd=W3YHA#NBAcHGVEPoCXHN9q"
           }
         ]
       }
