@@ -5,6 +5,82 @@
   margin-bottom: 48px;
 }
 
+.doc-builder-note {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #f3d19c;
+  background: linear-gradient(135deg, #fff8e8 0%, #fff1cc 100%);
+  color: #7a4b12;
+  font-size: 14px;
+  line-height: 1.55;
+  box-shadow: 0 8px 24px rgba(181, 120, 24, 0.08);
+}
+
+.doc-builder-note strong {
+  color: #9a3412;
+}
+
+.doc-builder-footer {
+  margin-top: 30px;
+}
+
+.doc-builder-disclaimer {
+  margin: 14px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.doc-builder-tip-card {
+  background: #ffffff;
+  border: 1px solid #d6e4ee;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.doc-builder-tip-card h4 {
+  margin: 0 0 14px 0;
+  color: #1f4f67;
+  font-size: 18px;
+}
+
+.doc-builder-resource-item + .doc-builder-resource-item {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #e6eef3;
+}
+
+.doc-builder-tip-card h5 {
+  margin: 0 0 12px 0;
+  color: #2c7da0;
+  font-size: 15px;
+}
+
+.doc-builder-tip-card p {
+  margin: 0 0 10px 0;
+  color: #495057;
+  line-height: 1.4;
+}
+
+.doc-builder-tip-link {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #2c7da0;
+  text-decoration: none;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.doc-builder-tip-link:hover {
+  text-decoration: underline;
+}
+
 .doc-selector h3 {
   font-size: 16px;
   margin-bottom: 16px;
@@ -374,3 +450,24 @@
 .input-error { border-color: #ef4444 !important; background-color: #fef2f2; }
 .error-hint { color: #ef4444; font-size: 12px; margin-top: 4px; display: block; }
 .req { color: #ef4444; }
+
+.field-lock-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.input-locked,
+.input-locked:disabled {
+  background-color: #f8fafc !important;
+  color: #64748b;
+  border-color: #cbd5e1 !important;
+  cursor: not-allowed;
+}

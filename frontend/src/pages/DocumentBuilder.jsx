@@ -9,26 +9,31 @@ import pretenziyaData from '../docs_templates/pretenziya.json';
 import gzhiComplaintData from '../docs_templates/gzhi_complaint.json';
 import damageCompensationAgreementData from '../docs_templates/damage_compensation_agreement.json';
 import moneyReceiptData from '../docs_templates/money_receipt.json';
+import floodActData from '../docs_templates/flood_act.json';
+import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
 
-export default function DocumentBuilder({ subsection }) {
+export default function DocumentBuilder({ subsection, onPageChange }) {
   const [selectedDoc, setSelectedDoc] = useState('complaint');
   const [documents, setDocuments] = useState([]);
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [emptyFields, setEmptyFields] = useState([]);
-  const [validationErrors, setValidationErrors] = useState({}); // НОВОЕ: Ошибки формата
+  const [validationErrors, setValidationErrors] = useState({});
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // --- ЛОГИКА ВАЛИДАЦИИ ---
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePhone = (phone) => /^(\+7|8)?[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.test(phone);
+  const isFieldLocked = (field) => Boolean(field?.locked);
 
   const getFormatErrors = () => {
     const errors = {};
     if (!currentTemplate || !currentTemplate.fields) return errors;
 
     currentTemplate.fields.forEach(field => {
+      if (isFieldLocked(field)) return;
+
       const value = formData[field.name];
       if (!value || value.trim() === '') return;
 
@@ -58,7 +63,8 @@ export default function DocumentBuilder({ subsection }) {
       pretenziya: pretenziyaData,
       gzhi_complaint: gzhiComplaintData,
       damage_compensation_agreement: damageCompensationAgreementData,
-      money_receipt: moneyReceiptData
+      money_receipt: moneyReceiptData,
+      flood_act: floodActData
     };
 
     const loadedDocs = Object.keys(templates).map(id => ({
@@ -122,7 +128,7 @@ export default function DocumentBuilder({ subsection }) {
   const getEmptyRequiredFields = () => {
     if (!currentTemplate || !currentTemplate.fields) return [];
     return currentTemplate.fields.filter(field => {
-      if (!field.required) return false;
+      if (!field.required || isFieldLocked(field)) return false;
       return !formData[field.name] || formData[field.name].trim() === '';
     });
   };
@@ -250,6 +256,14 @@ export default function DocumentBuilder({ subsection }) {
   };
 
   const changeDocument = (docId) => setSelectedDoc(docId);
+  const goToRepresentativeHelp = () => {
+    if (onPageChange) {
+      onPageChange('selfcheck', 'representative');
+    }
+  };
+  const openCourtReminder = () => {
+    window.open(courtReminderPdf, '_blank', 'noopener,noreferrer');
+  };
 
   if (loading) return <div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>;
   if (!currentTemplate) return <div style={{ padding: '40px', textAlign: 'center' }}>Шаблон не найден</div>;
@@ -264,6 +278,9 @@ export default function DocumentBuilder({ subsection }) {
         <div className="page-header">
           <h1>Формирование документов</h1>
           <p>Заполните поля слева. Пустые обязательные поля в документе будут выделены желтым.</p>
+          <div className="doc-builder-note">
+            В целях вашей безопасности мы не запрашиваем паспортные данные на сайте. В шаблонах оставлены пустые поля, которые Вам необходимо заполнить самостоятельно после загрузки файла.
+          </div>
         </div>
 
         <div className="doc-builder-container">
@@ -295,28 +312,32 @@ export default function DocumentBuilder({ subsection }) {
               {currentTemplate.fields.map(field => {
                 const isError = emptyFields.some(f => f.name === field.name);
                 const formatError = validationErrors[field.name];
+                const isLocked = isFieldLocked(field);
                 
                 return (
                   <div key={field.name} className="form-group">
                     <label className="form-label">
                       {field.label} {field.required && <span style={{ color: '#ef4444' }}>*</span>}
+                      {isLocked && <span className="field-lock-badge">Заполняется вручную</span>}
                     </label>
                     {field.type === 'textarea' ? (
                       <textarea
-                        className={`form-textarea ${isError || formatError ? 'input-error' : ''}`}
+                        className={`form-textarea ${isError || formatError ? 'input-error' : ''} ${isLocked ? 'input-locked' : ''}`}
                         name={field.name}
                         value={formData[field.name] || ''}
                         onChange={handleInputChange}
-                        placeholder={`Введите ${field.label.toLowerCase()}`}
+                        placeholder={isLocked ? 'Поле заполняется вручную после скачивания' : `Введите ${field.label.toLowerCase()}`}
+                        disabled={isLocked}
                       />
                     ) : (
                       <input
-                        className={`form-input ${isError || formatError ? 'input-error' : ''}`}
+                        className={`form-input ${isError || formatError ? 'input-error' : ''} ${isLocked ? 'input-locked' : ''}`}
                         type={field.type || 'text'}
                         name={field.name}
                         value={formData[field.name] || ''}
                         onChange={handleInputChange}
-                        placeholder={`Введите ${field.label.toLowerCase()}`}
+                        placeholder={isLocked ? 'Поле заполняется вручную после скачивания' : `Введите ${field.label.toLowerCase()}`}
+                        disabled={isLocked}
                       />
                     )}
                     {formatError && (
@@ -344,6 +365,27 @@ export default function DocumentBuilder({ subsection }) {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="doc-builder-footer">
+          <div className="doc-builder-tip-card">
+            <h4>Полезные ресурсы</h4>
+            <div className="doc-builder-resource-item">
+              <h5>Хотите действовать через представителя?</h5>
+              <button type="button" className="doc-builder-tip-link" onClick={goToRepresentativeHelp}>
+                Узнайте как это сделать в разделе "Самопроверка"
+              </button>
+            </div>
+            <div className="doc-builder-resource-item">
+              <h5>Памятка по выбору суда</h5>
+              <button type="button" className="doc-builder-tip-link" onClick={openCourtReminder}>
+                Открыть памятку в новом окне
+              </button>
+            </div>
+          </div>
+          <p className="doc-builder-disclaimer">
+            Сервис носит информационный характер и не является юридической консультацией.
+          </p>
         </div>
       </div>
 
