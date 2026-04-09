@@ -1,8 +1,8 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import '../styles/selfcheck.css';
 import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
 
-export default function SelfCheck({ onPageChange }) {
+export default function SelfCheck({ subsection, onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
   const [activeTab, setActiveTab] = useState('steps');
   const [checkedItems, setCheckedItems] = useState({});
@@ -46,24 +46,21 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Позвоните в диспетчерскую службу вашей УК/ТСЖ, оставьте заявку',
           tip: 'Запишите номер заявки, дату, время и фамилию оператора',
           link: '#',
-          linkText: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"',
-          importance: 'high'
+          linkText: 'Найти контакты своего УК/ТСЖ можно в разделе "Контакты"'
         },
         {
           id: 'f2',
           title: 'Потребуйте составления акта осмотра',
           tip: 'Если представитель не пришёл составьте акт сами с двумя соседями-свидетелями.В акте укажите: адрес, дату, время, суть проблемы (например, «протечка крыши», «нет горячей воды 5 дней»), подписи свидетелей',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         },
         {
           id: 'f3',
           title: 'Сделайте фото и видео нарушения',
           tip: 'Важно, чтобы на записи была видна дата и адрес дома',
           link: '',
-          linkText: '',
-          importance: 'medium'
+          linkText: ''
         }
         ,
         {
@@ -71,8 +68,7 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Сохраните все чеки',
           tip: 'Если понесли расходы из-за нарушения (ремонт, покупка оборудования, испорченные вещи)',
           link: '',
-          linkText: '',
-          importance: 'medium'
+          linkText: ''
         }
       ]
     },
@@ -85,24 +81,21 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Напишите претензию в свободной форме',
           tip: 'Кто вы, что произошло, чего требуете (устранить нарушение, вернуть деньги, выплатить компенсацию)',
           link: '#',
-          linkText: 'Составить досудебную претензию можно в разделе "Формирование документов"',
-          importance: 'high'
+          linkText: 'Составить досудебную претензию можно в разделе "Формирование документов"'
         },
         {
           id: 'ptc2',
           title: 'Приложите копии документов',
           tip: 'Акт осмотра, фото, чеки, справка из УК',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         },
         {
           id: 'ptc3',
           title: 'Отправьте претензию в УК',
           tip: 'Отправить можно Почтой России заказным письмом с описью вложения и уведомлением о вручении, через ГИС ЖКХ или на официальный email УК. Сохраните почтовую квитанцию и опись - это доказательство для суда. Ждите ответа до 30 дней',
           link: '#',
-          linkText: 'Найти email своего УК можно в разделе "Контакты"',
-          importance: 'high'
+          linkText: 'Найти email своего УК можно в разделе "Контакты"'
         }
       ]
     },
@@ -115,16 +108,14 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Закажите независимую экспертизу, если нужно оценить ущерб (залив, поломка техники)',
           tip: 'Эксперт должен иметь лицензию',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         },
         {
           id: 'pft2',
           title: 'Уведомите ответчика об осмотре эксперта',
           tip: 'Отправьте телеграмму или заказное письмо за 3–5 дней до визита эксперта',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         }
         ,
         {
@@ -132,8 +123,7 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Получите письменный отчёт эксперта с расчётом суммы ущерба',
           tip: '',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         }
       ]
     },
@@ -146,24 +136,21 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Определите свой суд',
           tip: '',
           link: courtReminderPdf,
-          linkText: 'Памятка по определению суда',
-          importance: 'high'
+          linkText: 'Памятка по определению суда'
         },
         {
           id: 'c2',
           title: 'Рассчитайте госпошлину',
           tip: '',
           link: 'https://calc.consultant.ru/gosposhlina-soj',
-          linkText: 'Рассчитать госпошлину на сайте "Консультант Плюс"',
-          importance: 'high'
+          linkText: 'Рассчитать госпошлину на сайте "Консультант Плюс"'
         },
         {
           id: 'c3',
           title: 'Составьте и подайте иск',
           tip: '',
           link: '#',
-          linkText: 'Составить иск можно в разделе "Формирование документов"',
-          importance: 'high'
+          linkText: 'Составить иск можно в разделе "Формирование документов"'
         }
       ]
     },
@@ -176,16 +163,14 @@ export default function SelfCheck({ onPageChange }) {
           title: 'Приходите на заседания',
           tip: 'Если не можете направьте письменное ходатайство о рассмотрении без вас или отправьте представителя',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         },
         {
           id: 't2',
           title: 'Предоставляйте суду оригиналы документов, если попросят',
           tip: '',
           link: '',
-          linkText: '',
-          importance: 'high'
+          linkText: ''
         }
       ]
     },
@@ -211,6 +196,19 @@ export default function SelfCheck({ onPageChange }) {
   const checkedAllCount = allItems.filter(item => checkedItems[item.id]).length;
   const totalAllPercent = totalAllItems > 0 ? Math.round((checkedAllCount / totalAllItems) * 100) : 0;
 
+  useEffect(() => {
+    if (subsection === 'representative') {
+      setActiveTab('representative');
+      return;
+    }
+
+    const availableCategories = new Set(checklistCategories.map(category => category.id));
+    if (subsection && availableCategories.has(subsection)) {
+      setActiveTab('steps');
+      setSelectedCategory(subsection);
+    }
+  }, [subsection]);
+
  // Функция экспорта общего чек-листа в Word
   const downloadFullChecklistAsWord = () => {
     const currentDate = new Date().toLocaleDateString('ru-RU');
@@ -226,14 +224,12 @@ export default function SelfCheck({ onPageChange }) {
       let itemsHtml = '';
       categoryItems.forEach(item => {
         const isChecked = checkedItems[item.id] || false;
-        const importanceText = item.importance === 'high' ? 'Критично' : (item.importance === 'medium' ? 'Важно' : 'Обычно');
         
         itemsHtml += `
           <div style="margin-bottom: 15px; padding: 8px; border-left: 3px solid ${isChecked ? '#4CAF50' : '#FF9800'}; background: ${isChecked ? '#f9fff9' : '#fff'};">
             <div style="display: flex; align-items: center; margin-bottom: 5px;">
               <span style="font-size: 16px; margin-right: 8px;">${isChecked ? '✅' : '⬜'}</span>
               <strong style="font-size: 13px;">${item.title}</strong>
-              <span style="margin-left: 8px; font-size: 11px; ">${importanceText}</span>
             </div>
             ${item.tip ? `<div style="margin-left: 24px; font-size: 11px; font-style: italic;">${item.tip}</div>` : ''}
             ${item.link ? `<div style="margin-left: 24px; font-size: 11px; margin-top: 4px;">🔗 <a href="${item.link}" style="color: #2c7da0;">${item.linkText || 'Ссылка'}</a></div>` : ''}
@@ -335,14 +331,12 @@ export default function SelfCheck({ onPageChange }) {
     let itemsHtml = '';
     currentCategory?.items.forEach(item => {
       const isChecked = checkedItems[item.id] || false;
-      const importanceText = item.importance === 'high' ? 'Критично' : (item.importance === 'medium' ? 'Важно' : 'Обычно');
-      
+     
       itemsHtml += `
         <div style="margin-bottom: 20px; padding: 10px; border-left: 4px solid ${isChecked ? '#4CAF50' : '#FF9800'}; background: ${isChecked ? '#f0f8f0' : '#fff'};">
           <div style="display: flex; align-items: center; margin-bottom: 8px;">
             <span style="font-size: 18px; margin-right: 10px;">${isChecked ? '✅' : '⬜'}</span>
             <strong style="font-size: 14px;">${item.title}</strong>
-            <span style="margin-left: 10px; font-size: 12px;">${importanceText}</span>
           </div>
           ${item.tip ? `<div style="margin-left: 28px; font-size: 12px;font-style: italic;">${item.tip}</div>` : ''}
           ${item.link ? `<div style="margin-left: 28px; font-size: 12px; margin-top: 5px;"> <a href="${item.link}" style="color: #2c7da0;">${item.linkText || 'Ссылка'}</a></div>` : ''}
@@ -439,7 +433,7 @@ export default function SelfCheck({ onPageChange }) {
           <div>
             <div>
               <h1>Самопроверка</h1>
-              <p className="page-subtitle">Процессуальный алгоритм для граждан при обнаружении нарушений в сфере ЖКХ</p>
+              <p className="page-subtitle">Этот раздел поможет Вам пройти путь от фиксации факта нарушения до суда с соблюдением всех необходимых требований.</p>
                <button 
               onClick={downloadFullChecklistAsWord}
               className="download-full-btn"
@@ -452,7 +446,15 @@ export default function SelfCheck({ onPageChange }) {
 
         <div className="selfcheck-container">
           <div className="check-nav">
-            <h3>Шаги</h3>
+            <div className="check-nav-title">
+              <h3>Шаги</h3>
+              <div className="steps-info-tooltip" tabIndex="0" aria-label="Подсказка о шагах">
+                <span className="steps-info-icon" aria-hidden="true">i</span>
+                <div className="steps-info-bubble" role="tooltip">
+                  Каждый шаг - самостоятельный этап, но выполнение всех этапов последовательно повышает шансы на успех.
+                </div>
+              </div>
+            </div>
             <div className="check-nav-buttons">
               {checklistCategories.map(cat => {
                 const catItems = cat.items;
@@ -573,6 +575,13 @@ export default function SelfCheck({ onPageChange }) {
                       Скачать чек-лист (Word)
                     </button>
                   </div>
+                  {selectedCategory === 'pre-trial_claim' && (
+                    <div className="category-note">
+                      Закон не обязывает писать претензию, если этого нет в договоре - можно сразу подавать иск.
+                      Однако на практике "досудебка" часто экономит время и нервы: возможно, спор решится без участия
+                      суда, а если нет, то претензия станет документальным подтверждением попытки урегулировать конфликт.
+                    </div>
+                  )}
                   <div className="progress-bar">
                     <div className="progress-fill" style={{ width: `${completionPercent}%` }}></div>
                   </div>
@@ -583,7 +592,7 @@ export default function SelfCheck({ onPageChange }) {
                   {currentCategory?.items.map(item => (
                     <div 
                       key={item.id} 
-                      className={`check-item importance-${item.importance} ${checkedItems[item.id] ? 'checked' : ''}`}
+                      className={`check-item importance-${'medium'} ${checkedItems[item.id] ? 'checked' : ''}`}
                     >
                       <label className="check-label">
                         <input 
@@ -595,8 +604,6 @@ export default function SelfCheck({ onPageChange }) {
                         <span className="check-box"></span>
                         <span className="check-text">
                           <strong>{item.title}</strong>
-                          {item.importance === 'high' && <span className="importance-badge">Критично</span>}
-                          {item.importance === 'medium' && <span className="importance-badge">Важно</span>}
                           <div className="check-tip">
                             {item.tip}
                             {item.link && (

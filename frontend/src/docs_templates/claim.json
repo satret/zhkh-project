@@ -47,21 +47,24 @@
       "label": "ФИО истца",
       "type": "text",
       "required": true,
-      "placeholder": "Иванов Александр Сергеевич"
+      "placeholder": "Иванов Александр Сергеевич",
+      "locked": true
     },
     {
       "name": "Адрес истца",
       "label": "Адрес истца",
       "type": "text",
       "required": true,
-      "placeholder": "г. Каспийск, ул. Ленина, д. 10, кв. 5"
+      "placeholder": "г. Каспийск, ул. Ленина, д. 10, кв. 5",
+      "locked": true
     },
     {
       "name": "Телефон истца",
       "label": "Телефон истца",
       "type": "tel",
       "required": true,
-      "placeholder": "+7 (999) 999-99-99"
+      "placeholder": "+7 (999) 999-99-99",
+      "locked": true
     },
     {
       "name": "Наименование ответчика",

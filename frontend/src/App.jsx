@@ -50,7 +50,7 @@ export default function App() {
       case 'calculator':
         return <Calculator />;
       case 'documents':
-        return <DocumentBuilder subsection={currentSubsection} />;
+        return <DocumentBuilder subsection={currentSubsection} onPageChange={handlePageChange} />;
       case 'selfcheck':
         return <SelfCheck subsection={currentSubsection} onPageChange={handlePageChange} />;
       case 'regulations':

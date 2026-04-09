@@ -39,28 +39,32 @@
       "label": "ФИО заявителя",
       "type": "text",
       "required": true,
-      "placeholder": "Иванов Иван Иванович"
+      "placeholder": "Иванов Иван Иванович",
+      "locked": true
     },
     {
       "name": "Адрес заявителя",
       "label": "Адрес заявителя",
       "type": "text",
       "required": true,
-      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 5"
+      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 5",
+      "locked": true
     },
     {
       "name": "Телефон заявителя",
       "label": "Телефон заявителя",
       "type": "tel",
       "required": true,
-      "placeholder": "+7 (999) 123-45-67"
+      "placeholder": "+7 (999) 123-45-67",
+      "locked": true
     },
     {
       "name": "Email заявителя",
       "label": "Email заявителя",
       "type": "email",
       "required": true,
-      "placeholder": "example@mail.ru"
+      "placeholder": "example@mail.ru",
+      "locked": true
     },
     {
       "name": "Название претензии",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/pages.css';
 import '../styles/contacts.css';
+import managementCompanies from '../data/management_companies.json';
 
 const SUBSECTION_TO_TAB = {
 'management-companies': 'uk',
@@ -332,48 +333,7 @@ export default function Contacts({ subsection }) {
   };
 
   // Управляющие компании
-  const ukList = [
-    {
-      id: 1,
-      name: 'ООО "УК ЖилКомСервис"',
-      address: 'г. Махачкала, пр. Имама Шамиля, 45',
-      phone: '+7 (8722) 67-89-01',
-      email: 'info@zhilkom-rd.ru',
-      workHours: 'Пн-Пт: 8:30-17:30, обед: 12:00-13:00',
-      director: 'Магомедов Р.А.',
-      emergency: '+7 (8722) 67-89-02 (круглосуточно)'
-    },
-    {
-      id: 2,
-      name: 'ООО "УК Центр"',
-      address: 'г. Махачкала, ул. Ярагского, 78',
-      phone: '+7 (8722) 93-45-67',
-      email: 'uk.center@mail.ru',
-      workHours: 'Пн-Пт: 9:00-18:00',
-      director: 'Алиева З.М.',
-      emergency: '+7 (928) 578-12-34'
-    },
-    {
-      id: 3,
-      name: 'ООО "ЖилУправление"',
-      address: 'г. Каспийск, ул. Ленина, 23',
-      phone: '+7 (87246) 5-12-34',
-      email: 'zhiluprav@yandex.ru',
-      workHours: 'Пн-Пт: 8:00-17:00',
-      director: 'Кадиев М.С.',
-      emergency: '+7 (928) 045-67-89'
-    },
-    {
-      id: 4,
-      name: 'ООО "УК Дербент"',
-      address: 'г. Дербент, ул. Буйнакского, 15',
-      phone: '+7 (87240) 4-11-22',
-      email: 'uk-derbent@mail.ru',
-      workHours: 'Пн-Пт: 9:00-18:00',
-      director: 'Гусейнов Р.Г.',
-      emergency: '+7 (928) 876-54-32'
-    }
-  ];
+  const ukList = managementCompanies;
 
   const gjiContacts = {
     name: 'Государственная жилищная инспекция Республики Дагестан',

@@ -39,14 +39,16 @@
       "label": "ФИО заявителя",
       "type": "text",
       "required": true,
-      "placeholder": "Иванов Иван Иванович"
+      "placeholder": "Иванов Иван Иванович",
+      "locked": true
     },
     {
       "name": "Адрес жилого помещения",
       "label": "Адрес жилого помещения",
       "type": "text",
       "required": true,
-      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 5"
+      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 5",
+      "locked": true
     },
     {
       "name": "Статус заявителя",
