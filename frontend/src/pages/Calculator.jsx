@@ -115,11 +115,12 @@ export default function ElectricityCalculator() {
   if (view === 'menu') {
     return (
       <section className="calc-wrapper">
+        <div className="page-header">
+          <h1>Калькулятор коммунальных услуг</h1>
+          <p>Выберите тип ресурса для расчёта стоимости потребления</p>
+          <p>Если стоимость оказалась меньше, чем пришла, есть повод обратиться в УК.</p>
+        </div>
         <div className="calc-container">
-          <header className="calc-header">
-            <h1 className="calc-title">Калькуляторы <span className="accent">коммунальных услуг</span></h1>
-            <p className="calc-subtitle">Выберите тип ресурса для расчёта стоимости потребления</p>
-          </header>
           <div className="calc-menu-grid">
             <button className="btn btn-primary">
               <span className="calc-card-title">Холодная вода</span>
