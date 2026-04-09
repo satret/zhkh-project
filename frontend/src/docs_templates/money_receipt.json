@@ -34,20 +34,23 @@
       "label": "ФИО получателя",
       "type": "text",
       "required": true,
-      "placeholder": "Иванов Иван Иванович"
+      "placeholder": "Иванов Иван Иванович",
+      "locked": true
     },
     {
       "name": "Дата рождения получателя",
       "label": "Дата рождения получателя",
       "type": "date",
-      "required": true
+      "required": true,
+      "locked": true
     },
     {
       "name": "Адрес получателя",
       "label": "Адрес получателя",
       "type": "text",
       "required": true,
-      "placeholder": "г. Махачкала, ул. Ленина, д. 10, кв. 5"
+      "placeholder": "г. Махачкала, ул. Ленина, д. 10, кв. 5",
+      "locked": true
     },
     {
       "name": "Паспорт получателя",
@@ -62,20 +65,23 @@
       "label": "ФИО передавшего",
       "type": "text",
       "required": true,
-      "placeholder": "Петров Петр Петрович"
+      "placeholder": "Петров Петр Петрович",
+      "locked": true
     },
     {
       "name": "Дата рождения передавшего",
       "label": "Дата рождения передавшего",
       "type": "date",
-      "required": true
+      "required": true,
+      "locked": true
     },
     {
       "name": "Адрес передавшего",
       "label": "Адрес передавшего",
       "type": "text",
       "required": true,
-      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 8"
+      "placeholder": "г. Махачкала, ул. Гагарина, д. 12, кв. 8",
+      "locked": true
     },
     {
       "name": "Паспорт передавшего",

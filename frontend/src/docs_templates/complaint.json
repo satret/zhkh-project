@@ -68,28 +68,32 @@
     "label": "Ваше ФИО",
     "type": "text",
     "required": true,
-    "placeholder": "Петров Петр Петрович"
+    "placeholder": "Петров Петр Петрович",
+      "locked": true
   },
   {
     "name": "Ваш адрес",
     "label": "Ваш адрес",
     "type": "text",
     "required": true,
-    "placeholder": "г. Москва, ул. Пушкина, д. 5"
+    "placeholder": "г. Москва, ул. Пушкина, д. 5",
+      "locked": true
   },
   {
     "name": "Номер Вашей квартиры",
     "label": "Квартира",
     "type": "text",
     "required": true,
-    "placeholder": "25"
+    "placeholder": "25",
+      "locked": true
   },
 
   {
     "name": "Ваш этаж",
     "label": "Этаж",
     "type": "text",
-    "placeholder": "3"
+    "placeholder": "3",
+      "locked": true
   },
 
   {
@@ -97,14 +101,16 @@
     "label": "Телефон",
     "type": "tel",
     "required": true,
-    "placeholder": "+7 (999) 123-45-67"
+    "placeholder": "+7 (999) 123-45-67",
+      "locked": true
   },
   {
     "name": "email",
     "label": "Email",
     "type": "email",
     "required": true,
-    "placeholder": "example@mail.ru"
+    "placeholder": "example@mail.ru",
+      "locked": true
   },
 
   {
