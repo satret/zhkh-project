@@ -85,7 +85,7 @@ export default function App() {
         initialScenario={initialScenario}
       />
 
-      <Footer />
+      <Footer onPageChange={handlePageChange} />
     </div>
   );
 }
