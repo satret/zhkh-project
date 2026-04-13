@@ -73,7 +73,7 @@ export default function HomePage({ onPageChange, onChatToggle }) {
               }
             }}
           >
-            <div className="hero-selfcheck-badge">Самопроверка</div>
+            <div className="hero-selfcheck-badge">Алгоритм судебного сопровождения</div>
             <h2 className="hero-selfcheck-title">Проблемы с управляющей компанией?</h2>
             <p className="hero-selfcheck-text">
               Пройдите по шагам и поймите, что делать дальше: от фиксации проблемы до претензии и иска.
@@ -82,7 +82,7 @@ export default function HomePage({ onPageChange, onChatToggle }) {
               <div className="hero-selfcheck-question">Управляющая компания бездействует?</div>
               <div className="hero-selfcheck-question">Не знаете, с чего начать?</div>
             </div>
-            <div className="hero-selfcheck-link">Открыть самопроверку →</div>
+            <div className="hero-selfcheck-link">Открыть алгоритм судебного сопровождения →</div>
           </aside>
           
         </div>

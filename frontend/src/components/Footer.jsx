@@ -22,7 +22,7 @@ export default function Footer({ onPageChange }) {
             <ul className="footer-links">
               <li><a href="#" onClick={go('calculator')}>Проверка начислений</a></li>
               <li><a href="#" onClick={go('documents')}>Формирование документов</a></li>
-              <li><a href="#" onClick={go('selfcheck')}>Самопроверка</a></li>
+              <li><a href="#" onClick={go('selfcheck')}>Алгоритм судебного сопровождения</a></li>
             </ul>
           </div>
 

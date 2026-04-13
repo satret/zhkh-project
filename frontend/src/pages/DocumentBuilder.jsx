@@ -654,7 +654,7 @@ export default function DocumentBuilder({ subsection, onPageChange }) {
             <div className="doc-builder-resource-item">
               <h5>Хотите действовать через представителя?</h5>
               <button type="button" className="doc-builder-tip-link" onClick={goToRepresentativeHelp}>
-                Узнайте как это сделать в разделе "Самопроверка"
+                Узнайте как это сделать в разделе "Алгоритм судебного сопровождения"
               </button>
             </div>
             <div className="doc-builder-resource-item">
