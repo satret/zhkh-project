@@ -31,7 +31,7 @@ export default function HomePage({ onPageChange, onChatToggle }) {
             <div className="hero-badge">Бесплатный сервис для граждан</div>
             
             <h1 className="hero-title">
-              Жилищный вопрос? <span className="highlight"> Мы уже решили</span>
+              Жилищный вопрос? <span className="highlight"> Знаем, с чего начать</span>
             </h1>
             
             <p className="hero-description">
