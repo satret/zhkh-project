@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { chatScenarios } from '../data/chatScenarios';
 import { detectEmergency } from '../data/emergencyKeywords';
 import { detectProblem } from '../data/problemKeywords';
+import { logEvent } from '../utils/chatLogger';
 import '../styles/chat-assistant.css';
 
 export default function ChatAssistant({ 
@@ -40,6 +41,7 @@ useEffect(() => {
       }]);
     }
     setChatInitialized(true);
+    logEvent('session_open', { initialScenario: initialScenario || 'start' });
     
     if (initialScenario && onScenarioHandled) {
       onScenarioHandled();
@@ -80,6 +82,7 @@ useEffect(() => {
 
   const handleRedirect = (redirect) => {
     if (!redirect || !onPageChange) return;
+    logEvent('redirect', { page: redirect.page, subsection: redirect.subsection || null });
     onPageChange(redirect.page, redirect.subsection || null);
   };
 
@@ -91,6 +94,7 @@ useEffect(() => {
       type: 'user',
       text: input
     };
+    logEvent('user_message', { text: input });
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setShowOptions(false);
@@ -103,6 +107,7 @@ useEffect(() => {
       let botMessage;
       
       if (emergency.isEmergency) {
+        logEvent('emergency_detected', { type: emergency.type, title: emergency.title });
         // 🎯 ОБРАБОТКА АВАРИИ
         if (emergency.type === 'emergency') {
           // Общий тип — показываем выбор конкретного типа
@@ -137,6 +142,7 @@ useEffect(() => {
         }
       }
       else if (problem.isProblem) {
+      logEvent('problem_detected', { scenario: problem.scenario, title: problem.title });
       const scenario = chatScenarios[problem.scenario];
       botMessage = {
         id: Date.now() + 1,
@@ -169,6 +175,11 @@ useEffect(() => {
       }
       
       setMessages(prev => [...prev, botMessage]);
+      logEvent('bot_message', {
+        text: botMessage.text,
+        scenarioStep: botMessage.scenarioStep,
+        optionsCount: botMessage.options?.length || 0
+      });
       setLoading(false);
       setShowOptions(true);
     }, 600);
@@ -181,6 +192,7 @@ useEffect(() => {
       text: option.label,
       isOption: true
     };
+    logEvent('user_option', { label: option.label, value: option.value });
     setMessages(prev => [...prev, userMessage]);
     setShowOptions(false);
 
@@ -189,10 +201,12 @@ useEffect(() => {
     }
 
     if (option.value === 'call_104') {
+      logEvent('phone_call', { number: '104' });
       window.location.href = 'tel:104';
       return;
     }
     if (option.value === 'call_112') {
+      logEvent('phone_call', { number: '112' });
       window.location.href = 'tel:112';
       return;
     }
@@ -214,6 +228,11 @@ useEffect(() => {
       };
       
       setMessages(prev => [...prev, botMessage]);
+      logEvent('bot_message', {
+        text: botMessage.text,
+        scenarioStep: botMessage.scenarioStep,
+        optionsCount: botMessage.options?.length || 0
+      });
       setLoading(false);
       setShowOptions(true);
     }, 600);
@@ -224,6 +243,11 @@ useEffect(() => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleClose = () => {
+    logEvent('session_close');
+    onToggle(false);
   };
 
   return (
@@ -240,7 +264,7 @@ useEffect(() => {
         <div className="chat-window">
           <div className="chat-window-header">
             <h3>ЖКХ Помощник онлайн</h3>
-            <button className="chat-close-btn" onClick={() => onToggle(false)} title="Закрыть">X</button>
+            <button className="chat-close-btn" onClick={handleClose} title="Закрыть">X</button>
           </div>
 
           <div className="chat-messages">
