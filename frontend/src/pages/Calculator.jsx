@@ -123,6 +123,9 @@ export default function ElectricityCalculator() {
       </div>
       
       <div className="calc-menu-grid">
+        <button className="btn btn-primary" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
+          <span className="calc-card-title">Электроэнергия</span>
+        </button>
         <button className="btn btn-primary">
           <span className="calc-card-title">Холодная вода</span>
         </button>
@@ -131,9 +134,6 @@ export default function ElectricityCalculator() {
         </button>
         <button className="btn btn-primary">
           <span className="calc-card-title">Газ</span>
-        </button>
-        <button className="btn btn-primary" onClick={() => setView('electricity')} aria-label="Перейти к расчёту электроэнергии">
-          <span className="calc-card-title">Электроэнергия</span>
         </button>
       </div>
     </div>
