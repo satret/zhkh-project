@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import '../styles/selfcheck.css';
 import courtReminderPdf from '../reminders/Kak-opredelit-svoj-sud.pdf';
+import limitationPeriodReminderPdf from '../reminders/Chto-takoe-srok-iskovoj-davnosti.pdf';
 
 export default function SelfCheck({ subsection, onPageChange }) {
   const [selectedCategory, setSelectedCategory] = useState('fix');
@@ -643,6 +644,11 @@ export default function SelfCheck({ subsection, onPageChange }) {
               <div className="footer-tip-card">
                 <h5>Сроки, которые важно помнить</h5>
                 <ul>
+                  <li>
+                    <a href={limitationPeriodReminderPdf} target="_blank" rel="noopener noreferrer">
+                      Памятка: что такое сроки исковой давности
+                    </a>
+                  </li>
                   <li>Срок исковой давности: 3 года с момента нарушения</li>
                   <li>Ответ на претензию: 10–30 дней</li>
                   <li>Уведомление об экспертизе: за 3–5 дней до осмотра</li>

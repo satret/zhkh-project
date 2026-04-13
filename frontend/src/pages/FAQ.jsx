@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/pages.css';
+import zhkhGlossaryPdf from '../reminders/ZhKH-Slovar.pdf';
 
 export default function FAQ({ onPageChange }) {
   const [expandedCategory, setExpandedCategory] = useState(null);
@@ -461,6 +462,14 @@ export default function FAQ({ onPageChange }) {
         <div className="page-header">
           <h1>Часто задаваемые вопросы</h1>
           <p className="page-subtitle">Подробная база знаний со ссылками на законодательство</p>
+          <a
+            href={zhkhGlossaryPdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="faq-top-link"
+          >
+            Открыть словарь терминов ЖКХ
+          </a>
         </div>
 
         <div className="faq-container">
