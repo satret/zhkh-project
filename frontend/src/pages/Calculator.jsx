@@ -10,6 +10,17 @@ const NORMATIVES = {
   5: { 1: [358, 222, 172, 140, 122], 2: [422, 262, 203, 165, 144], 3: [462, 286, 222, 180, 157], 4: [490, 304, 235, 191, 167] }
 };
 
+// Компонент лейбла с подсказкой
+function TooltipLabel({ label, tooltip }) {
+  return (
+    <div className="tooltip-wrapper">
+      <span>{label}</span>
+      <span className="tooltip-icon" aria-label="Подсказка">?</span>
+      <span className="tooltip-text">{tooltip}</span>
+    </div>
+  );
+}
+
 export default function ElectricityCalculator() {
   const [view, setView] = useState('menu'); // 'menu' | 'electricity'
   
@@ -18,7 +29,7 @@ export default function ElectricityCalculator() {
   const [hasStove, setHasStove] = useState(false);
   const [hasHeating, setHasHeating] = useState(false);
   const [isHeatingMonth, setIsHeatingMonth] = useState(false);
-  const [hasMeters, setHasMeters] = useState(false);
+  const [hasMeters, setHasMeters] = useState(true);
   const [tariffType, setTariffType] = useState('single');
   
   const [consumption, setConsumption] = useState('');
@@ -151,20 +162,26 @@ export default function ElectricityCalculator() {
         </button>
 
         <header className="calc-header">
-          <h1 className="calc-title">Калькулятор <span className="accent">электроэнергии</span></h1>
+          <h1 className="calc-title">Калькулятор электроэнергии</h1>
           <p className="calc-subtitle">Точный расчёт стоимости по счётчику или нормативу с учётом тарифных зон</p>
         </header>
 
         <form className="calc-form" onSubmit={e => { e.preventDefault(); calculate(); }}>
           <div className="calc-section">
-            <h3 className="calc-section-title">Параметры помещения</h3>
+            <h3 className="calc-section-title">Параметры жилья</h3>
             <div className="calc-form-grid">
               <InputGroup label="Тип населённого пункта">
                 <ToggleGroup options={[{v:'city', l:'Город'}, {v:'village', l:'Село'}]} value={settlementType} onChange={setSettlementType} />
               </InputGroup>
-              <InputGroup label="Стационарная электроплита?">
-                <ToggleGroup options={[{v:true, l:'Есть'}, {v:false, l:'Нет'}]} value={hasStove} onChange={setHasStove} />
-              </InputGroup>
+              <div className="calc-input-group">
+                  <label className="input-label">
+                    <TooltipLabel 
+                      label="Стационарная электроплита?" 
+                      tooltip="При наличии подтверждения в энергосбытовой компании" 
+                    />
+                  </label>
+                  <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={canInstallMeter} onChange={setCanInstallMeter} />
+                </div>
               <InputGroup label="Электроотопление?">
                 <ToggleGroup options={[{v:true, l:'Есть'}, {v:false, l:'Нет'}]} value={hasHeating} onChange={setHasHeating} />
               </InputGroup>
@@ -223,9 +240,15 @@ export default function ElectricityCalculator() {
                 <InputGroup label="Проживающих (чел.)">
                   <input type="number" min="1" className="form-input" value={people} onChange={e => setPeople(e.target.value)} placeholder="1" />
                 </InputGroup>
-                <InputGroup label="Есть тех. возможность установки счётчика?">
+                <div className="calc-input-group">
+                  <label className="input-label">
+                    <TooltipLabel 
+                      label="Есть тех. возможность установки счётчика?" 
+                      tooltip="При наличии применяется повышающий коэффициент 1,5" 
+                    />
+                  </label>
                   <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={canInstallMeter} onChange={setCanInstallMeter} />
-                </InputGroup>
+                </div>
               </div>
             </div>
           )}
@@ -234,7 +257,7 @@ export default function ElectricityCalculator() {
 
           <div className="calc-actions">
             <button type="submit" className="calc-btn btn-primary">Рассчитать стоимость</button>
-            <button type="button" className="calc-btn btn-secondary" onClick={reset}>Сбросить</button>
+            <button type="button" className="calc-btn btn-primary" onClick={reset}>Сбросить</button>
           </div>
         </form>
 
