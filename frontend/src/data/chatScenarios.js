@@ -124,7 +124,11 @@ export const chatScenarios = {
     text: 'Для внесудебного решения вам понадобятся:\n\nСоглашение о возмещение ущерба; Расписка о передаче денежных средств.',
     options: [
       { label: 'В главное меню', value: 'start' },
-    ]
+    ],
+    redirect: {
+      page: 'documents',
+      subsection: 'damage_compensation_agreement'
+    }
   },
   
   emergency_water_document: {
