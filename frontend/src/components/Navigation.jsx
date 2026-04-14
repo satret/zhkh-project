@@ -5,7 +5,7 @@ export default function Navigation({ currentPage, onPageChange }) {
   const navItems = [
     { id: 'calculator', label: 'Проверка начислений' },
     { id: 'documents', label: 'Формирование документов' },
-    { id: 'selfcheck', label: 'Алгоритм судебного сопровождения' },
+    { id: 'selfcheck', label: 'Юридический навигатор' },
     { id: 'regulations', label: 'Нормативные документы' },
     { id: 'contacts', label: 'Контакты служб' }
   ];

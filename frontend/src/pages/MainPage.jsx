@@ -73,7 +73,7 @@ export default function HomePage({ onPageChange, onChatToggle }) {
               }
             }}
           >
-            <div className="hero-selfcheck-badge">Алгоритм судебного сопровождения</div>
+            <div className="hero-selfcheck-badge">Юридический навигатор</div>
             <h2 className="hero-selfcheck-title">Проблемы с управляющей компанией?</h2>
             <p className="hero-selfcheck-text">
               Пройдите по шагам и поймите, что делать дальше: от фиксации проблемы до претензии и иска.
@@ -85,17 +85,6 @@ export default function HomePage({ onPageChange, onChatToggle }) {
             <div className="hero-selfcheck-link">Открыть алгоритм судебного сопровождения →</div>
           </aside>
           
-        </div>
-
-        <div className="hero-stats">
-          <div className="stat-item">
-            <div className="stat-number">24/7</div>
-            <div className="stat-label">доступ к ИИ консультациям</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">8</div>
-            <div className="stat-label">разделов сервиса</div>
-          </div>
         </div>
       </section>
     </div>
