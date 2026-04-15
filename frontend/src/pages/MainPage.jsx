@@ -82,7 +82,7 @@ export default function HomePage({ onPageChange, onChatToggle }) {
               <div className="hero-selfcheck-question">Управляющая компания бездействует?</div>
               <div className="hero-selfcheck-question">Не знаете, с чего начать?</div>
             </div>
-            <div className="hero-selfcheck-link">Открыть алгоритм судебного сопровождения →</div>
+            <div className="hero-selfcheck-link">Открыть юридический навигатор →</div>
           </aside>
           
         </div>
