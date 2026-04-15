@@ -299,7 +299,7 @@ export default function SelfCheck({ subsection, onPageChange }) {
         ${categoriesHtml}
         
         <div class="footer">
-          Сгенерировано в разделе "Алгоритм судебного сопровождения" системы ЖКХ помощник<br>
+          Сгенерировано в разделе "Юридический навигатор" системы ЖКХ помощник<br>
           * Отмеченные ✅ пункты уже выполнены<br>
         </div>
       </body>
@@ -400,7 +400,7 @@ export default function SelfCheck({ subsection, onPageChange }) {
         ${itemsHtml}
         
         <div class="footer">
-          Сгенерировано в разделе "Алгоритм судебного сопровождения" системы ЖКХ помощник<br>
+          Сгенерировано в разделе "Юридический навигатор" системы ЖКХ помощник<br>
           * Отмеченные ✅ пункты уже выполнены
         </div>
       </body>
@@ -433,7 +433,7 @@ export default function SelfCheck({ subsection, onPageChange }) {
         <div className="page-header">
           <div>
             <div>
-              <h1>Алгоритм судебного сопровождения</h1>
+              <h1>Юридический навигатор</h1>
               <p className="page-subtitle">Этот раздел поможет Вам пройти путь от фиксации факта нарушения до суда с соблюдением всех необходимых требований.</p>
                <button 
               onClick={downloadFullChecklistAsWord}
