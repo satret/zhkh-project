@@ -180,12 +180,31 @@ export default function ElectricityCalculator() {
                       tooltip="При наличии подтверждения в энергосбытовой компании" 
                     />
                   </label>
-                  <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={canInstallMeter} onChange={setCanInstallMeter} />
+                  <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={hasStove} onChange={setHasStove} />
                 </div>
               <InputGroup label="Электроотопление?">
                 <ToggleGroup options={[{v:true, l:'Есть'}, {v:false, l:'Нет'}]} value={hasHeating} onChange={setHasHeating} />
               </InputGroup>
-              <InputGroup label="Отопительный месяц?">
+              <InputGroup label={
+                <TooltipLabel 
+                  label="Отопительный месяц?" 
+                  tooltip={
+                    <>
+                      Учитывать текущий отопительный сезон при расчёте?
+                      <br />
+                      <a 
+                        href="https://www.consultant.ru/cons/cgi/online.cgi?req=doc&base=LAW&n=522272&dst=1000000001&cacheid=4079BF9C6AB3745406D996BCCB1718A2&mode=splus&rnd=W3YHA#zkWbHGVgT4WyFwgT1" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="tooltip-link"
+                        onClick={(e) => e.stopPropagation()} // Чтобы клик по ссылке не влиял на лейбл
+                      >
+                        см. п. 5 Правил ПП РФ №354
+                      </a>
+                    </>
+                  } 
+                />
+              }>
                 <ToggleGroup options={[{v:true, l:'Да'}, {v:false, l:'Нет'}]} value={isHeatingMonth} onChange={setIsHeatingMonth} />
               </InputGroup>
               <InputGroup label="Установлен счётчик?">
