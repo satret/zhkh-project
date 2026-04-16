@@ -3,6 +3,7 @@ import { chatScenarios } from '../data/chatScenarios';
 import { detectEmergency } from '../data/emergencyKeywords';
 import { detectProblem } from '../data/problemKeywords';
 import { logEvent } from '../utils/chatLogger';
+import { detectSection } from '../data/sectionKeywords';
 import '../styles/chat-assistant.css';
 
 export default function ChatAssistant({ 
@@ -87,61 +88,54 @@ useEffect(() => {
   };
 
   const handleSendMessage = () => {
-    if (!input.trim()) return;
+  if (!input.trim()) return;
 
-    const userMessage = {
-      id: Date.now(),
-      type: 'user',
-      text: input
-    };
-    logEvent('user_message', { text: input });
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setShowOptions(false);
+  const userMessage = {
+    id: Date.now(),
+    type: 'user',
+    text: input
+  };
+  logEvent('user_message', { text: input });
+  setMessages(prev => [...prev, userMessage]);
+  setInput('');
+  setShowOptions(false);
 
-    const emergency = detectEmergency(input);
-    const problem = !emergency.isEmergency ? detectProblem(input) : { isProblem: false };
-    
-    setLoading(true);
-    setTimeout(() => {
-      let botMessage;
+  // Шаг 1: Определяем контексты (Важно: проверяем по очереди)
+  const emergency = detectEmergency(input);
+  const problem = !emergency.isEmergency ? detectProblem(input) : { isProblem: false };
+  const sectionNav = (!emergency.isEmergency && !problem.isProblem) ? detectSection(input) : { found: false };
+
+  setLoading(true);
+  
+  setTimeout(() => {
+    let botMessage;
+
+    // Приоритет 1: Аварии (Самый высокий)
+    if (emergency.isEmergency) {
+      logEvent('emergency_detected', { type: emergency.type, title: emergency.title });
       
-      if (emergency.isEmergency) {
-        logEvent('emergency_detected', { type: emergency.type, title: emergency.title });
-        // 🎯 ОБРАБОТКА АВАРИИ
-        if (emergency.type === 'emergency') {
-          // Общий тип — показываем выбор конкретного типа
-          const scenario = chatScenarios['emergency_type_select'];
-          botMessage = {
-            id: Date.now() + 1,
-            type: 'bot',
-            text: `Понял, у вас аварийная ситуация.\n\n${scenario.text}`,
-            options: scenario.options,
-            scenarioStep: 'emergency_type_select'
-          };
-        } else if (emergency.type === 'water') {
-          // Конкретный тип — показываем соответствующий сценарий
-          const scenario = chatScenarios[`emergency_${emergency.type}_start`];
-          botMessage = {
-            id: Date.now() + 1,
-            type: 'bot',
-            text: `${emergency.title}\n\n${scenario?.text || 'Срочно вызовите аварийную службу!'}`,
-            options: scenario?.options || [{ label: 'Вызвать аварийную службу', value: 'emergency_phones' }],
-            scenarioStep: `emergency_${emergency.type}_start`
-          };
-        } else {
-          // Другие конкретные типы (gas, electricity, etc.)
-          const scenario = chatScenarios[`emergency_${emergency.type}_start`];
-          botMessage = {
-            id: Date.now() + 1,
-            type: 'bot',
-            text: `${emergency.title}\n\n${scenario?.text || 'Срочно вызовите аварийную службу!'}`,
-            options: scenario?.options || [{ label: 'Вызвать аварийную службу', value: 'emergency_phones' }],
-            scenarioStep: `emergency_${emergency.type}_start`
-          };
-        }
+      if (emergency.type === 'emergency') {
+        const scenario = chatScenarios['emergency_type_select'];
+        botMessage = {
+          id: Date.now() + 1,
+          type: 'bot',
+          text: `Понял, у вас аварийная ситуация.\n\n${scenario.text}`,
+          options: scenario.options,
+          scenarioStep: 'emergency_type_select'
+        };
+      } else {
+        const scenario = chatScenarios[`emergency_${emergency.type}_start`];
+        botMessage = {
+          id: Date.now() + 1,
+          type: 'bot',
+          text: `${emergency.title}\n\n${scenario?.text || 'Срочно вызовите аварийную службу!'}`,
+          options: scenario?.options || [{ label: 'Вызвать аварийную службу', value: 'emergency_phones' }],
+          scenarioStep: `emergency_${emergency.type}_start`
+        };
       }
-      else if (problem.isProblem) {
+    }
+    // Приоритет 2: Проблемы ЖКХ
+    else if (problem.isProblem) {
       logEvent('problem_detected', { scenario: problem.scenario, title: problem.title });
       const scenario = chatScenarios[problem.scenario];
       botMessage = {
@@ -151,39 +145,50 @@ useEffect(() => {
         options: scenario?.options || [{ label: 'В главное меню', value: 'start' }],
         scenarioStep: problem.scenario
       };
-
-      // Вызываем перенаправление, если оно есть
-      if (scenario?.redirect) {
-        handleRedirect(scenario.redirect);
-      }
-    } 
-      else {
-        // Не авария — обычный ответ
-        const response = getBotResponse('default');
-        botMessage = {
-          id: Date.now() + 1,
-          type: 'bot',
-          text: response.text,
-          options: response.options,
-          redirect: response.redirect  
-        };
-        
-        // Вызываем перенаправление, если оно есть
-        if (response.redirect) {
-          handleRedirect(response.redirect);
-        }
-      }
+      if (scenario?.redirect) handleRedirect(scenario.redirect);
+    }
+    // Приоритет 3: Навигация по разделам
+    else if (sectionNav.found) {
+      logEvent('section_navigation', { section: sectionNav.section, title: sectionNav.title });
       
-      setMessages(prev => [...prev, botMessage]);
-      logEvent('bot_message', {
-        text: botMessage.text,
-        scenarioStep: botMessage.scenarioStep,
-        optionsCount: botMessage.options?.length || 0
-      });
-      setLoading(false);
-      setShowOptions(true);
-    }, 600);
-  };
+      botMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        text: `Понял, перенаправляю вас в раздел «${sectionNav.title}».`,
+        options: [
+          { label: 'В главное меню', value: 'start' }
+        ],
+        scenarioStep: 'section_navigation'
+      };
+
+      // Автоматическое перенаправление
+      if (sectionNav.redirect && onPageChange) {
+          handleRedirect(sectionNav.redirect);
+        }
+    }
+    // Приоритет 4: Обычный ответ
+    else {
+      const response = getBotResponse('default');
+      botMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        text: response.text,
+        options: response.options,
+        redirect: response.redirect
+      };
+      if (response.redirect) handleRedirect(response.redirect);
+    }
+
+    setMessages(prev => [...prev, botMessage]);
+    logEvent('bot_message', {
+      text: botMessage.text,
+      scenarioStep: botMessage.scenarioStep,
+      optionsCount: botMessage.options?.length || 0
+    });
+    setLoading(false);
+    setShowOptions(true);
+  }, 600);
+};
 
   const handleOptionClick = (option) => {
     const userMessage = {
